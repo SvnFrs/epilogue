@@ -1,0 +1,70 @@
+# UX/UI Implementation Plan: Core Engine (Phase 2a)
+
+Visual language is **binding from `src/`** (constitution III; spec clarification). Navigation is
+**redesigned** here (library rail; spec FR-019/020). Extracted from `src/tailwind-static.css`,
+`Epilogue.html`, `home.jsx`, `sidebar.jsx`, `ledger-view.jsx`.
+
+## 1. Design tokens (port into the Tailwind theme)
+
+- **Surfaces (paper):** `--epi-paper` warm `#faf9f7` (default) / cream `#f7f3ea` / cool `#f5f5f4`;
+  `stone-50 #fafaf9`. Never pure `#fff`/`#000`.
+- **Ink/text:** body `stone-800 #292524`, `stone-700`, `stone-600`, muted `stone-500 #78716c`,
+  mono labels `stone-400`, borders `stone-200 #e7e5e4`.
+- **Amber accent:** `amber-600 #d97706` (the dot + rules), `amber-700 #b45309` (buttons/links/
+  kicker), `amber-800`, fills `amber-50/100`, selection `amber-200`.
+- **Status colors:** Playing/Reading green `#16a34a`; Paused amber `#d97706`; Completed sage
+  `#166534`; Tech "digesting" cyan `#0891b2`. Card badges use ~0.92-alpha fills.
+- **Triple-font:** serif `var(--epi-headline)` → Playfair Display (Georgia fallback) for
+  headlines/titles/quotes; **Geist** sans for UI/body; **Geist Mono** for labels/meta/kbd/byline.
+- **Radii:** `rounded-3xl 1.5rem` (cover cards, modal), `rounded-2xl 1rem` (sidebar blocks, cover
+  art, callouts, embeds), `rounded-xl`, `rounded-full` (pills/badges).
+- **Shadows:** card hover `0 22px 50px -24px rgba(41,37,36,.45)`; cover `0 18px 40px -18px
+  rgba(41,37,36,.55)`; paper sheen `inset 0 1px 0 rgba(255,255,255,.6)`; `ring-1 ring-stone-900/10`.
+- **Texture:** fixed paper-grain radial + 115° diagonal hairlines; 9px scrollbar; `epiFade`/`epiPop`
+  keyframes. Theme via CSS vars `--epi-headline`/`--epi-paper` on `<html>` → port as a theme provider.
+
+## 2. Component inventory (EXISTS in `src/` vs NEW)
+
+| Component | Status | Source |
+|---|---|---|
+| Masonry/bento catalog grid | EXISTS | `home.jsx:246` |
+| Cover card (hover lift, scrim, type chip) | EXISTS | `home.jsx:84` |
+| Generative cover (`Motif`: ridge/sun/eva/code/verse/ring/snow…) | EXISTS | `home.jsx:23`, `home-data.js` |
+| Status pill / badge + dropdown | EXISTS | `home.jsx:16`, `sidebar.jsx:16` |
+| **Library rail** (space switcher + status filters, persistent left) | **NEW** | replaces `app.jsx:45–114` |
+| `Space › Title` breadcrumb | NEW (repurpose) | old was space/year/month |
+| Split-view detail shell (4-col context / 8-col ledger) | EXISTS, re-host | `app.jsx:255`, `sidebar.jsx:293` |
+| Cover art block + meta `<dl>` + SectionLabel | EXISTS | `sidebar.jsx:58–118` |
+| Context — **game** (checkpoint+edit, threads, keymap kbd) | EXISTS | `sidebar.jsx:121` |
+| Context — **reading** (current chapter, bookmarked verses) | EXISTS | `sidebar.jsx:207` |
+| Context — **tech** (sources, backlinks) | EXISTS | `sidebar.jsx:238` |
+| Context — **screen** (anime/film: position+rating+note) | **NEW** | no variant exists yet |
+| Ledger renderers (`h2/p/quote/callout/embed`) | EXISTS | `ledger-view.jsx:6` |
+| Bible-verse blockquote | EXISTS | `ledger-view.jsx:22`, `sidebar.jsx:224` |
+| "Previously On" | RE-HOST: modal → contextual left column | `app.jsx:117` |
+| Empty state | EXISTS (catalog only) | `home.jsx:255` |
+| Embed renderer | EXISTS-PLACEHOLDER → real provider embed | `ledger-view.jsx:54` |
+
+## 3. Key states (per major component)
+- **Catalog:** empty (have) · loading (cover-gradient skeletons) NEW · error/retry NEW · first-run CTA NEW.
+- **Cover card:** default/hover (have); generative cover *is* the no-image state; broken-image fallback.
+- **Library rail:** default / active-space / hover / empty-space ("nothing here yet") / first-run. All NEW.
+- **Detail + ledger:** loaded (have) · loading skeletons NEW · real 404 NEW (today it silently falls back to `STORIES[0]`) · empty-ledger NEW.
+- **Context blocks:** populated (have); per-family empty states NEW; checkpoint edit/save (have).
+- **Previously On:** persistent column collapsed/expanded (replaces modal open/close + auto-fire timer).
+
+## 4. Gaps & risks (POC → rail IA rework)
+1. **Two disconnected apps** — `home.jsx`/`home-data.js` vs `app.jsx`/`data.js` with divergent data
+   shapes; only 3 of 9 entries deep-linkable. Unify into one `Entry` model + `/[space]/[id]` routes.
+2. **Throwaway nav** — top-nav + browser-tab switcher are exactly what the rail replaces; rebuild, don't port.
+3. **Spaces inconsistent** — data uses `gaming/reading/tech`; need `gaming/reading/cinema/tech` + media_type→space mapping; **no screen/cinema context block exists.**
+4. **"Previously On" re-architecture** — modal → persistent left column (layout/scroll/state change).
+5. **Ephemeral, window-coupled state** — reads `window.EPILOGUE_*`, resets on reload. Replace with the real data layer (Drizzle/Postgres + TanStack Query).
+6. **Fake embed** — static play button → real provider embeds.
+7. **`image-slot.js`** is a 31KB custom web component, SSR-incompatible → replace with `next/image` + generative-cover fallback.
+8. **Missing states** — no real loading/error/first-run; not-found masks bugs.
+9. **Hardcoded magic numbers** (`lg:top-[88px]` sticky offset assumes old header height — breaks under the rail). Tokenize.
+10. **A11y** — status dropdown + rail need roles/keyboard/landmarks; card titles need accessible labels.
+
+> Deeper component-level markup (exact rail behavior, transitions, slop-check) runs through
+> `/plan-design-review` with `src/` as the visual acceptance criteria.
