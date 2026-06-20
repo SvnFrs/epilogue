@@ -68,3 +68,36 @@ Visual language is **binding from `src/`** (constitution III; spec clarification
 
 > Deeper component-level markup (exact rail behavior, transitions, slop-check) runs through
 > `/plan-design-review` with `src/` as the visual acceptance criteria.
+
+## Design Review additions (2026-06-20) — rail, states, a11y
+
+Text-based design review (mockup gen needs OpenAI auth + browser restart; run `/design-shotgun`
+later for visuals). Completeness 7 → 9/10. Decisions below are binding for implementation.
+
+### Library rail — labeled, always-visible (~240px)
+- Fixed-left, full-height, `bg` paper + `border-r border-stone-200`. Wordmark "Epilogue ·" (amber dot) on top; owner avatar in the footer.
+- **SPACES** (mono eyebrow): All / Gaming / Reading / Cinema / Tech — each row = media-family icon + label. Active space = `amber-50` fill + `amber-700` text + a left amber accent bar.
+- **STATUS** (mono eyebrow): multi-select toggles for Playing / Paused / Reading / Completed / Airing.
+- States: default · hover (`bg-stone-100`) · active (amber) · empty-space (count "0", row muted) · first-run (rail still shows spaces; main area onboards).
+- Selection is **URL-driven** (`/[space]?status=`); the rail reflects the route. Zustand holds only rail open/collapsed (research D3), never the selection.
+- Responsive (FR-025): `<768px` collapses to a top hamburger → slide-in drawer (same content), 44px targets.
+
+### Key states (designed, not just listed)
+- **Catalog loading:** cover-card skeletons reusing the generative-cover gradient as a shimmer; serif title bars as gray blocks. No spinner.
+- **Catalog empty (first run):** warm centered serif "Your shelf is empty" + one-line sub + amber "Add your first entry".
+- **Space/filter empty:** dashed-border "Nothing here yet" + "Add to {Space}". Never a blank grid.
+- **Entry 404:** real not-found page ("This entry isn't here" + back-to-Library). Fixes the POC silently falling back to `STORIES[0]` (`app.jsx:213`).
+- **Detail loading:** split-view skeleton — labeled placeholder rows left, standfirst + paragraph skeletons right.
+- **Empty ledger:** invite "Start the Ledger" with the named-anchor presets (The Sandbox / The Campfire / The Post-Credits Blur) as one-tap section starters.
+- **Empty volatile context (per family):** typed prompt ("Capture where you left off") showing the family's fields, not empty containers.
+- **API unreachable at first paint:** error boundary → "Couldn't reach your library" + retry. Never blank.
+
+### Accessibility (specified)
+**No component library (hand-built, user choice)** — every interactive widget below is hand-rolled
+to WAI-ARIA with no Radix safety net, so each gets dedicated keyboard/focus tests (T11).
+- Landmarks: rail `<nav aria-label="Library">`, catalog/detail `<main>`, context column `<aside aria-label="Save-state">`.
+- Keyboard: rail roving `tabindex` (arrows move, Enter selects); status = real checkboxes; replace the POC role-less status dropdown (`sidebar.jsx:16`) with a real listbox (`aria-expanded` + arrows). Visible focus ring (`ring-2 ring-amber-400`); never bare `outline:none`.
+- Contrast: body `stone-800` on paper = AA; any actionable mono text uses `stone-600`+ (not the `stone-400` label tone); status pill fill/text combos checked for AA.
+- Touch: 44px min targets (rail rows, pills, card tap area, checkpoint edit).
+- Motion: gate `epiFade`/`epiPop` + hover lifts on `prefers-reduced-motion`.
+- Images: generative covers `aria-hidden`; card link's accessible name = the entry title.

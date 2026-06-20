@@ -23,7 +23,7 @@ on the Arch laptop.
 **Language/Version**: TypeScript 5.x. **api + tooling/tests on Bun** (latest); **Next.js web server
 on Node 22 LTS** (Next standalone is Node-oriented; Bun-on-Next in prod is the riskiest path).
 **Frontend** (`apps/web`, Node): Next.js 15 (App Router) · React 19 · TanStack Query v5 · Zustand ·
-Tailwind + shadcn/ui · **Eden** typed client. Consumes the API; no Server Actions, no DB access.
+Tailwind (hand-built components, no component lib) · **Eden** typed client. Consumes the API; no Server Actions, no DB access.
 **Backend** (`apps/api`, Bun): **Elysia** · Drizzle ORM + drizzle-kit · **Zod** validation (via
 Elysia Standard Schema, schemas from `packages/contracts`) · DIY security middleware
 (`@elysiajs/cors`, security-headers plugin, rate-limit plugin) · owner-scope middleware reading the
@@ -171,6 +171,7 @@ Synthesized from findings; checkbox as you ship. P1 blocks the skeleton/ship.
 - [ ] **T8 (P2)** — DIY security middleware: `@elysiajs/cors`, security-headers, rate-limit on writes + `/ingest`. *Plan / Section 2.*
 - [ ] **T9 (P2)** — server-only Eden factory (absolute API URL + injects owner header/secret) for RSC. *OV#5.*
 - [ ] **T10 (P3)** — Drizzle exit note: pin lockfile + document Kysely as the escape hatch. *OV#10.*
+- [ ] **T11 (P2)** — hand-build accessible interactive widgets (status listbox, menus, any dialog) to WAI-ARIA per `ux-ui.md`; dedicated keyboard-nav + focus tests (no Radix/shadcn safety net). *Design review — no component lib.*
 
 ## GSTACK REVIEW REPORT
 
@@ -178,10 +179,10 @@ Synthesized from findings; checkbox as you ship. P1 blocks the skeleton/ship.
 |--------|---------|-----|------|--------|----------|
 | CEO Review | `/plan-ceo-review` | Scope & strategy | 1 | clean | hybrid wedge chosen |
 | Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | issues_found | 3 issues (all resolved) + 10 outside-voice gaps (1 resolved, 9 → tasks); 2 critical gaps → T3 |
-| Design Review | `/plan-design-review` | UI/UX gaps | 0 | — | UI scope exists (library rail, states) — recommended next |
+| Design Review | `/plan-design-review` | UI/UX gaps | 1 | clean | 7→9/10 (targeted); labeled 240px rail + key states + a11y specified in ux-ui.md |
 
 - **OUTSIDE VOICE:** Claude subagent (Codex not installed) — 10 findings; #1 (owner-header forgery) accepted and folded; #2–#10 captured as T2–T10.
 - **CROSS-MODEL:** one tension (owner auth); resolved toward the outside voice (shared secret).
-- **VERDICT:** ENG CLEARED (walking-skeleton-first) — ready to implement T1 once design review is decided.
+- **VERDICT:** ENG + DESIGN CLEARED (walking-skeleton-first) — ready to implement (T1 skeleton). Design: 7→9/10, labeled 240px rail + key states + a11y in `ux-ui.md`; no component lib (hand-built, a11y via T11).
 
 NO UNRESOLVED DECISIONS

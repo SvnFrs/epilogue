@@ -79,7 +79,10 @@ fetch in `useEffect` for first paint; put any DB access in the Next.js tier (it 
 `packages/contracts` and used as Elysia validators through **Standard Schema** (Elysia 1.3+ accepts
 Zod natively), plus in the polymorphic resolver and the tests — one schema lib, no duplicate shapes.
 The frontend gets request/response types through **Eden** (no codegen, no hand-synced contract).
-**shadcn/ui + Tailwind** for components (matches the gemini PRD and the `src/` Digital Paper tokens).
+**Hand-built components on Tailwind**, no component library (user choice; matches `src/`'s bespoke
+Digital Paper components). Accessible interactive widgets (dropdown/listbox, menus, any dialog) are
+hand-rolled to the `ux-ui.md` a11y spec with no Radix safety net, so they carry dedicated
+keyboard/focus tests (see T11).
 **next/image** for covers (replaces the POC `image-slot` web component, SSR-incompatible — see ux-ui.md).
 
 ## D5. Tenancy model — row-level `owner_id` (not schema-per-tenant)
