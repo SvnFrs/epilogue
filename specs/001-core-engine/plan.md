@@ -24,9 +24,10 @@ on the Arch laptop.
 on Node 22 LTS** (Next standalone is Node-oriented; Bun-on-Next in prod is the riskiest path).
 **Frontend** (`apps/web`, Node): Next.js 15 (App Router) · React 19 · TanStack Query v5 · Zustand ·
 Tailwind + shadcn/ui · **Eden** typed client. Consumes the API; no Server Actions, no DB access.
-**Backend** (`apps/api`, Bun): **Elysia** · Drizzle ORM + drizzle-kit · Elysia `t`/TypeBox
-validation · DIY security middleware (`@elysiajs/cors`, security-headers plugin, rate-limit plugin)
-· owner-scope middleware (`.derive`/`.guard`).
+**Backend** (`apps/api`, Bun): **Elysia** · Drizzle ORM + drizzle-kit · **Zod** validation (via
+Elysia Standard Schema, schemas from `packages/contracts`) · DIY security middleware
+(`@elysiajs/cors`, security-headers plugin, rate-limit plugin) · owner-scope middleware reading the
+`X-Epilogue-Owner` header (`.derive`/`.guard`).
 **Shared**: `packages/contracts` — shared domain schemas/types (Eden carries the API types automatically).
 **Storage**: PostgreSQL 17 (single instance, Docker volume; accessed only by the api).
 **Testing**: Vitest (FE+BE unit/component) · Testing Library + MSW (FE component) ·
@@ -99,3 +100,88 @@ touches Postgres. Eden types the boundary from the Elysia app, no codegen.
 | Drizzle + owner-scoped repository in the api | Constitution IV (tenant isolation) | A bare query layer risks cross-owner leaks; the repository centralizes scoping for the isolation tests. |
 | Testcontainers integration tests | Migrations/tenancy can't be safely mocked | Mocked DB hides schema drift + isolation bugs (highest-risk class). |
 | Runtime split (api=Bun, web=Node) | Bun-native api + Node-proven Next.js prod server | Bun-on-Next in prod is the least-trodden path; not worth the risk on the web tier. |
+
+## Engineering Review (2026-06-20)
+
+Mode: FULL_REVIEW. Step 0: scope accepted — **walking skeleton first** (prove the Bun + Elysia +
+Eden + Drizzle-on-Bun combo on one vertical slice before building wide).
+
+### Decisions (this review)
+- **Issue 1 + outside-voice #1 — owner auth:** `X-Epilogue-Owner` **+ `X-Epilogue-Owner-Secret`**
+  (shared Docker secret only the web tier holds); API rejects the header without the secret. `/share`
+  + `/ingest` use their own auth and never read the owner header.
+- **Issue 2 — web framework:** keep **Next.js** (SSR/RSC for Phase 2b shareable + SEO, the wedge's
+  differentiator). The walking skeleton validates the RSC↔Eden seam; **Vite SPA is the bail-out** if
+  that seam is painful.
+- **Issue 3 — schema lib:** **Zod everywhere** via Elysia Standard Schema, defined once in
+  `packages/contracts`, reused by routes + resolver + tests.
+
+### What already exists (reuse, don't rebuild)
+`src/` POC supplies catalog grid, cover cards + generative covers, status pills, game/reading/tech
+context blocks, ledger renderers, bible-verse quote — reused per `ux-ui.md`. NEW: library rail,
+screen/cinema context block, the real data layer, real embeds, owner-scope.
+
+### NOT in scope (deferred, with rationale)
+- Full-text search → spec 002 (constitution VI; data model doesn't preclude it).
+- Bi-directional `@`-link graph → roadmap item 3 (Phase 2a keeps the basic TECH_LOG backlink only).
+- Sub-space taxonomy + chronological archive → roadmap item 4 (fixed `space` only this phase).
+- Phase 2b shareable read-only sub-space; multi-user auth → Phase 3.
+- quick-capture / sync-agent / Kindle import → `TODOS.md`.
+
+### Failure modes (new codepaths)
+| Codepath | Failure | Test? | Error handling? | Silent? |
+|---|---|---|---|---|
+| `POST /entries` | FK violation: no `users` row seeded | integration | 500 | **was silent → T3 (critical)** |
+| any write | migrate not run before serve | integration | inconsistent | **was silent → T3 (critical)** |
+| owner header | forged on the bridge | HTTP test | 401 | fixed (shared secret) |
+| `PUT /ledger`,`/context` | unbounded JSONB body | integration | 413 | degrades → T5 |
+| `POST /backlinks` | `toEntryId` other-owner | integration | 404 | leak → T6 |
+| RSC → Elysia (Eden) | API down at first paint | e2e | error boundary | blank page → T1 covers |
+
+Two **critical gaps** (silent + no handling) — unseeded owner and unmigrated DB — both closed by T3.
+
+### Test coverage (walking skeleton)
+```
+WALKING SKELETON: GAME + US1 (resume paused game cold)
+[+] api: POST /entries, PUT /context, GET /entries/:id
+  ├── [→unit]        resolver (game family shape)                 — vitest
+  ├── [→integration] owner-scope + cross-owner leak + cold read    — testcontainers + Elysia .handle()
+  └── [→http]        X-Epilogue-Owner(+secret) accepted/rejected   — Elysia .handle()
+[+] web: /entry/[id] split-view via Eden (RSC server fetch)
+  ├── [→component]   context block renders checkpoint/threads/keymap — Testing Library + MSW
+  └── [→e2e]         open paused entry, see save-state, edit, reload — Playwright (full stack)
+COVERAGE TARGET: 1 test per tier on the slice (proves the stack), then expand per testing.md.
+```
+Full Phase 2a coverage is specified in `testing.md` (pyramid 65/25/8/2); no gaps there.
+
+### Parallelization
+Skeleton is **sequential** (one vertical slice, shared modules). After it merges:
+`Lane A: apps/api routes + repositories` · `Lane B: apps/web screens/components` · `Lane C: packages/contracts schemas (do first, both depend on it)`. Order: C → (A ∥ B) → tests.
+
+### Implementation Tasks
+Synthesized from findings; checkbox as you ship. P1 blocks the skeleton/ship.
+
+- [ ] **T1 (P1)** — walking skeleton: GAME + US1 end-to-end (Next RSC → Eden → Elysia → Drizzle → Postgres), deployed via compose, 1 test/tier. *Surfaced by: Step 0.* Verify: e2e green + reachable on the tailnet.
+- [ ] **T2 (P1)** — owner-scope middleware: `X-Epilogue-Owner` + secret; reject without; `/share`+`/ingest` separate auth. *Issue 1 / OV#1,#2.*
+- [ ] **T3 (P1, critical)** — migrate as a one-shot service that exits 0 before api/web; seed the single owner in it. *OV#6,#9.*
+- [ ] **T4 (P1)** — Zod schemas in `packages/contracts` as single source (routes via Standard Schema + resolver + tests); spike Eden type-inference from Zod routes. *Issue 3 / OV#4.*
+- [ ] **T5 (P2)** — body-size + JSONB length caps on `PUT /ledger`,`/context`. *OV#3.*
+- [ ] **T6 (P2)** — backlink `toEntryId` owner-scope (404 otherwise). *OV#7.*
+- [ ] **T7 (P2)** — `archived_context` jsonb on Entry for media_type-change archive. *OV#8.*
+- [ ] **T8 (P2)** — DIY security middleware: `@elysiajs/cors`, security-headers, rate-limit on writes + `/ingest`. *Plan / Section 2.*
+- [ ] **T9 (P2)** — server-only Eden factory (absolute API URL + injects owner header/secret) for RSC. *OV#5.*
+- [ ] **T10 (P3)** — Drizzle exit note: pin lockfile + document Kysely as the escape hatch. *OV#10.*
+
+## GSTACK REVIEW REPORT
+
+| Review | Trigger | Why | Runs | Status | Findings |
+|--------|---------|-----|------|--------|----------|
+| CEO Review | `/plan-ceo-review` | Scope & strategy | 1 | clean | hybrid wedge chosen |
+| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 1 | issues_found | 3 issues (all resolved) + 10 outside-voice gaps (1 resolved, 9 → tasks); 2 critical gaps → T3 |
+| Design Review | `/plan-design-review` | UI/UX gaps | 0 | — | UI scope exists (library rail, states) — recommended next |
+
+- **OUTSIDE VOICE:** Claude subagent (Codex not installed) — 10 findings; #1 (owner-header forgery) accepted and folded; #2–#10 captured as T2–T10.
+- **CROSS-MODEL:** one tension (owner auth); resolved toward the outside voice (shared secret).
+- **VERDICT:** ENG CLEARED (walking-skeleton-first) — ready to implement T1 once design review is decided.
+
+NO UNRESOLVED DECISIONS

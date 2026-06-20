@@ -52,7 +52,7 @@ Free transitions among the closed set, driven by the user. No enforced lifecycle
 (e.g. PAUSED ⇄ PLAYING/READING/AIRING → COMPLETED). Changing `media_type` after creation warns
 the user and archives now-inapplicable context as notes rather than deleting (spec Edge Cases).
 
-## Validation rules (enforced at the Elysia API boundary via `t`/TypeBox)
+## Validation rules (enforced at the Elysia API boundary via Zod / Standard Schema)
 - `media_type`, `space`, `status` ∈ their enums; `space` and context `family` MUST match the media_type mapping.
 - `VolatileContext.payload` MUST satisfy its family schema.
 - `quote.reference` may be empty but is flagged in UI (Edge Cases).

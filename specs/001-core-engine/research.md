@@ -75,12 +75,12 @@ fetch in `useEffect` for first paint; put any DB access in the Next.js tier (it 
 
 ## D4. Validation & supporting libs
 
-**Decision**: input validation via **Elysia's native `t` (TypeBox)** schemas on every route; the
-frontend gets request/response types automatically through **Eden** (no codegen, no hand-synced
-contract). A small `packages/contracts` may still hold shared domain schemas/validators reused by
-tests. **shadcn/ui + Tailwind** for components (matches the gemini PRD and the `src/` Digital Paper
-tokens). **next/image** for covers (replaces the POC `image-slot` web component, SSR-incompatible —
-see ux-ui.md).
+**Decision** (eng-review Issue 3): input validation via **Zod**, each domain schema defined ONCE in
+`packages/contracts` and used as Elysia validators through **Standard Schema** (Elysia 1.3+ accepts
+Zod natively), plus in the polymorphic resolver and the tests — one schema lib, no duplicate shapes.
+The frontend gets request/response types through **Eden** (no codegen, no hand-synced contract).
+**shadcn/ui + Tailwind** for components (matches the gemini PRD and the `src/` Digital Paper tokens).
+**next/image** for covers (replaces the POC `image-slot` web component, SSR-incompatible — see ux-ui.md).
 
 ## D5. Tenancy model — row-level `owner_id` (not schema-per-tenant)
 

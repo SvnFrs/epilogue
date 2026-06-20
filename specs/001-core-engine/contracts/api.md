@@ -4,7 +4,8 @@ The **Elysia API (Bun)** is the single interface surface. The Next.js web tier c
 ways: Server Components fetch server-side (first paint), the client uses TanStack Query — both over
 **Eden** (Elysia's typed client, types derived from the Elysia app, no codegen). **No Server
 Actions.** Every request is owner-scoped by Elysia owner-scope middleware (`.derive`/`.guard`) that
-injects `owner_id`; clients never pass it. All bodies validated by Elysia `t` (TypeBox) schemas.
+injects `owner_id` (see owner-scope below). All bodies validated by **Zod** schemas (via Elysia
+Standard Schema).
 
 ## REST endpoints (Elysia)
 
@@ -26,11 +27,16 @@ injects `owner_id`; clients never pass it. All bodies validated by Elysia `t` (T
 | `GET /health` | liveness for Docker/Caddy | — | build now |
 
 ## Elysia conventions
-- **Auth/owner-scope**: a `.derive`/`.guard` middleware resolves the single local owner and attaches
-  `owner_id`; repositories require it on every query (verified by integration tests). Cross-owner
-  ids return **404, not 403** (no existence leak).
-- **Validation**: per-route Elysia `t` (TypeBox) schemas; failures → 422 with the validation detail.
-  Shared domain schemas may live in `packages/contracts`.
+- **Auth/owner-scope** (eng-review Issue 1 + outside-voice #1): the web tier sends `X-Epilogue-Owner`
+  **plus `X-Epilogue-Owner-Secret`** (a per-deploy Docker secret only the web tier holds); Elysia
+  middleware rejects the owner header unless the secret matches, then sets `owner_id`. A trusted
+  header alone is forgeable by anything on the Docker bridge, so the secret is required. Phase 3
+  swaps this for an authenticated session, no data change. `/share` (token) and `/ingest`
+  (API key/HMAC) have their OWN auth and MUST NOT read the owner header. Repositories require
+  `owner_id` on every query (integration tests verify isolation). Cross-owner ids return **404, not 403**.
+- **Validation** (eng-review Issue 3): **Zod** schemas from `packages/contracts`, used as Elysia
+  validators via Standard Schema; failures → 422 with the validation detail. The same schemas drive
+  the resolver + tests (one source of truth).
 - **Security middleware (DIY — explicit tasks, since Elysia has no built-ins):** `@elysiajs/cors`
   (allow only the web origin / tailnet), a security-headers (helmet-equivalent) plugin, and a
   rate-limit plugin on writes + `/ingest`.
