@@ -19,6 +19,8 @@ The owner of all data. One local user now; the column exists everywhere so multi
 - `status` — enum: `PLAYING | PAUSED | READING | COMPLETED | AIRING` (closed set; constitution)
 - `year?`, `month?` — metadata only (never in nav path; FR-021)
 - `cover` — jsonb: `{ kind: "generative", motif: string } | { kind: "image", url: string }` (FR-018)
+- `archived_context?` — jsonb[]: context fields preserved when `media_type` changes to a different
+  family, so nothing is silently deleted (spec Edge Cases; built in task T7)
 - `created_at`, `last_opened_at?`, `updated_at`
 - Relations: 1—1 `VolatileContext`, 1—1 `Ledger` (created lazily), 1—many outgoing `Backlink`.
 - **media_type → space** (validation rule): GAME→gaming; BOOK/MANGA→reading; FILM/SERIES/ANIME→cinema; TECH_LOG→tech.

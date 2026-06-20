@@ -30,7 +30,7 @@ Config: `@testcontainers/postgresql` in Vitest `globalSetup` (one container/run)
 `DATABASE_URL`, migrate once. Isolate per file with a fresh schema (`CREATE SCHEMA test_xxx; SET
 search_path`) — fast + parallel-safe. Run as a **separate Vitest project** so it doesn't slow the
 unit watch loop. Add **HTTP tests via Elysia `.handle()` (or Eden)** so the owner-scope middleware +
-`t`/TypeBox validation + rate-limit are exercised at the route boundary, not just the repository.
+Zod validation + rate-limit are exercised at the route boundary, not just the repository.
 
 ## 3. E2E — Playwright — ~8%
 One happy path per journey, no more: **US1** resume paused game from cold context; **US2** browse
