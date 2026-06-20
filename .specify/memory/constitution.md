@@ -1,40 +1,49 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: (template / unratified) → 1.0.0
-Bump rationale: Initial ratification. The repository previously held the raw
-constitution template with unfilled placeholders; this is the first concrete
-adoption, so it takes the baseline MAJOR version 1.0.0.
+Version change: 1.0.0 → 1.1.0
+Bump rationale: MINOR. Adds Principle VI (Evergreen over Ephemeral), names the
+community "evergreen knowledge layer" purpose in the preamble, and pulls the
+shareable read-only sub-space (Phase 2b) into Principle IV as a near-term
+deliverable. No principle removed or redefined incompatibly. Reflects the
+"hybrid wedge" decision in docs/ceo-review-2026-06-20.md and docs/roadmap.md.
 
-Principles defined (all new):
-  I.   Cognitive Save-State First (The Volatile Context Block Is Sacred)
-  II.  Active Attention Only (Curatorial Scope)
-  III. The "Digital Paper" Aesthetic (Non-Negotiable Design Language)
-  IV.  Local-First, Single-Player — Multi-Tenant by Schema
-  V.   Structured Digestion over Hoarding
+Principles:
+  I.   Cognitive Save-State First (unchanged)
+  II.  Active Attention Only (unchanged)
+  III. The "Digital Paper" Aesthetic (unchanged)
+  IV.  Local-First, Single-Player — Multi-Tenant by Schema (amended: Phase 2b
+       shareable read-only sub-space pulled near-term)
+  V.   Structured Digestion over Hoarding (unchanged)
+  VI.  Evergreen over Ephemeral (NEW)
 
-Sections defined (all new):
-  - Technology & Architecture Constraints (Section 2)
-  - Development Workflow & Quality Gates (Section 3)
-  - Governance
+Sections:
+  - Technology & Architecture Constraints (amended: wedge roadmap + accepted scope)
+  - Development Workflow & Quality Gates (unchanged)
+  - Governance (unchanged)
 
 Templates / artifacts reviewed for consistency:
   ✅ .specify/templates/plan-template.md — "Constitution Check" gate pulls from
        this file dynamically; no edit required.
-  ✅ .specify/templates/spec-template.md — generic; Key Entities / Success
-       Criteria sections accommodate these principles; no edit required.
-  ✅ .specify/templates/tasks-template.md — generic; phase/story structure is
-       compatible; no edit required.
-  ✅ docs/lessons-learned.md — already documents the Spec Kit + gstack workflow
-       referenced by Section 3; no edit required.
+  ✅ .specify/templates/spec-template.md — generic; no edit required.
+  ✅ .specify/templates/tasks-template.md — generic; no edit required.
+  ✅ docs/roadmap.md + docs/ceo-review-2026-06-20.md — source of this amendment.
+  ✅ TODOS.md — deferred backlog items 5-7 recorded there.
 
-Deferred / follow-up TODOs: none. RATIFICATION_DATE set to first adoption date.
+Note: applied directly during /plan-ceo-review at the user's request, not via a
+separate /speckit-constitution run.
+
+Deferred / follow-up TODOs: backlog items 5-7 (quick-capture global hotkey, local
+Steam/repack sync agent, Kindle clippings import) deferred to TODOS.md.
 -->
 
 # Epilogue Constitution
 
-Epilogue is a personal "Digital Legacy Museum" — a cognitive save-state for media
-that demands active attention. This constitution encodes the non-negotiable rules
+Epilogue is a "Digital Legacy Museum" and an **evergreen knowledge layer**: a
+cognitive save-state for media that demands active attention, built single-player
+first and shareable with niche communities by invitation (the hybrid wedge in
+`docs/roadmap.md`). It exists because that knowledge currently dies in the message
+streams of Discord and Telegram. This constitution encodes the non-negotiable rules
 that govern how it is built. Where the approved design in `src/` and the origin
 narrative in `docs/vision.md` disagree, the rules below resolve the conflict (see
 Governance).
@@ -100,16 +109,20 @@ The look and feel is a product requirement, not decoration. The approved design 
 ### IV. Local-First, Single-Player — Multi-Tenant by Schema
 
 Epilogue runs **local-first and single-player** today, but the data layer MUST be
-built so a future social/co-op evolution requires no destructive migration.
+built so the community evolution requires no destructive migration.
 
 - Every persisted table MUST carry a `user_id` column from day one, even while only
   one user exists. No query or schema may assume single-tenancy at the data layer.
 - The UI and product surface MAY assume a single local user; the **database MUST
   NOT**. This split is the rule.
+- **Phase 2b pulls one community feature forward**: a shareable read-only sub-space
+  (a curated space readable by link, no account required). Multi-tenant scoping MUST
+  therefore be exercised in production early, not left latent. Full social (accounts,
+  contribute/read roles, follow, comment, self-host) remains Phase 3.
 - No cloud dependency may be introduced as a hard requirement for core
   read/write/recall flows while in the local-first phase.
-- Rationale: cheap forethought now (one column, consistent scoping) buys an entire
-  future product direction. Retrofitting tenancy later is the expensive mistake.
+- Rationale: cheap forethought now (one column, consistent scoping) buys the entire
+  community direction. Retrofitting tenancy later is the expensive mistake.
 
 ### V. Structured Digestion over Hoarding
 
@@ -125,6 +138,22 @@ content through structured writing, not store raw links.
 - Rationale: the antidote to the "bookmark graveyard" is forcing cognitive work at
   capture time. The structure is what makes recall possible.
 
+### VI. Evergreen over Ephemeral (Anti-Stream)
+
+Epilogue's reason to exist against Discord and Telegram: captured knowledge MUST stay
+findable for years, never buried by recency.
+
+- Every entry and Ledger MUST be **structured at capture, attributed to a person, and
+  retrievable** later. Full-text search across entries and Ledgers is in scope, not
+  optional: knowledge that cannot be found again has not been preserved.
+- Ordering and navigation MUST NOT be a recency-only feed. A durable taxonomy
+  (sub-space → category → chronological archive) is required so old knowledge stays
+  reachable.
+- Entries MAY link to each other (bi-directional `@`-links) to form a knowledge
+  network rather than isolated logs.
+- Rationale: chat tools optimize for *now*, feeds optimize for *engagement*. Epilogue
+  optimizes for *still useful in two years*. That is the wedge.
+
 ## Technology & Architecture Constraints
 
 - **Stack**: Next.js (App Router) + PostgreSQL. Phase 1 (the static "Hollywood Set"
@@ -137,8 +166,16 @@ content through structured writing, not store raw links.
   COMPLETED, AIRING. New statuses require a constitution amendment and a status-pill
   design.
 - **Data scoping**: `user_id` on every table (Principle IV).
-- **No premature infrastructure**: auth, real-time sync, and multi-user UI are
-  explicitly out of scope for the current phase, but MUST NOT be precluded by schema.
+- **Roadmap (the hybrid wedge, see `docs/roadmap.md`)**: Phase 2a single-player Core
+  Engine → Phase 2b shareable read-only sub-space → Phase 3 full community.
+- **In scope for the wedge**: structured Ledger, polymorphic volatile context block,
+  full-text search, bi-directional `@`-links, and sub-space + chronological archive
+  taxonomy (Principle VI).
+- **Deferred (revisit later, see `TODOS.md`)**: quick-capture global hotkey, local
+  Steam/repack sync agent, Kindle clippings import.
+- **Out of scope now**: accounts, contribute/read roles, real-time sync, public
+  global feed, and mobile apps — not precluded by schema, but not built until 2a/2b
+  validate.
 
 ## Development Workflow & Quality Gates
 
@@ -181,4 +218,4 @@ documented in `docs/lessons-learned.md`. The flow:
   any deviation MUST be justified in the plan's Complexity Tracking and approved by the
   project owner.
 
-**Version**: 1.0.0 | **Ratified**: 2026-06-20 | **Last Amended**: 2026-06-20
+**Version**: 1.1.0 | **Ratified**: 2026-06-20 | **Last Amended**: 2026-06-20
