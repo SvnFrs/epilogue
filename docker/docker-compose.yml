@@ -1,0 +1,100 @@
+# Self-hosted stack on the Arch laptop (deployment.md). caddy ⇄ web ⇄ api ⇄ postgres,
+# plus a migrate one-shot (eng-review T3) and a pg_dump backup sidecar. Reached over
+# Tailscale; Caddy terminates TLS. Not exposed publicly.
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-epilogue}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-epilogue}
+      POSTGRES_DB: ${POSTGRES_DB:-epilogue}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-epilogue}']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # one-shot: apply migrations + seed the single owner, then exit 0 (eng-review T3)
+  migrate:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    command: ['bun', 'src/db/migrate.ts']
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-epilogue}:${POSTGRES_PASSWORD:-epilogue}@postgres:5432/${POSTGRES_DB:-epilogue}
+      DEFAULT_OWNER_ID: ${OWNER_ID:-00000000-0000-4000-8000-000000000001}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'no'
+
+  api:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      DATABASE_URL: postgres://${POSTGRES_USER:-epilogue}:${POSTGRES_PASSWORD:-epilogue}@postgres:5432/${POSTGRES_DB:-epilogue}
+      OWNER_SECRET: ${OWNER_SECRET:?set OWNER_SECRET}
+      WEB_ORIGIN: ${WEB_ORIGIN:-http://localhost:3000}
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    expose:
+      - '4000'
+
+  web:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      API_URL: http://api:4000
+      OWNER_ID: ${OWNER_ID:-00000000-0000-4000-8000-000000000001}
+      OWNER_SECRET: ${OWNER_SECRET:?set OWNER_SECRET}
+    depends_on:
+      - api
+    expose:
+      - '3000'
+
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddydata:/data
+      - caddyconfig:/config
+    depends_on:
+      - web
+
+  # nightly pg_dump to a mounted volume (deployment.md backup)
+  backup:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    entrypoint: ['/bin/sh', '-c']
+    command:
+      - |
+        while true; do
+          PGPASSWORD=${POSTGRES_PASSWORD:-epilogue} pg_dump -h postgres -U ${POSTGRES_USER:-epilogue} ${POSTGRES_DB:-epilogue} \
+            > /backups/epilogue-$$(date +%Y%m%d-%H%M%S).sql 2>/dev/null || echo "backup failed";
+          sleep 86400;
+        done
+    volumes:
+      - ./backups:/backups
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  caddydata:
+  caddyconfig:

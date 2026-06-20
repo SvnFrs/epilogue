@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Digital Paper base (ux-ui.md §1). CSS vars on <html> drive the theme provider. ── */
+:root {
+  --epi-headline: 'Playfair Display', Georgia, serif;
+  --epi-paper: #faf9f7;
+  --epi-ink: #292524; /* stone-800 */
+}
+
+@layer base {
+  html {
+    color: var(--epi-ink);
+    background-color: var(--epi-paper);
+    /* fixed paper-grain: radial sheen + 115° diagonal hairlines */
+    background-image:
+      radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.6) 0%, transparent 60%),
+      repeating-linear-gradient(115deg, rgba(41, 37, 36, 0.015) 0 1px, transparent 1px 7px);
+    background-attachment: fixed;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    min-height: 100vh;
+  }
+
+  /* 9px warm scrollbar */
+  ::-webkit-scrollbar {
+    width: 9px;
+    height: 9px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #d6d3d1;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* visible focus ring everywhere — never bare outline:none (a11y, ux-ui.md §a11y) */
+  :focus-visible {
+    @apply outline-none ring-2 ring-amber-400;
+  }
+}
+
+@layer components {
+  .epi-skeleton {
+    @apply animate-epi-shimmer rounded-2xl;
+    background: linear-gradient(90deg, #f0eeec 0px, #f7f5f3 200px, #f0eeec 400px);
+    background-size: 800px 100%;
+  }
+}
+
+/* respect reduced motion — gate all the entrance/hover motion (a11y) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

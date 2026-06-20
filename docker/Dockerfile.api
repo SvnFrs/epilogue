@@ -1,0 +1,19 @@
+# Elysia API on Bun (plan.md). Bun-native, single owner of business logic + DB.
+FROM oven/bun:1.2-alpine AS deps
+WORKDIR /repo
+COPY package.json bun.lock* ./
+COPY apps/api/package.json apps/api/package.json
+COPY packages/contracts/package.json packages/contracts/package.json
+RUN bun install --frozen-lockfile || bun install
+
+FROM oven/bun:1.2-alpine AS runtime
+WORKDIR /repo
+COPY --from=deps /repo/node_modules ./node_modules
+COPY package.json ./
+COPY drizzle ./drizzle
+COPY packages/contracts ./packages/contracts
+COPY apps/api ./apps/api
+ENV NODE_ENV=production
+WORKDIR /repo/apps/api
+EXPOSE 4000
+CMD ["bun", "src/index.ts"]

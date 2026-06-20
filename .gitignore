@@ -1,0 +1,40 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# builds
+dist/
+build/
+.next/
+out/
+**/.next/
+**/dist/
+
+# bun (keep bun.lock tracked for reproducible/--frozen-lockfile installs)
+.bun/
+
+# env / secrets
+.env
+.env.*
+!.env.example
+*.secret
+secrets/
+
+# test artifacts
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+.playwright-mcp/
+
+# tooling / local
+.gstack/
+.DS_Store
+Thumbs.db
+*.tmp
+*.swp
+*.log
+
+# drizzle local journal noise (keep migrations, ignore meta snapshots churn? keep them)

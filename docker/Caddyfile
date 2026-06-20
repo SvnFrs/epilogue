@@ -1,0 +1,6 @@
+# Caddy auto-TLS reverse proxy (deployment.md). Set EPILOGUE_HOST to your tailnet name.
+# Browser → web; /api is handled inside Next (the BFF proxy), so only the web tier is exposed.
+{$EPILOGUE_HOST:localhost} {
+	encode gzip
+	reverse_proxy web:3000
+}

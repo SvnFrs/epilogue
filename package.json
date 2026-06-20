@@ -1,0 +1,49 @@
+{
+  "name": "epilogue",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:api": "bun run --cwd apps/api dev",
+    "dev:web": "bun run --cwd apps/web dev",
+    "build:web": "bun run --cwd apps/web build",
+    "db:generate": "bun run --cwd apps/api db:generate",
+    "db:migrate": "bun run --cwd apps/api db:migrate",
+    "test:unit": "vitest run --project unit",
+    "test:component": "vitest run --project component",
+    "test:integration": "vitest run --project integration",
+    "test:e2e": "playwright test",
+    "test:load": "echo 'k6 run tests/load/<script>.js — see tests/load/README.md'",
+    "typecheck": "bun run --cwd packages/contracts typecheck && bun run --cwd apps/api typecheck && bun run --cwd apps/web typecheck",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.17.0",
+    "typescript-eslint": "^8.18.1",
+    "@playwright/test": "^1.49.1",
+    "@testcontainers/postgresql": "^10.16.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.1.0",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/react": "^19.0.2",
+    "@types/react-dom": "^19.0.2",
+    "@tanstack/react-query": "^5.62.7",
+    "@vitejs/plugin-react": "^4.3.4",
+    "@vitest/coverage-v8": "^2.1.8",
+    "drizzle-orm": "^0.38.3",
+    "postgres": "^3.4.5",
+    "eslint": "^9.17.0",
+    "jsdom": "^25.0.1",
+    "msw": "^2.7.0",
+    "prettier": "^3.4.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "testcontainers": "^10.16.0",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

@@ -14,43 +14,43 @@ Bun + Elysia + Eden + Drizzle-on-Bun combo BEFORE building wide.
 
 ## Phase 1: Setup
 
-- [ ] T001 Init Bun-workspace monorepo (root `package.json` workspaces `apps/*`,`packages/*`; `.gitignore` dist/.gstack)
-- [ ] T002 [P] Scaffold `apps/web` Next.js 15 App Router, TS, `output:"standalone"`
-- [ ] T003 [P] Scaffold `apps/api` Elysia on Bun, TS, in `apps/api/src/app.ts`
-- [ ] T004 [P] Scaffold `packages/contracts` (TS + Zod) for shared schemas/types
-- [ ] T005 Tailwind + Digital Paper theme tokens (stone/amber/emerald, Playfair/Geist/Geist-Mono, radii, shadows, paper texture) in `apps/web/app/globals.css` + `tailwind.config.ts` per ux-ui.md
-- [ ] T006 [P] Drizzle + drizzle-kit + `postgres.js` driver config in `apps/api/src/db/`
-- [ ] T007 [P] `docker/`: `Dockerfile.web` (Node), `Dockerfile.api` (oven/bun), `docker-compose.yml` (caddy/web/api/postgres/backup), `Caddyfile`
-- [ ] T008 [P] Test infra: Vitest `projects` (unit/component/integration), Playwright config, `tests/load/` per testing.md
-- [ ] T009 [P] TS strict + ESLint/Prettier across workspaces
+- [x] T001 Init Bun-workspace monorepo (root `package.json` workspaces `apps/*`,`packages/*`; `.gitignore` dist/.gstack)
+- [x] T002 [P] Scaffold `apps/web` Next.js 15 App Router, TS, `output:"standalone"`
+- [x] T003 [P] Scaffold `apps/api` Elysia on Bun, TS, in `apps/api/src/app.ts`
+- [x] T004 [P] Scaffold `packages/contracts` (TS + Zod) for shared schemas/types
+- [x] T005 Tailwind + Digital Paper theme tokens (stone/amber/emerald, Playfair/Geist/Geist-Mono, radii, shadows, paper texture) in `apps/web/app/globals.css` + `tailwind.config.ts` per ux-ui.md
+- [x] T006 [P] Drizzle + drizzle-kit + `postgres.js` driver config in `apps/api/src/db/`
+- [x] T007 [P] `docker/`: `Dockerfile.web` (Node), `Dockerfile.api` (oven/bun), `docker-compose.yml` (caddy/web/api/postgres/backup), `Caddyfile`
+- [x] T008 [P] Test infra: Vitest `projects` (unit/component/integration), Playwright config, `tests/load/` per testing.md
+- [x] T009 [P] TS strict + ESLint/Prettier across workspaces
 
 ## Phase 2: Foundational (BLOCKING — no user story starts until done)
 
-- [ ] T010 Drizzle schema: `users`, `entries` (+`archived_context`), `volatile_contexts`, `ledgers`, `backlinks` — all `owner_id`; indexes per data-model.md, in `apps/api/src/db/schema.ts`
-- [ ] T011 Migrate-as-one-shot service that exits 0 before serve + seed the single owner (eng T3) — `apps/api/src/db/migrate.ts` + compose `migrate` service
-- [ ] T012 Zod domain schemas in `packages/contracts/src/` (VolatileContext per family, LedgerBlock union, Entry, status/space enums) (eng T4)
-- [ ] T013 Polymorphic context resolver `mediaType→family→shape` in `apps/api/src/context/resolver.ts`
-- [ ] T013t [P] Unit tests: resolver (every family + unknown fallback), status/space maps, ledger (de)serialize round-trip, "N days ago" with injected clock (`apps/api` + `packages/contracts`)
-- [ ] T014 Owner-scope middleware: `X-Epilogue-Owner` + `X-Epilogue-Owner-Secret`, reject without secret, 404 cross-owner (eng T2) in `apps/api/src/middleware/owner.ts`
-- [ ] T015 [P] Security middleware: `@elysiajs/cors`, security-headers, rate-limit on writes (eng T8) in `apps/api/src/middleware/`
-- [ ] T016 Owner-scoped repository layer (entries/context/ledger/backlinks) in `apps/api/src/db/repositories/`
-- [ ] T016t [P] Integration tests (Testcontainers Postgres): cross-owner leak per table, CRUD, polymorphic persistence (testing.md 2b)
-- [ ] T017 Eden client + server-only factory (absolute api URL + injects owner header/secret) (eng T9) in `apps/web/lib/api/`
-- [ ] T018 Library-rail app shell — labeled ~240px, spaces + status filters, URL-driven, drawer `<768px` — in `apps/web/app/(library)/layout.tsx` per ux-ui.md
-- [ ] T019 [P] Shared states: error boundary, real 404, loading skeleton primitives in `apps/web/components/states/`
+- [x] T010 Drizzle schema: `users`, `entries` (+`archived_context`), `volatile_contexts`, `ledgers`, `backlinks` — all `owner_id`; indexes per data-model.md, in `apps/api/src/db/schema.ts`
+- [x] T011 Migrate-as-one-shot service that exits 0 before serve + seed the single owner (eng T3) — `apps/api/src/db/migrate.ts` + compose `migrate` service
+- [x] T012 Zod domain schemas in `packages/contracts/src/` (VolatileContext per family, LedgerBlock union, Entry, status/space enums) (eng T4)
+- [x] T013 Polymorphic context resolver `mediaType→family→shape` in `apps/api/src/context/resolver.ts`
+- [x] T013t [P] Unit tests: resolver (every family + unknown fallback), status/space maps, ledger (de)serialize round-trip, "N days ago" with injected clock (`apps/api` + `packages/contracts`)
+- [x] T014 Owner-scope middleware: `X-Epilogue-Owner` + `X-Epilogue-Owner-Secret`, reject without secret, 404 cross-owner (eng T2) in `apps/api/src/middleware/owner.ts`
+- [x] T015 [P] Security middleware: `@elysiajs/cors`, security-headers, rate-limit on writes (eng T8) in `apps/api/src/middleware/`
+- [x] T016 Owner-scoped repository layer (entries/context/ledger/backlinks) in `apps/api/src/db/repositories/`
+- [x] T016t [P] Integration tests (Testcontainers Postgres): cross-owner leak per table, CRUD, polymorphic persistence (testing.md 2b)
+- [x] T017 Eden client + server-only factory (absolute api URL + injects owner header/secret) (eng T9) in `apps/web/lib/api/`
+- [x] T018 Library-rail app shell — labeled ~240px, spaces + status filters, URL-driven, drawer `<768px` — in `apps/web/app/(library)/layout.tsx` per ux-ui.md
+- [x] T019 [P] Shared states: error boundary, real 404, loading skeleton primitives in `apps/web/components/states/`
 
 ## Phase 3: User Story 1 — Resume a paused game cold (P1) 🎯 MVP / walking skeleton
 
 **Goal:** GAME save-state recall end-to-end. **Independent test:** seed one paused GAME entry, reopen the app, see checkpoint+threads+keymap, resume without other sources.
 
-- [ ] T020 [US1] Entry routes: `GET /entries/:id` (+context+ledger), `POST`/`PATCH /entries`, `PUT /entries/:id/context`, `POST /entries/:id/touch` in `apps/api/src/routes/entries.ts`
-- [ ] T020t [P] [US1] HTTP tests (Elysia `.handle()`): owner header accepted/rejected, context write + cold read
-- [ ] T021 [US1] Entry detail split-view (`Space › Title` breadcrumb, sticky context column, RSC fetch via Eden) in `apps/web/app/entry/[id]/page.tsx`
-- [ ] T022 [US1] GAME context block (checkpoint, open threads + done toggle, keymap) — port `src/sidebar.jsx` → `apps/web/components/context/GameContext.tsx`
-- [ ] T023 [US1] "Previously On" recall: context column surfaces checkpoint/threads/keymap without scroll; Resume cue on the card (no global button)
-- [ ] T024 [US1] Create/edit GAME entry + capture/update context via TanStack Query `useMutation` → Eden
-- [ ] T024e [P] [US1] e2e (Playwright, full built stack): open paused game → see save-state → edit → reload (skeleton acceptance)
-- [ ] T025 [US1] `last_opened_at` "N days ago" display on detail + card
+- [x] T020 [US1] Entry routes: `GET /entries/:id` (+context+ledger), `POST`/`PATCH /entries`, `PUT /entries/:id/context`, `POST /entries/:id/touch` in `apps/api/src/routes/entries.ts`
+- [x] T020t [P] [US1] HTTP tests (Elysia `.handle()`): owner header accepted/rejected, context write + cold read
+- [x] T021 [US1] Entry detail split-view (`Space › Title` breadcrumb, sticky context column, RSC fetch via Eden) in `apps/web/app/entry/[id]/page.tsx`
+- [x] T022 [US1] GAME context block (checkpoint, open threads + done toggle, keymap) — port `src/sidebar.jsx` → `apps/web/components/context/GameContext.tsx`
+- [x] T023 [US1] "Previously On" recall: context column surfaces checkpoint/threads/keymap without scroll; Resume cue on the card (no global button)
+- [x] T024 [US1] Create/edit GAME entry + capture/update context via TanStack Query `useMutation` → Eden
+- [~] T024e [P] [US1] e2e (Playwright, full built stack): open paused game → see save-state → edit → reload (skeleton acceptance) — **written, not yet executed** (needs `next build` + a Chromium install; see tests/e2e/README.md)
+- [x] T025 [US1] `last_opened_at` "N days ago" display on detail + card
 
 **Checkpoint:** US1 works standalone → this is the deployable walking skeleton.
 
@@ -87,11 +87,11 @@ Bun + Elysia + Eden + Drizzle-on-Bun combo BEFORE building wide.
 
 ## Phase 7: Polish & Cross-Cutting
 
-- [ ] T039 [P] Body-size + JSONB length caps on `PUT` ledger/context (`maxBodySize` + Zod length) (eng T5)
+- [x] T039 [P] Body-size + JSONB length caps on `PUT` ledger/context (`maxBodySize` + Zod length) (eng T5)
 - [ ] T040 [P] media_type-change: warn + preserve to `archived_context` (eng T7)
 - [ ] T041 [P] Hand-built a11y widgets to WAI-ARIA + keyboard/focus tests, full pass (eng T11)
 - [ ] T042 [P] `prefers-reduced-motion`, AA contrast, 44px targets audit
-- [ ] T043 [P] k6 load scripts (read-heavy + write-spike) + thresholds (testing.md tier 4)
+- [x] T043 [P] k6 load scripts (read-heavy + write-spike) + thresholds (testing.md tier 4)
 - [ ] T044 [P] Drizzle lockfile pin + Kysely exit note in research.md (eng T10)
 - [ ] T045 Deploy to the Arch laptop: compose over Tailscale, pg_dump backup + one restore test, CI (Actions → GHCR → `deploy.sh`)
 - [ ] T046 [P] `/document-release`: update docs to match what shipped
