@@ -141,6 +141,12 @@ export const Grid = make(
     <rect x="3" y="14" width="7" height="7" rx="1" />
   </>,
 );
+export const Clock = make(
+  <>
+    <circle cx="12" cy="12" r="10" />
+    <path d="M12 6v6l4 2" />
+  </>,
+);
 
 /** media_type → icon (ux-ui.md). */
 export function iconForType(t: MediaType) {

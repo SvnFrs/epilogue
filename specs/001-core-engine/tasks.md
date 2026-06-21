@@ -69,11 +69,11 @@ Bun + Elysia + Eden + Drizzle-on-Bun combo BEFORE building wide.
 
 **Goal:** long-form structured writing. **Independent test:** add heading/paragraph/quote/callout/embed, reload, structure preserved.
 
-- [ ] T031 [US3] `GET`/`PUT /entries/:id/ledger` (blocks validated by Zod) in `apps/api/src/routes/entries.ts`
-- [ ] T032 [US3] Ledger renderers (heading/paragraph/quote/callout/embed) + bible-verse blockquote — port `src/ledger-view.jsx` → `apps/web/components/ledger/`
-- [ ] T033 [US3] Ledger editor with named-anchor presets (Sandbox/Campfire/Post-Credits); real provider embed (replace POC placeholder)
-- [ ] T034 [US3] Empty-ledger state ("Start the Ledger" + presets)
-- [ ] T034t [P] [US3] integration: block round-trip persists; e2e write → read back
+- [x] T031 [US3] `GET`/`PUT /entries/:id/ledger` (blocks validated by Zod) in `apps/api/src/routes/entries.ts`
+- [x] T032 [US3] Ledger renderers (heading/paragraph/quote/callout/embed) + bible-verse blockquote — ported `src/ledger-view.jsx` → `apps/web/components/ledger/LedgerView.tsx`
+- [x] T033 [US3] Ledger editor with named-anchor presets (Sandbox/Campfire/Post-Credits) + block CRUD/reorder; real provider embed (YouTube/Vimeo iframe, else safe link)
+- [x] T034 [US3] Empty-ledger state ("Start the Ledger" + presets) — `LedgerSection`
+- [x] T034t [P] [US3] integration: every-block-type round-trip persists; e2e write → read back (`us3-ledger`)
 
 ## Phase 6: User Story 4 — Polymorphic context: book / screen / tech (P3)
 

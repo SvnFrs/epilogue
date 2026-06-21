@@ -20,6 +20,7 @@ process.env.PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS ||= '1';
 export default defineConfig({
   testDir: './tests/e2e',
   fullyParallel: false,
+  workers: 1, // one shared web/db; run specs serially to avoid cold-server contention
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   reporter: 'list',

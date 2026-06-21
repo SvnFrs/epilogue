@@ -5,6 +5,7 @@ import { getEntryDetail } from '@/lib/api/server';
 import { GenerativeCover } from '@/components/covers/GenerativeCover';
 import { ContextColumn } from '@/components/context/ContextColumn';
 import { TouchOnOpen } from '@/components/context/TouchOnOpen';
+import { LedgerSection } from '@/components/ledger/LedgerSection';
 import { iconForType, ArrowLeft, History } from '@/components/icons';
 
 export const dynamic = 'force-dynamic';
@@ -78,40 +79,9 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
           </div>
         </aside>
 
-        {/* the Ledger (long-form) — minimal here; full editor/renderers are US3 (T031–T034) */}
+        {/* the Ledger (long-form) — read/edit/empty via LedgerSection (US3) */}
         <main className="col-span-12 lg:col-span-8">
-          {entry.ledger && entry.ledger.blocks.length > 0 ? (
-            <article className="max-w-[75ch]">
-              {entry.ledger.title && (
-                <h2 className="font-serif text-3xl text-stone-800">{entry.ledger.title}</h2>
-              )}
-              {entry.ledger.standfirst && (
-                <p className="mt-2 font-serif text-lg italic text-stone-600">{entry.ledger.standfirst}</p>
-              )}
-              <div className="mt-6 space-y-4 text-[15px] leading-relaxed text-stone-700">
-                {entry.ledger.blocks.map((b, i) =>
-                  b.type === 'paragraph' ? (
-                    <p key={i}>{b.text}</p>
-                  ) : b.type === 'heading' ? (
-                    <h3 key={i} className="font-serif text-xl text-stone-800">
-                      {b.text}
-                    </h3>
-                  ) : b.type === 'quote' ? (
-                    <blockquote key={i} className="border-l-2 border-amber-accent/70 pl-4 font-serif italic">
-                      “{b.text}” <span className="text-stone-400">— {b.reference}</span>
-                    </blockquote>
-                  ) : null,
-                )}
-              </div>
-            </article>
-          ) : (
-            <div className="flex h-full min-h-[300px] flex-col items-center justify-center rounded-3xl border border-dashed border-stone-300 text-center">
-              <p className="font-serif text-[20px] italic text-stone-500">The Ledger is empty</p>
-              <p className="mt-1 text-[13px] text-stone-400">
-                Long-form writing arrives with US3 (The Sandbox · The Campfire · The Post-Credits Blur).
-              </p>
-            </div>
-          )}
+          <LedgerSection entryId={entry.id} ledger={entry.ledger} />
         </main>
       </div>
     </div>

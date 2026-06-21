@@ -17,8 +17,8 @@ test('resume a paused game from a cold save-state', async ({ page }) => {
   await expect(page.getByRole('heading', { name: 'Red Dead Redemption II' })).toBeVisible();
   await expect(page.getByText('Previously On')).toBeVisible();
 
-  // capture the checkpoint (the cold-resume cue)
-  await page.getByRole('button', { name: 'edit' }).click();
+  // capture the checkpoint (the cold-resume cue) — exact, else it matches "Post-Credits"
+  await page.getByRole('button', { name: 'edit', exact: true }).click();
   const checkpoint = 'Chapter 6 — the cabin in the snow, before the last ride';
   await page.getByRole('textbox').fill(checkpoint);
   await page.getByRole('button', { name: 'Save state' }).click();

@@ -4,6 +4,7 @@
  * the US1 cold read, against REAL Postgres (Testcontainers).
  */
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
+import type { Ledger } from '@epilogue/contracts';
 import { createTestDb, seedUser } from '../setup/db';
 import { makeRepos } from '../../src/db/repositories';
 
@@ -124,6 +125,24 @@ describe('ledger — round-trip + isolation', () => {
     const ledger = await repos.ledger.get(alice, e.id);
     expect(ledger?.blocks).toHaveLength(1);
     expect(await repos.ledger.get(bob, e.id)).toBeUndefined();
+  });
+
+  it('round-trips every block type (US3)', async () => {
+    const e = await repos.entries.create(alice, { title: 'Y', mediaType: 'GAME', status: 'COMPLETED' });
+    const ledger: Ledger = {
+      title: 'On Y',
+      standfirst: 'S',
+      byline: 'B',
+      blocks: [
+        { type: 'heading', text: 'H', note: 'n' },
+        { type: 'paragraph', text: 'p' },
+        { type: 'quote', text: 'q', reference: 'r' },
+        { type: 'callout', icon: 'compass', title: 't', text: 'x' },
+        { type: 'embed', url: 'https://youtu.be/abc', label: 'l' },
+      ],
+    };
+    await repos.ledger.put(alice, e.id, ledger);
+    expect(await repos.ledger.get(alice, e.id)).toEqual(ledger);
   });
 });
 
