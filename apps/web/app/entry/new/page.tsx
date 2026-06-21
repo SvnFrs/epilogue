@@ -37,10 +37,16 @@ export default function NewEntryPage() {
       <Link href="/" className="mb-6 flex items-center gap-1 text-[13px] text-stone-500 hover:text-stone-700">
         <ArrowLeft size={14} /> Library
       </Link>
-      <h1 className="font-serif text-3xl text-stone-800">Add to the shelf</h1>
+      <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-amber-ink">New entry</p>
+      <h1 className="mt-2 font-serif text-[clamp(28px,3vw,40px)] leading-tight text-stone-800">
+        Add to the shelf
+      </h1>
       <p className="mt-2 text-stone-500">A new Story. Capture its save-state on the next screen.</p>
 
-      <form onSubmit={onSubmit} className="mt-8 space-y-5">
+      <form
+        onSubmit={onSubmit}
+        className="mt-8 space-y-5 rounded-2xl border border-stone-200 bg-card p-6 shadow-sheen ring-1 ring-stone-900/5 sm:p-8"
+      >
         <label className="block">
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-stone-400">Title</span>
           <input

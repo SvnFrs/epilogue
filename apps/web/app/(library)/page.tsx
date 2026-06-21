@@ -29,6 +29,7 @@ export default async function Home({
       title="Everything I’ve lived through"
       entries={entries}
       empty={empty}
+      featured={!status}
     />
   );
 }

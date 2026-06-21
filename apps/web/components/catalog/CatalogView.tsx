@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { Entry } from '@epilogue/contracts';
 import { CoverCard } from './CoverCard';
+import { ContinueBand } from './ContinueBand';
 
 /**
  * The catalog (US2; T027) — Letterboxd-style bento masonry ported from src/home.jsx
@@ -24,11 +25,13 @@ export function CatalogView({
   kicker,
   entries,
   empty,
+  featured = false,
 }: {
   title: string;
   kicker: string;
   entries: Entry[];
   empty: EmptyState;
+  featured?: boolean;
 }) {
   const now = new Date();
   const paused = entries.filter((e) => e.status === 'PAUSED').length;
@@ -53,6 +56,8 @@ export function CatalogView({
           + Add entry
         </Link>
       </div>
+
+      {featured && <ContinueBand entries={entries} />}
 
       {entries.length ? (
         <div className="[column-gap:1.5rem] columns-1 sm:columns-2 lg:columns-3 xl:columns-4 3xl:columns-5 4xl:columns-6">
