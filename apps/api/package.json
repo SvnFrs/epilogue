@@ -16,6 +16,7 @@
     "dev": "bun --watch src/index.ts",
     "start": "bun src/index.ts",
     "migrate": "bun src/db/migrate.ts",
+    "db:seed-demo": "bun src/db/seed-demo.ts",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "bun src/db/migrate.ts",
     "typecheck": "tsc --noEmit"
