@@ -20,7 +20,8 @@ const config: Config = {
       },
       colors: {
         paper: {
-          DEFAULT: '#faf9f7', // warm
+          DEFAULT: '#f6f1e7', // raised warm cream (rail / panels)
+          card: '#fcf9f3', // lightest — cards sit on top
           cream: '#f7f3ea',
           cool: '#f5f5f4',
         },

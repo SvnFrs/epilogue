@@ -5,18 +5,22 @@
 /* ── Digital Paper base (ux-ui.md §1). CSS vars on <html> drive the theme provider. ── */
 :root {
   --epi-headline: 'Playfair Display', Georgia, serif;
-  --epi-paper: #faf9f7;
-  --epi-ink: #292524; /* stone-800 */
+  --epi-paper: #f1ebdd; /* warm oatmeal — cozy paper, not A4 white */
+  --epi-paper-raised: #f7f2e9;
+  --epi-ink: #2a2620;
 }
 
 @layer base {
   html {
     color: var(--epi-ink);
     background-color: var(--epi-paper);
-    /* fixed paper-grain: radial sheen + 115° diagonal hairlines */
+    /* layered warm paper: top daylight + warm corner glows + cross-hatch fibers */
     background-image:
-      radial-gradient(120% 80% at 50% 0%, rgba(255, 255, 255, 0.6) 0%, transparent 60%),
-      repeating-linear-gradient(115deg, rgba(41, 37, 36, 0.015) 0 1px, transparent 1px 7px);
+      radial-gradient(120% 90% at 50% -5%, rgba(255, 251, 242, 0.75) 0%, transparent 55%),
+      radial-gradient(90% 70% at 100% 105%, rgba(176, 124, 54, 0.07) 0%, transparent 60%),
+      radial-gradient(80% 60% at 0% 100%, rgba(120, 90, 55, 0.05) 0%, transparent 55%),
+      repeating-linear-gradient(115deg, rgba(92, 70, 45, 0.03) 0 1px, transparent 1px 6px),
+      repeating-linear-gradient(24deg, rgba(92, 70, 45, 0.022) 0 1px, transparent 1px 7px);
     background-attachment: fixed;
   }
 

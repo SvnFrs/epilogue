@@ -56,14 +56,24 @@ export function LedgerSection({ entryId, ledger }: { entryId: string; ledger: Le
     );
   }
 
-  // empty state (T034)
+  // empty state (T034) — a warm ruled journal page waiting to be written, not a void
   return (
-    <div className="flex h-full min-h-[300px] flex-col items-center justify-center rounded-3xl border border-dashed border-stone-300 px-6 text-center">
-      <p className="font-serif text-[22px] italic text-stone-500">Start the Ledger</p>
-      <p className="mt-1 max-w-[42ch] text-[13px] text-stone-400">
-        Begin with a section, or write freely. Long-form notes, quotes, callouts and embeds.
+    <div
+      className="flex min-h-[420px] flex-col items-center justify-center rounded-2xl border border-stone-300/60 px-6 py-16 text-center shadow-sheen ring-1 ring-stone-900/5"
+      style={{
+        backgroundColor: '#fcf9f3',
+        backgroundImage:
+          'linear-gradient(to bottom, transparent 31px, rgba(120,90,55,0.10) 31px, rgba(120,90,55,0.10) 32px), radial-gradient(60% 50% at 50% 0%, rgba(217,119,6,0.05), transparent 70%)',
+        backgroundSize: '100% 32px, 100% 100%',
+      }}
+    >
+      <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-amber-ink/80">A blank page</p>
+      <p className="mt-3 font-serif text-[26px] italic text-stone-600">Start the Ledger</p>
+      <p className="mt-2 max-w-[44ch] text-[13.5px] leading-relaxed text-stone-500">
+        The long-form companion to your save-state — notes, quotes, callouts, embeds. Open with a
+        named section, or a blank page.
       </p>
-      <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
         {PRESETS.map((p) => (
           <button
             key={p}
@@ -71,16 +81,16 @@ export function LedgerSection({ entryId, ledger }: { entryId: string; ledger: Le
               setSeed(p);
               setEditing(true);
             }}
-            className="rounded-full border border-amber-200 bg-amber-50/60 px-3.5 py-1.5 text-[13px] text-amber-ink transition hover:bg-amber-100"
+            className="rounded-full border border-amber-300/70 bg-amber-50/70 px-4 py-2 text-[13px] text-amber-ink shadow-sm transition hover:-translate-y-0.5 hover:bg-amber-100"
           >
             {p}
           </button>
         ))}
         <button
           onClick={() => setEditing(true)}
-          className="rounded-full bg-stone-800 px-3.5 py-1.5 text-[13px] text-white transition hover:bg-stone-900"
+          className="rounded-full bg-stone-800 px-4 py-2 text-[13px] text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-stone-900"
         >
-          Blank
+          Blank page
         </button>
       </div>
     </div>

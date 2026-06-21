@@ -47,7 +47,7 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
         <aside aria-label="Save-state" className="col-span-12 lg:col-span-4">
           <div className="space-y-5 lg:sticky lg:top-6">
             <div className="relative overflow-hidden rounded-2xl shadow-cover ring-1 ring-stone-900/10">
-              <GenerativeCover mediaType={entry.mediaType} space={entry.space} className="aspect-[3/4] w-full" />
+              <GenerativeCover mediaType={entry.mediaType} space={entry.space} seed={entry.id} className="aspect-[3/4] w-full" />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-stone-900/80 via-transparent to-stone-900/30" />
               <div className="absolute left-3 right-3 top-3 flex items-center gap-1.5">
                 <span className="flex items-center gap-1.5 rounded-full bg-black/35 px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">

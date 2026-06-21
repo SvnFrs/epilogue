@@ -1,24 +1,53 @@
-/* Generative cover (FR-018) — pure SVG/CSS, no external images. Ported from src/home.jsx. */
+/* Generative cover (FR-018) — pure SVG/CSS, no external images. Ported from src/home.jsx.
+   Per-entry variation (motif pool + tone) keyed off a seed so a shelf of the same title
+   doesn't render as identical wallpaper. */
 import type { MediaType, Space } from '@epilogue/contracts';
 
 type MotifKind = 'ridge' | 'sun' | 'eva' | 'code' | 'verse' | 'ring' | 'snow' | 'terminal';
+type Tone = { bg: string; glow: string; ink: string };
 
-const PALETTE: Record<Space, { bg: string; glow: string; ink: string }> = {
-  gaming: { bg: '#3f3c38', glow: 'radial-gradient(120% 90% at 30% 0%, #d97706aa, transparent)', ink: '#fde9c8' },
-  reading: { bg: '#44403c', glow: 'radial-gradient(120% 90% at 70% 10%, #b4530988, transparent)', ink: '#f5e6cf' },
-  cinema: { bg: '#292524', glow: 'radial-gradient(120% 90% at 50% 0%, #0891b288, transparent)', ink: '#dbeafe' },
-  tech: { bg: '#1c1917', glow: 'radial-gradient(120% 90% at 40% 0%, #0891b277, transparent)', ink: '#cffafe' },
+// 3 tones per space — warm, layered, distinct without leaving the palette.
+const TONES: Record<Space, Tone[]> = {
+  gaming: [
+    { bg: '#3f3a33', glow: 'radial-gradient(120% 95% at 30% 0%, #d97706aa, transparent 60%)', ink: '#fde9c8' },
+    { bg: '#43352c', glow: 'radial-gradient(120% 95% at 70% 8%, #c2410caa, transparent 60%)', ink: '#fcd9b6' },
+    { bg: '#3a3a2b', glow: 'radial-gradient(110% 95% at 45% 0%, #ca8a04aa, transparent 60%)', ink: '#fef0c7' },
+  ],
+  reading: [
+    { bg: '#44403c', glow: 'radial-gradient(120% 95% at 35% 5%, #b4530988, transparent 60%)', ink: '#f5e6cf' },
+    { bg: '#412b2b', glow: 'radial-gradient(120% 95% at 65% 8%, #7f1d1d99, transparent 60%)', ink: '#f3d9d0' },
+    { bg: '#2f3a32', glow: 'radial-gradient(115% 95% at 40% 0%, #3f621f99, transparent 60%)', ink: '#e7f0d8' },
+  ],
+  cinema: [
+    { bg: '#262531', glow: 'radial-gradient(120% 95% at 50% 0%, #6d28d988, transparent 60%)', ink: '#ede9fe' },
+    { bg: '#1e2a2e', glow: 'radial-gradient(120% 95% at 30% 5%, #0e7490aa, transparent 60%)', ink: '#cffafe' },
+    { bg: '#2a2330', glow: 'radial-gradient(115% 95% at 60% 0%, #9333ea77, transparent 60%)', ink: '#f3e8ff' },
+  ],
+  tech: [
+    { bg: '#1c1917', glow: 'radial-gradient(120% 95% at 40% 0%, #0891b277, transparent 60%)', ink: '#cffafe' },
+    { bg: '#1e293b', glow: 'radial-gradient(120% 95% at 30% 5%, #0ea5e977, transparent 60%)', ink: '#e0f2fe' },
+    { bg: '#14201a', glow: 'radial-gradient(115% 95% at 55% 0%, #16a34a66, transparent 60%)', ink: '#dcfce7' },
+  ],
 };
 
-const MOTIF_FOR_TYPE: Record<MediaType, MotifKind> = {
-  GAME: 'ridge',
-  BOOK: 'verse',
-  MANGA: 'verse',
-  FILM: 'sun',
-  SERIES: 'ring',
-  ANIME: 'eva',
-  TECH_LOG: 'code',
+const MOTIF_POOL: Record<MediaType, MotifKind[]> = {
+  GAME: ['ridge', 'sun', 'ring'],
+  BOOK: ['verse', 'snow', 'ring'],
+  MANGA: ['verse', 'eva', 'ring'],
+  FILM: ['sun', 'ring', 'snow'],
+  SERIES: ['ring', 'sun', 'eva'],
+  ANIME: ['eva', 'snow', 'ring'],
+  TECH_LOG: ['code', 'terminal', 'ring'],
 };
+
+function hash(s: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return h >>> 0;
+}
 
 function Motif({ kind, ink }: { kind: MotifKind; ink: string }) {
   const stroke = {
@@ -99,21 +128,28 @@ function Motif({ kind, ink }: { kind: MotifKind; ink: string }) {
 export function GenerativeCover({
   mediaType,
   space,
+  seed,
   className,
 }: {
   mediaType: MediaType;
   space: Space;
+  seed?: string;
   className?: string;
 }) {
-  const p = PALETTE[space];
-  const kind = MOTIF_FOR_TYPE[mediaType];
+  const h = hash(seed ?? mediaType);
+  const tones = TONES[space];
+  const tone = tones[h % tones.length]!;
+  const pool = MOTIF_POOL[mediaType];
+  const kind = pool[(h >> 4) % pool.length]!;
+  // subtle per-entry rotation of the fiber overlay so textures differ card-to-card
+  const angle = 100 + ((h >> 8) % 40);
   return (
-    <div className={`relative overflow-hidden ${className ?? ''}`} style={{ background: p.bg }} aria-hidden>
-      <div className="pointer-events-none absolute inset-0" style={{ background: p.glow }} />
-      <Motif kind={kind} ink={p.ink} />
+    <div className={`relative overflow-hidden ${className ?? ''}`} style={{ background: tone.bg }} aria-hidden>
+      <div className="pointer-events-none absolute inset-0" style={{ background: tone.glow }} />
+      <Motif kind={kind} ink={tone.ink} />
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.06]"
-        style={{ backgroundImage: 'repeating-linear-gradient(115deg,#fff 0 1px,transparent 1px 6px)' }}
+        className="pointer-events-none absolute inset-0 opacity-[0.07]"
+        style={{ backgroundImage: `repeating-linear-gradient(${angle}deg,#fff 0 1px,transparent 1px 6px)` }}
       />
     </div>
   );
