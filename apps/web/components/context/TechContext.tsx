@@ -29,7 +29,7 @@ const KINDS: Src['kind'][] = ['article', 'video', 'book', 'link'];
 let seq = 0;
 const newId = () => `s_${++seq}_${Math.floor(performance.now())}`;
 const field =
-  'w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-[14px] text-stone-800 outline-none focus:ring-2 focus:ring-amber-300';
+  'w-full rounded-lg border border-stone-200 bg-card2 px-3 py-2 text-[14px] text-stone-800 outline-none focus:ring-2 focus:ring-amber-300 placeholder:text-faint';
 
 export function TechContext({
   entryId,
@@ -82,7 +82,7 @@ export function TechContext({
   return (
     <div className="space-y-5">
       {/* sources */}
-      <div className="rounded-2xl border border-stone-200 bg-white p-4">
+      <div className="rounded-2xl border border-stone-200 bg-card p-4">
         <div className="mb-2 flex items-center justify-between">
           <SectionLabel icon={Globe}>Embedded Sources</SectionLabel>
           {!editing && <EditButton onClick={() => { setDraft(current); setEditing(true); }} />}

@@ -19,21 +19,49 @@ const config: Config = {
         '4xl': '2560px',
       },
       colors: {
+        // Reading-room dark (DESIGN.md). Semantic tokens + a deliberately REMAPPED `stone`
+        // scale (warm-dark ramp: 800 = brightest ink … 50 = deepest) so the existing utility
+        // classes across components flip to dark from one place. Single theme, no toggle.
+        ground: '#1a1613',
+        surface: '#221d18',
+        card: '#2a2420',
+        card2: '#332c26',
+        line: '#3d362d',
+        ink: '#efe7d8',
+        muted: '#b6ab97',
+        faint: '#8c8170',
         paper: {
-          DEFAULT: '#f6f1e7', // raised warm cream (rail / panels)
-          card: '#fcf9f3', // lightest — cards sit on top
-          cream: '#f7f3ea',
-          cool: '#f5f5f4',
+          DEFAULT: '#221d18', // rail / panels (surface)
+          card: '#2a2420', // entry cards / blocks
+          cream: '#2a2420',
+          cool: '#221d18',
         },
         amber: {
-          accent: '#d97706', // the dot + rules
-          ink: '#b45309', // buttons/links/kicker
+          accent: '#d97706', // fills: the dot, buttons, rules
+          lit: '#f59e0b', // accent ON dark: links, labels, glow (AA)
+          ink: '#f59e0b', // remap: amber text reads as lit on the dark ground
+          50: '#2c2317', // dark warm amber wash (was light fill)
+          100: '#3a2d1a',
+          200: '#4d3c20', // warm amber border on dark
         },
         status: {
-          playing: '#16a34a',
-          paused: '#d97706',
-          completed: '#166534',
-          tech: '#0891b2',
+          playing: '#22c55e',
+          paused: '#fbbf24',
+          completed: '#4ade80',
+          tech: '#22d3ee',
+        },
+        stone: {
+          50: '#1f1a16', // deepest (was lightest) — subtle panels / inverted-button ink
+          100: '#2a2420', // subtle dark hover bg
+          200: '#3d362d', // hairline borders
+          300: '#4a4238', // stronger borders / dim
+          400: '#8c8170', // faint labels
+          500: '#9c917e', // muted
+          600: '#b6ab97', // secondary text
+          700: '#d2c7b2', // near-primary text
+          800: '#efe7d8', // PRIMARY ink (bright cream) + inverted-button bg
+          900: '#f6f0e4', // brightest (button hover) + subtle light rings
+          950: '#1a1613',
         },
       },
       fontFamily: {
@@ -46,9 +74,10 @@ const config: Config = {
         '3xl': '1.5rem',
       },
       boxShadow: {
-        'card-hover': '0 22px 50px -24px rgba(41,37,36,.45)',
-        cover: '0 18px 40px -18px rgba(41,37,36,.55)',
-        sheen: 'inset 0 1px 0 rgba(255,255,255,.6)',
+        'card-hover': '0 24px 60px -24px rgba(0,0,0,.65)',
+        cover: '0 18px 50px -18px rgba(0,0,0,.75)',
+        sheen: 'inset 0 1px 0 rgba(255,240,210,.06)',
+        glow: '0 0 44px -10px rgba(245,158,11,.28)',
       },
       keyframes: {
         epiFade: {

@@ -48,7 +48,7 @@ export default function NewEntryPage() {
             onChange={(e) => setTitle(e.target.value)}
             required
             autoFocus
-            className="mt-1.5 w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-stone-800 outline-none focus:ring-2 focus:ring-amber-300"
+            className="mt-1.5 w-full rounded-xl border border-stone-200 bg-card2 px-3.5 py-2.5 text-stone-800 outline-none focus:ring-2 focus:ring-amber-300 placeholder:text-faint"
           />
         </label>
 
@@ -57,7 +57,7 @@ export default function NewEntryPage() {
           <input
             value={subtitle}
             onChange={(e) => setSubtitle(e.target.value)}
-            className="mt-1.5 w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-stone-800 outline-none focus:ring-2 focus:ring-amber-300"
+            className="mt-1.5 w-full rounded-xl border border-stone-200 bg-card2 px-3.5 py-2.5 text-stone-800 outline-none focus:ring-2 focus:ring-amber-300 placeholder:text-faint"
           />
         </label>
 
@@ -67,7 +67,7 @@ export default function NewEntryPage() {
             <select
               value={mediaType}
               onChange={(e) => setMediaType(e.target.value as MediaType)}
-              className="mt-1.5 w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-stone-800 outline-none focus:ring-2 focus:ring-amber-300"
+              className="mt-1.5 w-full rounded-xl border border-stone-200 bg-card2 px-3.5 py-2.5 text-stone-800 outline-none focus:ring-2 focus:ring-amber-300 placeholder:text-faint"
             >
               {MEDIA_TYPES.map((t) => (
                 <option key={t} value={t}>
@@ -82,7 +82,7 @@ export default function NewEntryPage() {
             <select
               value={status}
               onChange={(e) => setStatus(e.target.value as Status)}
-              className="mt-1.5 w-full rounded-xl border border-stone-200 bg-white px-3.5 py-2.5 text-stone-800 outline-none focus:ring-2 focus:ring-amber-300"
+              className="mt-1.5 w-full rounded-xl border border-stone-200 bg-card2 px-3.5 py-2.5 text-stone-800 outline-none focus:ring-2 focus:ring-amber-300 placeholder:text-faint"
             >
               {STATUSES.map((s) => (
                 <option key={s} value={s}>

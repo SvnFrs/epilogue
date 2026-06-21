@@ -61,9 +61,9 @@ export function LedgerSection({ entryId, ledger }: { entryId: string; ledger: Le
     <div
       className="flex min-h-[420px] flex-col items-center justify-center rounded-2xl border border-stone-300/60 px-6 py-16 text-center shadow-sheen ring-1 ring-stone-900/5"
       style={{
-        backgroundColor: '#fcf9f3',
+        backgroundColor: '#2a2420',
         backgroundImage:
-          'linear-gradient(to bottom, transparent 31px, rgba(120,90,55,0.10) 31px, rgba(120,90,55,0.10) 32px), radial-gradient(60% 50% at 50% 0%, rgba(217,119,6,0.05), transparent 70%)',
+          'linear-gradient(to bottom, transparent 31px, rgba(255,240,210,0.05) 31px, rgba(255,240,210,0.05) 32px), radial-gradient(60% 55% at 50% 0%, rgba(245,158,11,0.10), transparent 70%)',
         backgroundSize: '100% 32px, 100% 100%',
       }}
     >

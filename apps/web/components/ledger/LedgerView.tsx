@@ -62,7 +62,7 @@ function Block({ block }: { block: LedgerBlock }) {
     case 'embed': {
       const embed = resolveEmbed(block.url);
       return (
-        <figure className="my-7 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
+        <figure className="my-7 overflow-hidden rounded-2xl border border-stone-200 bg-card shadow-sm">
           {embed.kind === 'iframe' ? (
             <iframe
               src={embed.src}

@@ -5,22 +5,23 @@
 /* ── Digital Paper base (ux-ui.md §1). CSS vars on <html> drive the theme provider. ── */
 :root {
   --epi-headline: 'Playfair Display', Georgia, serif;
-  --epi-paper: #f1ebdd; /* warm oatmeal — cozy paper, not A4 white */
-  --epi-paper-raised: #f7f2e9;
-  --epi-ink: #2a2620;
+  --epi-ground: #1a1613; /* reading-room dark — espresso, lit by its content */
+  --epi-surface: #221d18;
+  --epi-ink: #efe7d8; /* warm cream text */
+  color-scheme: dark;
 }
 
 @layer base {
   html {
     color: var(--epi-ink);
-    background-color: var(--epi-paper);
-    /* layered warm paper: top daylight + warm corner glows + cross-hatch fibers */
+    background-color: var(--epi-ground);
+    /* the page is lit by content: a faint warm desk-lamp glow top, an amber ember
+       low-right, and barely-there warm fibers. No bright washes — keep it dim. */
     background-image:
-      radial-gradient(120% 90% at 50% -5%, rgba(255, 251, 242, 0.75) 0%, transparent 55%),
-      radial-gradient(90% 70% at 100% 105%, rgba(176, 124, 54, 0.07) 0%, transparent 60%),
-      radial-gradient(80% 60% at 0% 100%, rgba(120, 90, 55, 0.05) 0%, transparent 55%),
-      repeating-linear-gradient(115deg, rgba(92, 70, 45, 0.03) 0 1px, transparent 1px 6px),
-      repeating-linear-gradient(24deg, rgba(92, 70, 45, 0.022) 0 1px, transparent 1px 7px);
+      radial-gradient(120% 80% at 50% -8%, rgba(245, 200, 130, 0.06) 0%, transparent 55%),
+      radial-gradient(90% 70% at 100% 108%, rgba(217, 119, 6, 0.06) 0%, transparent 60%),
+      radial-gradient(70% 60% at 0% 100%, rgba(120, 80, 40, 0.05) 0%, transparent 55%),
+      repeating-linear-gradient(115deg, rgba(255, 240, 210, 0.012) 0 1px, transparent 1px 6px);
     background-attachment: fixed;
   }
 
@@ -29,14 +30,17 @@
     min-height: 100vh;
   }
 
-  /* 9px warm scrollbar */
+  /* 9px dim scrollbar */
   ::-webkit-scrollbar {
     width: 9px;
     height: 9px;
   }
   ::-webkit-scrollbar-thumb {
-    background: #d6d3d1;
+    background: #3d362d;
     border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #4a4238;
   }
   ::-webkit-scrollbar-track {
     background: transparent;
@@ -51,7 +55,7 @@
 @layer components {
   .epi-skeleton {
     @apply animate-epi-shimmer rounded-2xl;
-    background: linear-gradient(90deg, #f0eeec 0px, #f7f5f3 200px, #f0eeec 400px);
+    background: linear-gradient(90deg, #221d18 0px, #2f2820 200px, #221d18 400px);
     background-size: 800px 100%;
   }
 }

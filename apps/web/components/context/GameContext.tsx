@@ -61,7 +61,7 @@ export function GameContext({ entryId, payload }: { entryId: string; payload: Ga
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               rows={7}
-              className="w-full resize-none rounded-lg border border-amber-300 bg-white/70 p-2.5 font-serif text-[14px] italic leading-relaxed text-stone-700 outline-none focus:ring-2 focus:ring-amber-300"
+              className="w-full resize-none rounded-lg border border-amber-200 bg-card2 p-2.5 font-serif text-[14px] italic leading-relaxed text-stone-800 outline-none focus:ring-2 focus:ring-amber-300"
             />
             <button
               onClick={saveCheckpoint}
@@ -96,7 +96,7 @@ export function GameContext({ entryId, payload }: { entryId: string; payload: Ga
                   aria-pressed={t.done}
                   aria-label={`Mark "${t.text}" ${t.done ? 'not done' : 'done'}`}
                   className={`mt-[3px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border ${
-                    t.done ? 'border-amber-accent bg-amber-accent text-white' : 'border-stone-300 bg-white'
+                    t.done ? 'border-amber-accent bg-amber-accent text-white' : 'border-stone-300 bg-card2'
                   }`}
                 >
                   {t.done && <Check size={11} strokeWidth={3} />}
@@ -123,7 +123,7 @@ export function GameContext({ entryId, payload }: { entryId: string; payload: Ga
                 }`}
               >
                 <span className="min-w-0 flex-1 text-[13px] text-stone-600">{k.action}</span>
-                <kbd className="shrink-0 rounded-md border border-stone-300/80 bg-white px-2 py-0.5 font-mono text-[11.5px] font-medium text-stone-700">
+                <kbd className="shrink-0 rounded-md border border-stone-300/80 bg-card2 px-2 py-0.5 font-mono text-[11.5px] font-medium text-stone-700">
                   {k.key}
                 </kbd>
               </div>

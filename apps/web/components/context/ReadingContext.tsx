@@ -16,7 +16,7 @@ let seq = 0;
 const newId = () => `q_${++seq}_${Math.floor(performance.now())}`;
 
 const field =
-  'w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-[14px] text-stone-800 outline-none focus:ring-2 focus:ring-amber-300';
+  'w-full rounded-lg border border-stone-200 bg-card2 px-3 py-2 text-[14px] text-stone-800 outline-none focus:ring-2 focus:ring-amber-300 placeholder:text-faint';
 
 export function ReadingContext({ entryId, payload }: { entryId: string; payload: ReadingPayload }) {
   const router = useRouter();
@@ -54,7 +54,7 @@ export function ReadingContext({ entryId, payload }: { entryId: string; payload:
           <SectionLabel icon={Quote}>Bookmarked Verses</SectionLabel>
           <ul className="space-y-2">
             {draft.quotes.map((q, i) => (
-              <li key={q.id} className="rounded-lg border border-stone-200 bg-white/70 p-2">
+              <li key={q.id} className="rounded-lg border border-stone-200 bg-card/70 p-2">
                 <textarea
                   className={`${field} min-h-[60px] resize-y font-serif italic`}
                   placeholder="The passage"

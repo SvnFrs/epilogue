@@ -20,7 +20,7 @@ const PRESETS = ['The Sandbox', 'The Campfire', 'The Post-Credits Blur'] as cons
 const CALLOUT_ICONS = ['compass', 'link', 'book', 'star', 'quote'] as const;
 
 const input =
-  'w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-[14px] text-stone-800 outline-none focus:ring-2 focus:ring-amber-300';
+  'w-full rounded-lg border border-stone-200 bg-card2 px-3 py-2 text-[14px] text-stone-800 outline-none focus:ring-2 focus:ring-amber-300 placeholder:text-faint';
 
 function emptyBlock(type: LedgerBlock['type']): LedgerBlock {
   switch (type) {
@@ -111,7 +111,7 @@ export function LedgerEditor({
 
       <ul className="mt-6 space-y-4">
         {rows.map(({ key, block }, i) => (
-          <li key={key} className="rounded-2xl border border-stone-200 bg-white/70 p-3">
+          <li key={key} className="rounded-2xl border border-stone-200 bg-card/70 p-3">
             <div className="mb-2 flex items-center justify-between">
               <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-stone-400">
                 {block.type}

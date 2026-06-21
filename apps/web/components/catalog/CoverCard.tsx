@@ -28,7 +28,7 @@ export function CoverCard({ entry, now, tall = false }: { entry: Entry; now: Dat
         >
           {status.label}
         </span>
-        <div className="absolute inset-x-0 bottom-0 flex items-center gap-1.5 bg-gradient-to-t from-stone-900/60 to-transparent p-3.5">
+        <div className="absolute inset-x-0 bottom-0 flex items-center gap-1.5 bg-gradient-to-t from-black/70 to-transparent p-3.5">
           <Icon size={13} className="text-white/85" />
           <span className="text-[10.5px] font-semibold uppercase tracking-[0.16em] text-white/85">
             {entry.mediaType.replace('_', ' ')}

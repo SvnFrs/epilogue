@@ -159,7 +159,7 @@ export function LibraryRail() {
       {/* mobile drawer */}
       {open && (
         <div className="fixed inset-0 z-50 md:hidden">
-          <div className="absolute inset-0 bg-stone-900/30" onClick={() => setOpen(false)} />
+          <div className="absolute inset-0 bg-black/60" onClick={() => setOpen(false)} />
           <div className="absolute left-0 top-0 h-full w-[280px] bg-paper shadow-xl">
             <RailContent />
           </div>
