@@ -25,7 +25,7 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
   const now = new Date();
 
   return (
-    <div className="mx-auto max-w-[1200px] px-5 pb-24 pt-6 sm:px-8">
+    <div className="mx-auto w-full max-w-[1500px] px-5 pb-24 pt-6 sm:px-8 2xl:px-12">
       <TouchOnOpen entryId={entry.id} />
 
       {/* Space › Title breadcrumb (repurposed from POC space/year/month) */}
@@ -81,7 +81,7 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
         {/* the Ledger (long-form) — minimal here; full editor/renderers are US3 (T031–T034) */}
         <main className="col-span-12 lg:col-span-8">
           {entry.ledger && entry.ledger.blocks.length > 0 ? (
-            <article className="prose-stone max-w-none">
+            <article className="max-w-[75ch]">
               {entry.ledger.title && (
                 <h2 className="font-serif text-3xl text-stone-800">{entry.ledger.title}</h2>
               )}

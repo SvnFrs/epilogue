@@ -13,6 +13,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      // Ultrawide breakpoints (e.g. 34" UW-QHD 3440px) on top of the defaults.
+      screens: {
+        '3xl': '1920px',
+        '4xl': '2560px',
+      },
       colors: {
         paper: {
           DEFAULT: '#faf9f7', // warm

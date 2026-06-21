@@ -17,7 +17,7 @@ export function CatalogView({
 }) {
   const now = new Date();
   return (
-    <main className="mx-auto max-w-[1240px] px-5 pb-20 pt-10 sm:px-8">
+    <main className="mx-auto w-full max-w-[2400px] px-5 pb-20 pt-10 sm:px-8 2xl:px-12">
       <div className="mb-9 flex flex-wrap items-end justify-between gap-5">
         <div>
           <p className="font-mono text-[11.5px] uppercase tracking-[0.2em] text-amber-ink">{kicker}</p>
@@ -35,7 +35,7 @@ export function CatalogView({
       </div>
 
       {entries.length ? (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:gap-7 3xl:grid-cols-5 4xl:grid-cols-6">
           {entries.map((e) => (
             <CoverCard key={e.id} entry={e} now={now} />
           ))}
