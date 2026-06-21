@@ -34,6 +34,7 @@ async function call<T>(path: string, init?: RequestInit): Promise<T> {
 }
 
 export const clientApi = {
+  listEntries: () => call<Entry[]>('/entries'),
   getEntry: (id: string) => call<EntryDetail>(`/entries/${id}`),
   createEntry: (body: CreateEntry) =>
     call<Entry>('/entries', { method: 'POST', body: JSON.stringify(body) }),
@@ -53,6 +54,16 @@ export const clientApi = {
   getLedger: (id: string) => call<Ledger>(`/entries/${id}/ledger`),
   putLedger: (id: string, ledger: Ledger) =>
     call<Ledger>(`/entries/${id}/ledger`, { method: 'PUT', body: JSON.stringify(ledger) }),
+  addBacklink: (id: string, toEntryId: string) =>
+    call<{ ok: boolean }>(`/entries/${id}/backlinks`, {
+      method: 'POST',
+      body: JSON.stringify({ toEntryId }),
+    }),
+  removeBacklink: (id: string, toEntryId: string) =>
+    call<{ ok: boolean }>(`/entries/${id}/backlinks`, {
+      method: 'DELETE',
+      body: JSON.stringify({ toEntryId }),
+    }),
 };
 
 export const queryKeys = {

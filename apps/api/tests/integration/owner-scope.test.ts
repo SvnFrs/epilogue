@@ -100,8 +100,14 @@ describe('volatile context — polymorphic persistence + US1 cold read', () => {
       family: 'screen',
       payload: { position: 'Ep 24', rating: 9.5, note: 'congratulations' },
     });
+    const tech = await repos.entries.create(alice, { title: 'Vim', mediaType: 'TECH_LOG', status: 'COMPLETED' });
+    await repos.context.put(alice, tech.id, {
+      family: 'tech',
+      payload: { sources: [{ id: 's1', label: 'RFC 9110', host: 'rfc-editor.org', kind: 'article' }], backlinks: [] },
+    });
     expect((await repos.context.get(alice, book.id))?.family).toBe('reading');
     expect((await repos.context.get(alice, screen.id))?.family).toBe('screen');
+    expect((await repos.context.get(alice, tech.id))?.family).toBe('tech');
   });
 
   it('cannot write context to another owner’s entry', async () => {
@@ -160,6 +166,14 @@ describe('backlinks — cross-owner target is refused (eng T6)', () => {
     const res = await repos.backlinks.add(alice, a1.id, a2.id);
     expect(res.ok).toBe(true);
     expect(await repos.backlinks.list(alice, a1.id)).toContain(a2.id);
+  });
+
+  it('detail returns titled backlinks (US4)', async () => {
+    const from = await repos.entries.create(alice, { title: 'From', mediaType: 'TECH_LOG', status: 'COMPLETED' });
+    const to = await repos.entries.create(alice, { title: 'To Target', mediaType: 'TECH_LOG', status: 'COMPLETED' });
+    await repos.backlinks.add(alice, from.id, to.id);
+    const detail = await repos.entries.getDetail(alice, from.id);
+    expect(detail?.backlinks).toEqual([{ id: to.id, title: 'To Target' }]);
   });
 });
 

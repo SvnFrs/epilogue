@@ -53,3 +53,19 @@ export function usePutLedger(id: string) {
     onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.entry(id) }),
   });
 }
+
+export function useAddBacklink(id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (toEntryId: string) => clientApi.addBacklink(id, toEntryId),
+    onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.entry(id) }),
+  });
+}
+
+export function useRemoveBacklink(id: string) {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (toEntryId: string) => clientApi.removeBacklink(id, toEntryId),
+    onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.entry(id) }),
+  });
+}

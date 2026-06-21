@@ -79,11 +79,11 @@ Bun + Elysia + Eden + Drizzle-on-Bun combo BEFORE building wide.
 
 **Goal:** save-state beyond games. **Independent test:** one BOOK, one SERIES, one TECH_LOG — each shows its family's fields, persists, no game-only fields bleed.
 
-- [ ] T035 [US4] Reading context block (current chapter, pinned quotes + reference) in `apps/web/components/context/ReadingContext.tsx`
-- [ ] T036 [US4] Screen context block (position S/E, rating, note) — NEW — `apps/web/components/context/ScreenContext.tsx`
-- [ ] T037 [US4] Tech context block (sources, backlinks) + `POST`/`DELETE /entries/:id/backlinks` with owner-scope (eng T6)
-- [ ] T037t [P] [US4] integration: each family persists + resolver reconstructs; backlink cross-owner → 404; e2e book + screen render
-- [ ] T038 [US4] Full media_type enum + space mapping + generative cover per type
+- [x] T035 [US4] Reading context block (current chapter, pinned quotes + reference) — `ReadingContext.tsx` (display + edit)
+- [x] T036 [US4] Screen context block (position S/E, rating, note) — NEW — `ScreenContext.tsx` (display + edit)
+- [x] T037 [US4] Tech context block (sources + cross-links) + `POST`/`DELETE /entries/:id/backlinks` owner-scoped (eng T6); detail returns titled backlinks; picker
+- [x] T037t [P] [US4] integration: each family persists + resolver reconstructs; backlink cross-owner → 404; detail titled backlinks; e2e book + screen render/persist
+- [x] T038 [US4] Full media_type enum + space mapping + generative cover per type (all 7 types → distinct motifs)
 
 ## Phase 7: Polish & Cross-Cutting
 

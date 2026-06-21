@@ -43,9 +43,14 @@ export const Entry = z.object({
 });
 export type Entry = z.infer<typeof Entry>;
 
-/** Detail view = entry + its save-state + (lazily-created) ledger. */
+/** A resolved backlink edge (the Backlink table, titled for display; US4 / eng T6). */
+export const BacklinkRef = z.object({ id: z.string().uuid(), title: z.string() });
+export type BacklinkRef = z.infer<typeof BacklinkRef>;
+
+/** Detail view = entry + its save-state + (lazily-created) ledger + outgoing backlinks. */
 export const EntryDetail = Entry.extend({
   context: VolatileContext.nullable(),
   ledger: Ledger.nullable(),
+  backlinks: z.array(BacklinkRef).default([]),
 });
 export type EntryDetail = z.infer<typeof EntryDetail>;

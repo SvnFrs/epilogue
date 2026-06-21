@@ -75,7 +75,7 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
               )}
             </div>
 
-            <ContextColumn entryId={entry.id} mediaType={entry.mediaType} context={entry.context} />
+            <ContextColumn entryId={entry.id} context={entry.context} backlinks={entry.backlinks} />
           </div>
         </aside>
 

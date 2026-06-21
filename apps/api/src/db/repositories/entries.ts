@@ -16,7 +16,7 @@ import {
   familyForMediaType,
 } from '@epilogue/contracts';
 import type { Db } from '../client';
-import { entries, volatileContexts, ledgers } from '../schema';
+import { entries, volatileContexts, ledgers, backlinks } from '../schema';
 import { emptyContextForMediaType } from '../../context/resolver';
 import { toEntry, toContext, toLedger } from './mappers';
 
@@ -77,10 +77,17 @@ export function makeEntriesRepo(db: Db) {
         .from(ledgers)
         .where(and(eq(ledgers.entryId, id), eq(ledgers.ownerId, ownerId)))
         .limit(1);
+      // outgoing backlink edges (Backlink table), titled for display (US4 / eng T6)
+      const backlinkRows = await db
+        .select({ id: entries.id, title: entries.title })
+        .from(backlinks)
+        .innerJoin(entries, eq(backlinks.toEntryId, entries.id))
+        .where(and(eq(backlinks.ownerId, ownerId), eq(backlinks.fromEntryId, id)));
       return {
         ...entry,
         context: ctxRow ? toContext(ctxRow) : null,
         ledger: ledgerRow ? toLedger(ledgerRow) : null,
+        backlinks: backlinkRows,
       };
     },
 
