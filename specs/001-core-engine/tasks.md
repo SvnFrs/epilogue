@@ -58,12 +58,12 @@ Bun + Elysia + Eden + Drizzle-on-Bun combo BEFORE building wide.
 
 **Goal:** cover-forward catalog via the library rail. **Independent test:** seed mixed entries, load home, filter by space + media type.
 
-- [ ] T026 [US2] `GET /entries` (filter by space + status) in `apps/api/src/routes/entries.ts`
-- [ ] T027 [US2] Catalog masonry grid + cover card + generative cover + status pill — port `src/home.jsx` → `apps/web/app/(library)/[space]/page.tsx`
-- [ ] T028 [US2] Wire rail space-switching + status filters (URL-driven) [depends T018]
-- [ ] T029 [US2] Catalog states: loading skeleton, first-run empty, space-empty (ux-ui.md)
-- [ ] T029t [P] [US2] component tests (Testing Library + MSW): rail filters catalog, card renders; e2e browse → open detail
-- [ ] T030 [P] [US2] a11y: rail roving-tabindex + real status listbox (part of eng T11)
+- [x] T026 [US2] `GET /entries` (filter by space + multi-select status) in `apps/api/src/routes/entries.ts`
+- [x] T027 [US2] Catalog masonry/bento grid + cover card + generative cover + status pill — ported `src/home.jsx` → `CatalogView` (CSS columns, tall/standard variation, ultrawide-responsive)
+- [x] T028 [US2] Wire rail space-switching + multi-select status filters (URL-driven, CSV) [depends T018]
+- [x] T029 [US2] Catalog states: loading skeleton (`(library)/loading.tsx`), first-run empty, filtered-empty, space-empty (ux-ui.md)
+- [x] T029t [P] [US2] component tests (Testing Library): CoverCard + CatalogView; integration/HTTP multi-status; e2e browse → filter → open detail
+- [x] T030 [P] [US2] a11y: rail roving-tabindex + real status checkboxes (multi-select); card accessible names
 
 ## Phase 5: User Story 3 — Structured Ledger (P2)
 

@@ -114,3 +114,31 @@ describe('US1 — create, save-state, cold read over HTTP', () => {
     expect(res.status).toBe(404);
   });
 });
+
+describe('US2 — catalog filter over HTTP', () => {
+  async function create(owner: string, body: object) {
+    const res = await req('/entries', {
+      method: 'POST',
+      owner,
+      secret: env.OWNER_SECRET,
+      body: JSON.stringify(body),
+    });
+    expect(res.status).toBe(201);
+  }
+
+  it('filters by a comma-separated status list', async () => {
+    await create(alice, { title: 'P', mediaType: 'GAME', status: 'PLAYING' });
+    await create(alice, { title: 'Q', mediaType: 'GAME', status: 'PAUSED' });
+    await create(alice, { title: 'R', mediaType: 'BOOK', status: 'READING' });
+    const res = await req('/entries?status=PLAYING,PAUSED', { owner: alice, secret: env.OWNER_SECRET });
+    expect(res.status).toBe(200);
+    expect((await res.json()) as unknown[]).toHaveLength(2);
+  });
+
+  it('filters by space', async () => {
+    await create(alice, { title: 'G', mediaType: 'GAME', status: 'PLAYING' });
+    await create(alice, { title: 'B', mediaType: 'BOOK', status: 'READING' });
+    const res = await req('/entries?space=reading', { owner: alice, secret: env.OWNER_SECRET });
+    expect((await res.json()) as unknown[]).toHaveLength(1);
+  });
+});

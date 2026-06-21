@@ -4,7 +4,7 @@
  * route maps that to 404 (never 403, never a leak). Integration tests assert isolation
  * per method (T016t).
  */
-import { and, desc, eq } from 'drizzle-orm';
+import { and, desc, eq, inArray } from 'drizzle-orm';
 import {
   type CreateEntry,
   type Entry,
@@ -86,11 +86,16 @@ export function makeEntriesRepo(db: Db) {
 
     async list(
       ownerId: string,
-      filter: { space?: Space; status?: Status },
+      filter: { space?: Space; status?: Status | Status[] },
     ): Promise<Entry[]> {
       const conds = [eq(entries.ownerId, ownerId)];
       if (filter.space) conds.push(eq(entries.space, filter.space));
-      if (filter.status) conds.push(eq(entries.status, filter.status));
+      const statuses = filter.status
+        ? Array.isArray(filter.status)
+          ? filter.status
+          : [filter.status]
+        : [];
+      if (statuses.length) conds.push(inArray(entries.status, statuses));
       const rows = await db
         .select()
         .from(entries)

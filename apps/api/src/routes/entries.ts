@@ -21,13 +21,18 @@ export function entriesRoutes(repos: Repos) {
   return new Elysia({ prefix: '/entries' })
     .use(ownerScope)
 
-    // catalog list (US2) — filter by space + status
+    // catalog list (US2) — filter by space + multi-select status (csv or repeated)
     .get('/', async ({ ownerId, query }) => {
       const space = Space.safeParse(query.space);
-      const status = Status.safeParse(query.status);
+      const rawStatus = query.status as string | string[] | undefined;
+      const statusList = (
+        Array.isArray(rawStatus) ? rawStatus : typeof rawStatus === 'string' ? rawStatus.split(',') : []
+      )
+        .map((s) => Status.safeParse(s.trim()))
+        .flatMap((r) => (r.success ? [r.data] : []));
       return repos.entries.list(ownerId, {
         space: space.success ? space.data : undefined,
-        status: status.success ? status.data : undefined,
+        status: statusList.length ? statusList : undefined,
       });
     })
 

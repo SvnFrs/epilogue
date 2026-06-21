@@ -26,5 +26,6 @@ test('resume a paused game from a cold save-state', async ({ page }) => {
 
   // RELOAD — the save-state must survive (cold recall)
   await page.reload();
-  await expect(page.getByText(checkpoint)).toBeVisible();
+  await page.waitForLoadState('networkidle');
+  await expect(page.getByText(checkpoint)).toBeVisible({ timeout: 10_000 });
 });

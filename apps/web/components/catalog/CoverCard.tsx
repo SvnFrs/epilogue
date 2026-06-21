@@ -11,7 +11,7 @@ const STATUS_STYLE: Record<Status, { label: string; bg: string; ink: string }> =
   AIRING: { label: 'Airing', bg: 'rgba(8,145,178,.92)', ink: '#ecfeff' },
 };
 
-export function CoverCard({ entry, now }: { entry: Entry; now: Date }) {
+export function CoverCard({ entry, now, tall = false }: { entry: Entry; now: Date; tall?: boolean }) {
   const Icon = iconForType(entry.mediaType);
   const status = STATUS_STYLE[entry.status];
   return (
@@ -20,7 +20,7 @@ export function CoverCard({ entry, now }: { entry: Entry; now: Date }) {
       className="group block overflow-hidden rounded-3xl border border-stone-200 bg-white transition duration-300 hover:-translate-y-1 hover:shadow-card-hover"
       aria-label={entry.title}
     >
-      <div className="relative aspect-[4/3]">
+      <div className={`relative ${tall ? 'aspect-[3/4]' : 'aspect-[4/3]'}`}>
         <GenerativeCover mediaType={entry.mediaType} space={entry.space} className="h-full w-full" />
         <span
           className="absolute right-3 top-3 rounded-full px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.1em] backdrop-blur-sm"

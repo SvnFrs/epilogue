@@ -34,7 +34,7 @@ function RailContent() {
   const pathname = usePathname();
   const params = useSearchParams();
   const router = useRouter();
-  const activeStatus = params.get('status');
+  const activeStatuses = new Set((params.get('status') ?? '').split(',').filter(Boolean));
   const refs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const isSpaceActive = (href: string) =>
@@ -49,11 +49,15 @@ function RailContent() {
   }
 
   function toggleStatus(s: Status) {
+    const next = new Set(activeStatuses);
+    if (next.has(s)) next.delete(s);
+    else next.add(s);
     const sp = new URLSearchParams(params.toString());
-    if (activeStatus === s) sp.delete('status');
-    else sp.set('status', s);
+    if (next.size) sp.set('status', [...next].join(','));
+    else sp.delete('status');
     const base = pathname === '/' ? '/' : pathname;
-    router.push(`${base}?${sp.toString()}`);
+    const qs = sp.toString();
+    router.push(qs ? `${base}?${qs}` : base);
   }
 
   return (
@@ -106,7 +110,7 @@ function RailContent() {
             <label className="flex min-h-[44px] cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 text-[13.5px] text-stone-600 hover:bg-stone-100">
               <input
                 type="checkbox"
-                checked={activeStatus === s}
+                checked={activeStatuses.has(s)}
                 onChange={() => toggleStatus(s)}
                 className="h-4 w-4 rounded border-stone-300 accent-amber-accent"
               />

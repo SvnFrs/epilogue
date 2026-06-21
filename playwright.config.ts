@@ -24,9 +24,11 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: 'list',
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: 'http://localhost:3001',
     trace: 'on-first-retry',
   },
+  // Dedicated, reset-each-run e2e database (leaves the dev DB untouched).
+  globalSetup: './tests/e2e/global-setup.ts',
   projects: [
     {
       name: 'chromium',
@@ -36,21 +38,28 @@ export default defineConfig({
       },
     },
   ],
+  // Dedicated e2e ports (4001/3001) — never clash with the dev servers (4000/3000).
   webServer: [
     {
-      command: 'bun run --cwd apps/api start',
-      url: 'http://localhost:4000/health',
+      command: 'bun src/index.ts',
+      cwd: 'apps/api',
+      url: 'http://localhost:4001/health',
       reuseExistingServer: !process.env.CI,
       timeout: 60_000,
-      env: { OWNER_SECRET },
+      env: {
+        OWNER_SECRET,
+        PORT: '4001',
+        DATABASE_URL: 'postgres://epilogue:epilogue@localhost:5432/epilogue_e2e',
+      },
     },
     {
-      // assumes `next build` already ran (Node prod server); bun --bun for the no-Node host
-      command: 'bun run --cwd apps/web start',
-      url: 'http://localhost:3000',
+      // assumes `next build` already ran; bun --bun for the no-Node host
+      command: 'bun --bun next start -p 3001',
+      cwd: 'apps/web',
+      url: 'http://localhost:3001',
       reuseExistingServer: !process.env.CI,
       timeout: 120_000,
-      env: { OWNER_SECRET, API_URL: 'http://localhost:4000' },
+      env: { OWNER_SECRET, API_URL: 'http://localhost:4001' },
     },
   ],
 });

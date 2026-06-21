@@ -12,6 +12,13 @@ const TITLES: Record<Space, string> = {
   tech: 'The Tech log',
 };
 
+const NOUN: Record<Space, string> = {
+  gaming: 'Gaming',
+  reading: 'Reading',
+  cinema: 'Cinema',
+  tech: 'Tech',
+};
+
 export default async function SpacePage({
   params,
   searchParams,
@@ -23,11 +30,18 @@ export default async function SpacePage({
   if (!(SPACES as readonly string[]).includes(space)) notFound();
   const { status } = await searchParams;
   const entries = await listEntries({ space, status });
+  const label = NOUN[space as Space];
   return (
     <CatalogView
       kicker={space}
       title={TITLES[space as Space]}
       entries={entries}
+      empty={{
+        title: 'Nothing here yet',
+        sub: `Add your first ${label} entry to this shelf.`,
+        ctaHref: '/entry/new',
+        ctaLabel: `Add to ${label}`,
+      }}
     />
   );
 }

@@ -49,6 +49,13 @@ describe('entries — owner isolation', () => {
     expect(await repos.entries.list(alice, { status: 'READING' })).toHaveLength(1);
   });
 
+  it('filters by multiple statuses (US2 multi-select)', async () => {
+    await repos.entries.create(alice, { title: 'P', mediaType: 'GAME', status: 'PLAYING' });
+    await repos.entries.create(alice, { title: 'Q', mediaType: 'GAME', status: 'PAUSED' });
+    await repos.entries.create(alice, { title: 'R', mediaType: 'BOOK', status: 'READING' });
+    expect(await repos.entries.list(alice, { status: ['PLAYING', 'PAUSED'] })).toHaveLength(2);
+  });
+
   it('cannot update or delete another owner’s entry', async () => {
     const e = await repos.entries.create(alice, { title: 'X', mediaType: 'GAME', status: 'PAUSED' });
     expect(await repos.entries.update(bob, e.id, { title: 'hacked' })).toBeUndefined();
