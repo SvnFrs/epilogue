@@ -51,7 +51,7 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
   ];
 
   return (
-    <div className="mx-auto w-full max-w-[1500px] px-5 pb-24 pt-6 sm:px-8 xl:max-w-[1760px] 2xl:px-12 3xl:max-w-[2040px]">
+    <div className="mx-auto w-full max-w-[1500px] px-5 pb-24 pt-6 sm:px-8 xl:max-w-[1760px] 2xl:px-12 3xl:max-w-[2200px]">
       <TouchOnOpen entryId={entry.id} />
 
       {/* Space › Title breadcrumb */}
@@ -67,8 +67,9 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
         <span className="font-medium text-stone-700">{entry.title}</span>
       </nav>
 
-      {/* 3-zone composition: A save-state · B ledger · C "around this" (xl+) */}
-      <div className="grid grid-cols-12 gap-8 xl:gap-10">
+      {/* 3-zone composition: A save-state · B ledger · C "around this" (xl+).
+          Vertically centers short content on tall screens so the canvas never strands. */}
+      <div className="grid grid-cols-12 gap-8 lg:min-h-[calc(100svh-9rem)] lg:content-center xl:gap-10">
         {/* Zone A — save-state (sticky, full-height) */}
         <aside
           aria-label="Save-state"
@@ -85,7 +86,9 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
                 </span>
               </div>
               <div className="absolute inset-x-0 bottom-0 p-4">
-                <h1 className="font-serif text-[26px] leading-tight text-white">{entry.title}</h1>
+                <h1 className="font-serif text-[clamp(28px,2.2vw,40px)] font-medium leading-[1.05] text-white [text-wrap:balance]">
+                  {entry.title}
+                </h1>
                 {entry.subtitle && (
                   <p className="mt-1 font-serif text-[14px] italic text-amber-100/85">{entry.subtitle}</p>
                 )}

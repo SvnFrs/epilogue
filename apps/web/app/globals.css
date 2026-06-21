@@ -58,6 +58,13 @@
     background: linear-gradient(90deg, #221d18 0px, #2f2820 200px, #221d18 400px);
     background-size: 800px 100%;
   }
+
+  /* staggered entrance for sibling lists (cards-in-a-grid). Capped via --i; list
+     rhythm, not whole-section scroll-fade. Reduced-motion is gated below. */
+  .epi-rise {
+    animation: epiFade 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 45ms);
+  }
 }
 
 /* respect reduced motion — gate all the entrance/hover motion (a11y) */

@@ -56,8 +56,12 @@ export function CatalogView({
 
       {entries.length ? (
         <div className="[column-gap:1.5rem] columns-1 sm:columns-2 lg:columns-3 xl:columns-4 3xl:columns-5 4xl:columns-6">
-          {entries.map((e) => (
-            <div key={e.id} className="mb-6 break-inside-avoid">
+          {entries.map((e, i) => (
+            <div
+              key={e.id}
+              className="epi-rise mb-6 break-inside-avoid"
+              style={{ '--i': Math.min(i, 12) } as React.CSSProperties}
+            >
               <CoverCard entry={e} now={now} tall={isTall(e.id)} />
             </div>
           ))}

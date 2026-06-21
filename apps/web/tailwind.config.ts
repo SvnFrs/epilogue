@@ -74,10 +74,12 @@ const config: Config = {
         '3xl': '1.5rem',
       },
       boxShadow: {
-        'card-hover': '0 24px 60px -24px rgba(0,0,0,.65)',
-        cover: '0 18px 50px -18px rgba(0,0,0,.75)',
+        // card hover = depth + a faint amber glow (the content lights the page)
+        'card-hover': '0 24px 60px -24px rgba(0,0,0,.7), 0 0 44px -14px rgba(245,158,11,.22)',
+        // detail cover = deep shadow + a soft always-on amber halo (cinematic poster)
+        cover: '0 18px 50px -18px rgba(0,0,0,.8), 0 0 70px -18px rgba(245,158,11,.16)',
         sheen: 'inset 0 1px 0 rgba(255,240,210,.06)',
-        glow: '0 0 44px -10px rgba(245,158,11,.28)',
+        glow: '0 0 48px -10px rgba(245,158,11,.3)',
       },
       keyframes: {
         epiFade: {
