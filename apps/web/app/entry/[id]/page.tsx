@@ -51,11 +51,11 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
   ];
 
   return (
-    <div className="mx-auto w-full max-w-[1500px] px-5 pb-24 pt-6 sm:px-8 xl:max-w-[1760px] 2xl:px-12 3xl:max-w-[2200px]">
+    <div className="mx-auto w-full max-w-[1500px] px-5 pb-24 pt-5 sm:px-8 xl:max-w-[1760px] 2xl:px-12 3xl:max-w-[2200px]">
       <TouchOnOpen entryId={entry.id} />
 
       {/* Space › Title breadcrumb */}
-      <nav aria-label="Breadcrumb" className="mb-6 flex items-center gap-2 text-[13px] text-stone-500">
+      <nav aria-label="Breadcrumb" className="mb-5 flex items-center gap-2 text-[13px] text-stone-500">
         <Link href="/" className="flex items-center gap-1 hover:text-stone-700">
           <ArrowLeft size={14} /> Library
         </Link>
@@ -67,56 +67,66 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
         <span className="font-medium text-stone-700">{entry.title}</span>
       </nav>
 
-      {/* 3-zone composition: A save-state · B ledger · C "around this" (xl+).
-          Vertically centers short content on tall screens so the canvas never strands. */}
-      <div className="grid grid-cols-12 gap-8 lg:min-h-[calc(100svh-9rem)] lg:content-center xl:gap-10">
-        {/* Zone A — save-state (sticky, full-height) */}
-        <aside
-          aria-label="Save-state"
-          className="col-span-12 lg:col-span-4 xl:col-span-3"
-        >
-          <div className="space-y-5 lg:sticky lg:top-6">
-            <div className="relative overflow-hidden rounded-2xl shadow-cover ring-1 ring-amber-500/10">
-              <GenerativeCover mediaType={entry.mediaType} space={entry.space} seed={entry.id} className="aspect-[3/4] w-full" />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/40" />
-              <div className="absolute left-3 right-3 top-3 flex items-center gap-1.5">
-                <span className="flex items-center gap-1.5 rounded-full bg-black/40 px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
-                  <TypeIcon size={12} />
-                  {entry.mediaType.replace('_', ' ')}
-                </span>
-              </div>
-              <div className="absolute inset-x-0 bottom-0 p-4">
-                <h1 className="font-serif text-[clamp(28px,2.2vw,40px)] font-medium leading-[1.05] text-white [text-wrap:balance]">
-                  {entry.title}
-                </h1>
-                {entry.subtitle && (
-                  <p className="mt-1 font-serif text-[14px] italic text-amber-100/85">{entry.subtitle}</p>
-                )}
-              </div>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <History size={14} className="text-amber-ink" />
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-amber-ink">
-                Previously On
+      {/* Cinematic hero — blurred cover backdrop + crisp poster + title. Fills the top width
+          with real mass so the page reads as a poster, not a stranded column. */}
+      <section className="relative mb-8 overflow-hidden rounded-3xl shadow-cover ring-1 ring-amber-500/15">
+        <div className="absolute inset-0">
+          <GenerativeCover
+            mediaType={entry.mediaType}
+            space={entry.space}
+            seed={entry.id}
+            className="h-full w-full scale-125 opacity-90 blur-2xl"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-ground via-ground/65 to-ground/25" />
+          <div className="absolute inset-0 bg-gradient-to-r from-ground/85 via-ground/20 to-transparent" />
+        </div>
+        <div className="relative flex min-h-[clamp(300px,40vh,520px)] items-end gap-6 p-6 sm:gap-8 sm:p-8 lg:p-10">
+          <div className="hidden w-[clamp(150px,14vw,220px)] shrink-0 overflow-hidden rounded-2xl shadow-cover ring-1 ring-white/10 sm:block">
+            <GenerativeCover mediaType={entry.mediaType} space={entry.space} seed={entry.id} className="aspect-[3/4] w-full" />
+          </div>
+          <div className="min-w-0 pb-1">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-black/40 px-2.5 py-1 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-white/90 backdrop-blur-sm">
+              <TypeIcon size={12} />
+              {entry.mediaType.replace('_', ' ')}
+            </span>
+            <h1 className="mt-3 font-serif text-[clamp(32px,4vw,64px)] font-medium leading-[1.02] text-white [text-wrap:balance]">
+              {entry.title}
+            </h1>
+            {entry.subtitle && (
+              <p className="mt-2 font-serif text-[clamp(15px,1.4vw,22px)] italic text-amber-100/85 [text-wrap:pretty]">
+                {entry.subtitle}
+              </p>
+            )}
+            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1.5 font-mono text-[11.5px] uppercase tracking-[0.12em] text-white/70">
+              <span className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full" style={{ background: STATUS_DOT[entry.status] }} />
+                {entry.status}
+              </span>
+              <span className="text-white/25">·</span>
+              <span className="flex items-center gap-1.5 text-amber-100">
+                <History size={12} /> Previously On
               </span>
               {entry.lastOpenedAt && (
-                <span className="ml-auto font-mono text-[11px] text-stone-400">
-                  opened {relativeDays(entry.lastOpenedAt, now)}
-                </span>
+                <span className="text-white/45">· opened {relativeDays(entry.lastOpenedAt, now)}</span>
               )}
             </div>
+          </div>
+        </div>
+      </section>
 
+      {/* Content row, top-aligned: A save-state · B ledger · C "around this" (xl+) */}
+      <div className="grid grid-cols-12 gap-8 xl:gap-10">
+        <aside aria-label="Save-state" className="col-span-12 lg:col-span-4 xl:col-span-3">
+          <div className="space-y-4 lg:sticky lg:top-6">
+            <p className="font-mono text-[10.5px] uppercase tracking-[0.16em] text-amber-ink">The Save-State</p>
             <ContextColumn entryId={entry.id} context={entry.context} backlinks={entry.backlinks} />
           </div>
         </aside>
 
-        {/* Zone B — the Ledger (long-form) */}
         <main className="col-span-12 lg:col-span-8 xl:col-span-6">
           <LedgerSection entryId={entry.id} ledger={entry.ledger} />
         </main>
 
-        {/* Zone C — "around this" (meta + links + ambient); earns the width on xl+ */}
         <aside aria-label="About this entry" className="col-span-12 hidden xl:col-span-3 xl:block">
           <div className="space-y-6 xl:sticky xl:top-6">
             <div className="rounded-2xl border border-stone-200 bg-card/60 p-4">
@@ -155,7 +165,6 @@ export default async function EntryDetailPage({ params }: { params: Promise<{ id
               </div>
             )}
 
-            {/* ambient echo of the cover — atmosphere that fills the canvas with intent */}
             <div className="relative overflow-hidden rounded-2xl border border-stone-200 opacity-70">
               <GenerativeCover mediaType={entry.mediaType} space={entry.space} seed={`${entry.id}-echo`} className="aspect-[4/3] w-full" />
               <div className="absolute inset-0 bg-ground/40" />
