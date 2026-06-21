@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Epilogue — Red Dead Redemption 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..600&family=Cormorant+Garamond:ital,wght@0,400..700;1,400..600&family=DM+Serif+Display:ital@0;1&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tailwind-static.css" />
+<style>
+  html { -webkit-font-smoothing: antialiased; }
+  :root { --epi-headline: "Playfair Display"; --epi-paper: #faf9f7; }
+  body { font-family: Geist, system-ui, sans-serif; background-color: var(--epi-paper); color: #292524; transition: background-color .3s ease; }
+  ::selection { background: #fde68a; color: #292524; }
+  /* warm paper grain */
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: radial-gradient(circle at 20% 10%, rgba(217,119,6,0.04), transparent 45%),
+                      radial-gradient(circle at 85% 90%, rgba(120,113,108,0.05), transparent 50%);
+  }
+  #root { position: relative; z-index: 1; }
+  body.epi-no-grain::before { display: none; }
+  @keyframes epiFade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes epiPop { from { opacity: 0; transform: translateY(12px) scale(.98); } to { opacity: 1; transform: none; } }
+  /* slim scrollbar */
+  *::-webkit-scrollbar { width: 9px; height: 9px; }
+  *::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 9px; border: 2px solid #faf9f7; }
+  *::-webkit-scrollbar-thumb:hover { background: #a8a29e; }
+  image-slot { border-radius: 0; }
+  /* Painted "nocturne" cover — shows through the slot when empty, so the
+     cover reads as finished art even before the user drops a real image. */
+  .epi-cover { aspect-ratio: 3 / 4; background:
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.022) 0 2px, transparent 2px 7px),
+      radial-gradient(120% 80% at 50% 118%, rgba(217,119,6,0.55) 0%, rgba(180,83,9,0.18) 22%, transparent 46%),
+      radial-gradient(100% 60% at 50% 105%, rgba(251,191,36,0.5) 0%, transparent 38%),
+      linear-gradient(180deg, #2b3340 0%, #232b34 38%, #1c2128 70%, #14171c 100%); }
+  .epi-cover image-slot { position: absolute; inset: 0; width: 100% !important; height: 100% !important; color: rgba(255,255,255,0.6); }
+  .epi-cover image-slot::part(frame) { background: transparent; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#292524" />
+    <text x="50" y="62" font-family="Georgia, serif" font-style="italic" font-size="46" fill="#fef3c7" text-anchor="middle">E</text>
+  </svg>
+</template>
+
+<script src="image-slot.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="data.standalone.js"></script>
+<script src="ledger.js"></script>
+<script type="text/babel" src="icons.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="sidebar.jsx"></script>
+<script type="text/babel" src="ledger-view.jsx"></script>
+<script type="text/babel" src="app.jsx"></script>
+<script type="text/babel">
+  const root = ReactDOM.createRoot(document.getElementById("root"));
+  root.render(React.createElement(window.EpiApp));
+</script>
+</body>
+</html>

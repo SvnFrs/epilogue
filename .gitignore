@@ -10,6 +10,8 @@ build/
 out/
 **/.next/
 **/dist/
+next-env.d.ts
+*.tsbuildinfo
 
 # bun (keep bun.lock tracked for reproducible/--frozen-lockfile installs)
 .bun/
@@ -38,3 +40,11 @@ Thumbs.db
 *.log
 
 # drizzle local journal noise (keep migrations, ignore meta snapshots churn? keep them)
+
+# POC design reference (src/) — track the source (.jsx/.js/.css + small html), NOT the
+# generated/binary artifacts: ~6 MB offline HTML dumps, PNG screenshots/uploads/deck shots,
+# and stray tooling files. The binding visual language lives in the component source.
+src/*Offline*.html
+src/**/*.png
+src/.thumbnail
+src/.claude/

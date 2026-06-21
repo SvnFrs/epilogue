@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Epilogue — Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..800;1,400..600&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  deck-stage:not(:defined) { visibility: hidden; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: #14110f; }
+
+  :root {
+    --paper: #faf9f7;
+    --paper-2: #f4f0e8;
+    --ink: #292524;
+    --ink-soft: #57534e;
+    --ink-faint: #a8a29e;
+    --amber: #b45309;
+    --amber-bright: #d97706;
+    --amber-50: #fffbeb;
+    --line: #e7e5e4;
+    --night: #1c1917;
+    --serif: "Playfair Display", Georgia, serif;
+    --sans: "Geist", system-ui, sans-serif;
+    --mono: "Geist Mono", ui-monospace, monospace;
+  }
+
+  section {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    overflow: hidden;
+  }
+  section * { box-sizing: border-box; }
+
+  .kicker {
+    font-family: var(--mono);
+    font-size: 24px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--amber);
+    font-weight: 500;
+  }
+  .kicker.dim { color: var(--ink-faint); }
+
+  /* paper grain */
+  .grain::before {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      radial-gradient(circle at 18% 12%, rgba(180,83,9,0.05), transparent 42%),
+      radial-gradient(circle at 88% 88%, rgba(120,113,108,0.06), transparent 48%);
+  }
+
+  /* ── browser-ish frame for UI shots ── */
+  .frame {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: 0 50px 90px -40px rgba(41,37,36,0.55), 0 12px 30px -18px rgba(41,37,36,0.3);
+    overflow: hidden;
+  }
+  .frame-bar {
+    height: 44px; display: flex; align-items: center; gap: 9px;
+    padding: 0 18px; background: #f5f3f0; border-bottom: 1px solid var(--line);
+  }
+  .dot { width: 12px; height: 12px; border-radius: 50%; }
+  .frame-url {
+    margin-left: 14px; font-family: var(--mono); font-size: 14px; color: var(--ink-faint);
+    background: #fff; border: 1px solid var(--line); border-radius: 999px;
+    padding: 5px 16px; letter-spacing: 0.02em;
+  }
+  .frame-body { background: var(--paper); }
+  .frame-body img { display: block; width: 100%; }
+
+  /* entrance — TRANSFORM-ONLY, content visible by default (opacity:1 always).
+     Capture/print/PPTX-export contexts freeze the transition clock; because we
+     never start from opacity:0, the active slide is always fully legible — the
+     only thing that may not play is a small slide-up, which is harmless. */
+  .rise, .rise-2, .rise-3, .rise-4 { transform: translateY(18px); }
+  .frame-in { transform: translateY(22px) scale(.985); }
+  @media (prefers-reduced-motion: no-preference) {
+    .rise, .rise-2, .rise-3, .rise-4 { transition: transform .7s cubic-bezier(.2,.7,.2,1); }
+    .frame-in { transition: transform .9s cubic-bezier(.2,.7,.2,1); }
+  }
+  [data-deck-active] .rise,
+  [data-deck-active] .rise-2,
+  [data-deck-active] .rise-3,
+  [data-deck-active] .rise-4,
+  [data-deck-active] .fade,
+  [data-deck-active] .frame-in { transform: none; }
+  [data-deck-active] .rise-2 { transition-delay: .1s; }
+  [data-deck-active] .rise-3 { transition-delay: .2s; }
+  [data-deck-active] .rise-4 { transition-delay: .3s; }
+  [data-deck-active] .frame-in { transition-delay: .15s; }
+
+  .stmt { font-family: var(--serif); color: var(--ink); line-height: 1.02; letter-spacing: -0.015em; }
+  .amber-ink { color: var(--amber); }
+  .sub { font-size: 27px; color: var(--ink-soft); line-height: 1.5; font-weight: 350; }
+</style>
+</head>
+<body>
+
+<deck-stage width="1920" height="1080">
+
+  <!-- ───────────────── SLIDE 1 · TITLE ───────────────── -->
+  <section data-label="Title" class="grain" style="display:grid;place-items:center;text-align:center;">
+    <div style="position:relative;display:flex;flex-direction:column;align-items:center;gap:34px;">
+      <div class="kicker dim rise">A Digital Legacy Museum</div>
+      <h1 class="stmt rise-2" style="font-size:188px;font-weight:500;margin:0;">Epilogue<span class="amber-ink">.</span></h1>
+      <div class="rise-3" style="width:64px;height:1px;background:var(--line);"></div>
+      <p class="sub rise-3" style="font-size:32px;margin:0;font-style:italic;font-family:var(--serif);color:var(--ink-soft);">Your digital legacy is evaporating.</p>
+    </div>
+  </section>
+
+  <!-- ───────────────── SLIDE 2 · COMPLICATION ───────────────── -->
+  <section data-label="Complication" style="position:relative;color:#f5ede0;">
+    <!-- painted cinematic nocturne -->
+    <div style="position:absolute;inset:0;background:
+        radial-gradient(130% 90% at 50% 122%, rgba(217,119,6,.5) 0%, rgba(146,64,14,.16) 24%, transparent 50%),
+        radial-gradient(90% 60% at 78% 8%, rgba(245,233,224,.12) 0%, transparent 44%),
+        linear-gradient(180deg,#2b2620 0%,#211d18 42%,#171310 100%);"></div>
+    <!-- distant moon -->
+    <div style="position:absolute;top:150px;right:280px;width:120px;height:120px;border-radius:50%;background:radial-gradient(circle at 38% 38%, #f7ecd8, #cda978);box-shadow:0 0 90px 26px rgba(247,236,216,.18);"></div>
+    <!-- ridge silhouettes -->
+    <svg viewBox="0 0 1920 1080" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;">
+      <path d="M0 760 L300 600 L520 700 L820 470 L1080 660 L1360 540 L1660 690 L1920 580 L1920 1080 L0 1080 Z" fill="#15110d" opacity="0.55"/>
+      <path d="M0 870 L260 780 L560 850 L900 720 L1200 840 L1500 760 L1920 860 L1920 1080 L0 1080 Z" fill="#0f0c09" opacity="0.8"/>
+    </svg>
+    <div style="position:absolute;inset:0;opacity:.05;background-image:repeating-linear-gradient(115deg,#fff 0 1px,transparent 1px 7px);"></div>
+    <!-- grain vignette -->
+    <div style="position:absolute;inset:0;background:radial-gradient(120% 90% at 50% 50%, transparent 40%, rgba(10,8,6,.55) 100%);"></div>
+
+    <div style="position:absolute;left:130px;bottom:150px;right:130px;">
+      <div class="kicker fade" style="color:#e0b486;margin-bottom:34px;">01 — The Complication</div>
+      <h2 class="stmt rise" style="font-size:138px;font-weight:600;margin:0;color:#f7efe3;max-width:1400px;">You pause.<br/>You leave.<br/><span style="color:#e8a766;">You forget.</span></h2>
+    </div>
+  </section>
+
+  <!-- ───────────────── SLIDE 3 · SOLUTION (HOME GRID) ───────────────── -->
+  <section data-label="Solution" class="grain" style="position:relative;">
+    <div style="position:absolute;inset:0;display:grid;grid-template-columns:42% 58%;align-items:center;">
+      <!-- text -->
+      <div style="padding:0 70px 0 130px;position:relative;z-index:2;">
+        <div class="kicker rise">02 — The Museum</div>
+        <h2 class="stmt rise-2" style="font-size:76px;font-weight:500;margin:30px 0 0;">Everything<br/>you&rsquo;ve lived<br/>through.<br/><span class="amber-ink" style="font-style:italic;">Anchored.</span></h2>
+        <p class="sub rise-3" style="margin:34px 0 0;max-width:30ch;">Not a productivity app — a digital backyard for the media that asks for your <em>full attention</em>: games, cinema, books, tech logs.</p>
+      </div>
+      <!-- framed grid, tilted -->
+      <div style="position:relative;height:100%;">
+        <div class="frame frame-in" style="position:absolute;top:50%;left:0;width:760px;transform:translateY(-50%) rotate(2.2deg);transform-origin:left center;">
+          <div class="frame-bar">
+            <span class="dot" style="background:#e0a3a3;"></span><span class="dot" style="background:#e7cd9a;"></span><span class="dot" style="background:#a9c9a4;"></span>
+            <span class="frame-url">epilogue.app / library</span>
+          </div>
+          <div class="frame-body" style="max-height:760px;overflow:hidden;">
+            <img src="shots/home-grid.png" alt="Epilogue library — masonry grid catalog" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── SLIDE 4 · PREVIOUSLY ON (SIDEBAR) ───────────────── -->
+  <section data-label="Previously On" class="grain" style="position:relative;background:var(--paper-2);">
+    <div style="position:absolute;inset:0;display:grid;grid-template-columns:54% 46%;align-items:center;">
+      <!-- text -->
+      <div style="padding:0 60px 0 130px;position:relative;z-index:2;">
+        <div class="kicker rise">03 — The Core Mechanism</div>
+        <h2 class="stmt rise-2" style="font-size:82px;font-weight:500;margin:30px 0 0;">A &lsquo;Previously&nbsp;On&rsquo;<br/>button for<br/>your <span class="amber-ink" style="font-style:italic;">brain.</span></h2>
+        <p class="sub rise-3" style="margin:34px 0 0;max-width:34ch;">Pause a game and log your checkpoint and keymaps. Months later you don&rsquo;t <em>relearn</em> it — you read your logbook and pick up exactly where you left off.</p>
+      </div>
+      <!-- framed sidebar -->
+      <div style="position:relative;height:100%;">
+        <div class="frame frame-in" style="position:absolute;top:50%;left:40px;width:404px;transform:translateY(-50%) rotate(-2deg);">
+          <div class="frame-bar">
+            <span class="dot" style="background:#e0a3a3;"></span><span class="dot" style="background:#e7cd9a;"></span><span class="dot" style="background:#a9c9a4;"></span>
+          </div>
+          <div class="frame-body">
+            <img src="shots/sidebar-focus.png" alt="Volatile context: current checkpoint and keymap reference" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── SLIDE 5 · THE LEDGER ───────────────── -->
+  <section data-label="The Ledger" class="grain" style="position:relative;">
+    <div style="position:absolute;inset:0;display:grid;grid-template-columns:46% 54%;align-items:center;">
+      <!-- text -->
+      <div style="padding:0 70px 0 130px;position:relative;z-index:2;">
+        <div class="kicker rise">04 — Information Digestion</div>
+        <h2 class="stmt rise-2" style="font-size:84px;font-weight:500;margin:30px 0 0;">Digest.<br/>Don&rsquo;t just<br/><span class="amber-ink" style="font-style:italic;">consume.</span></h2>
+        <p class="sub rise-3" style="margin:34px 0 0;max-width:32ch;">You don&rsquo;t drop links into a void. You embed the deep-dives, format quotes like scripture, and write your own synthesis — the campfire thoughts.</p>
+      </div>
+      <!-- framed ledger -->
+      <div style="position:relative;height:100%;">
+        <div class="frame frame-in" style="position:absolute;top:50%;left:10px;width:720px;transform:translateY(-50%) rotate(1.6deg);">
+          <div class="frame-bar">
+            <span class="dot" style="background:#e0a3a3;"></span><span class="dot" style="background:#e7cd9a;"></span><span class="dot" style="background:#a9c9a4;"></span>
+            <span class="frame-url">epilogue.app / rdr2 / ledger</span>
+          </div>
+          <div class="frame-body" style="max-height:740px;overflow:hidden;">
+            <img src="shots/ledger.png" alt="The Ledger — long-form editorial reading view" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────────────── SLIDE 6 · CTA / OWNERSHIP ───────────────── -->
+  <section data-label="Own your history" style="position:relative;color:#f5ede0;background:var(--night);">
+    <div style="position:absolute;inset:0;background:
+        radial-gradient(100% 70% at 50% 120%, rgba(180,83,9,.4) 0%, transparent 52%),
+        linear-gradient(180deg,#221d18 0%,#1a1613 60%,#120f0c 100%);"></div>
+    <div style="position:absolute;inset:0;opacity:.04;background-image:repeating-linear-gradient(115deg,#fff 0 1px,transparent 1px 8px);"></div>
+
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
+      <div class="kicker fade" style="color:#e0b486;margin-bottom:40px;">05 — Data Ownership</div>
+
+      <!-- lock → link glyph -->
+      <div class="rise" style="display:flex;align-items:center;gap:30px;margin-bottom:46px;color:#e8b488;">
+        <svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#a8978a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        <svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+      </div>
+
+      <h2 class="stmt rise-2" style="font-size:150px;font-weight:600;margin:0;color:#f7efe3;">Own your <span style="color:#e8a766;">history.</span></h2>
+      <p class="sub rise-3" style="margin:40px 0 0;color:#cbb9a8;font-size:30px;max-width:24ch;">Local-first. Containerized. You own every byte.</p>
+      <p class="rise-4" style="margin:54px 0 0;font-family:var(--mono);font-size:24px;letter-spacing:0.18em;text-transform:uppercase;color:#8a7d70;">Stop letting your experiences evaporate.</p>
+    </div>
+  </section>
+
+</deck-stage>
+
+<script type="application/json" id="speaker-notes">
+[
+  "Epilogue. The hook: your digital legacy is evaporating. Open calm and confident — let the single word and the period sit for a beat before you speak.",
+  "We spend hundreds of hours inside heavy, story-driven media. But when life forces a break, the memories, the controls, the storylines all wash away. You pause, you leave, and you forget.",
+  "Epilogue is the fix. Not a productivity app — a digital backyard built specifically for media that demands your active attention: games, cinema, books, and tech logs. Everything you've lived through, anchored in one place. This is the library.",
+  "The core mechanism is the 'Previously On' button for your brain. When you pause a game you log your checkpoint and your keymaps right here in the sidebar. Months later you don't relearn the game — you read your own logbook and pick up exactly where you left off.",
+  "It's also an information digestion engine. You don't just drop links into a void. You embed the YouTube tech deep-dives, format book quotes like biblical verses, and write your own synthesis — what I call the campfire thoughts. Digest, don't just consume.",
+  "And it's yours. Local-first, containerized — you own every single byte. So stop letting your experiences evaporate. Start building your Epilogue."
+]
+</script>
+
+<script src="deck-stage.js"></script>
+<script>
+(async () => {
+  try { await customElements.whenDefined('deck-stage'); } catch (e) {}
+  const ds = document.querySelector('deck-stage');
+  if (ds) {
+    // Weigh only slide children — same filter as deck-stage.length. Skipping
+    // slotted script/style/template keeps inline Babel/CSS from registering
+    // as stable "content" before the framework has mounted anything.
+    const weigh = () => {
+      let text = 0, media = 0;
+      for (const c of ds.children) {
+        const t = c.tagName;
+        if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+        text += (c.textContent || '').trim().length;
+        media += c.querySelectorAll('img,svg,canvas,video').length;
+      }
+      return text + media * 100;
+    };
+    const deadline = Date.now() + 15000;
+    let last = -1, stable = 0;
+    while (Date.now() < deadline) {
+      const n = weigh();
+      if (n > 0 && n === last) { if (++stable >= 2) break; } else { stable = 0; }
+      last = n;
+      await new Promise((r) => setTimeout(r, 250));
+    }
+  }
+  try { await document.fonts.ready; } catch (e) {}
+  // Jump every animation to its end state so print() never captures a slide
+  // mid-entrance. Ordering matters: the 0s-transition style must be live
+  // BEFORE data-deck-active is set so attribute-keyed transitions don't
+  // start a (now-0s) run from the pre-active base.
+  const st = document.createElement('style');
+  st.textContent = '*,*::before,*::after{animation-delay:-99s !important;animation-duration:.001s !important;animation-iteration-count:1 !important;animation-fill-mode:both !important;animation-play-state:running !important;transition-duration:0s !important}';
+  document.head.appendChild(st);
+  for (const d of document.querySelectorAll('deck-stage')) {
+    for (const c of d.children) {
+      const t = c.tagName;
+      if (t === 'SCRIPT' || t === 'STYLE' || t === 'TEMPLATE') continue;
+      c.setAttribute('data-deck-active', '');
+    }
+  }
+  try {
+    const sweep = () => {
+      for (const a of document.getAnimations()) {
+        try { a.finish(); } catch (e) {
+          try { a.currentTime = (a.effect && a.effect.getComputedTiming().duration) || 0; a.pause(); } catch (e2) {}
+        }
+      }
+    };
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+    sweep();
+    await new Promise((r) => requestAnimationFrame(r));
+  } catch (e) {}
+  setTimeout(() => { try { window.print(); } catch (e) {} }, 200);
+})();
+</script>
+</body>
+</html>

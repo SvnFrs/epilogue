@@ -1,0 +1,145 @@
+/* Epilogue — Home Grid catalog. Painted cover themes (CSS) since external
+   imagery doesn't load offline; each entry carries its own palette + motif.
+   `span` controls bento row-height (tall cards punctuate the masonry rhythm).
+   `to` deep-links into the detail page; ids that exist there open that entry. */
+(function () {
+  const LIBRARY = [
+    {
+      id: "rdr2",
+      title: "Red Dead Redemption 2",
+      type: "GAME",
+      status: "PAUSED",
+      year: 2024,
+      meta: "Chapter 4 · 87 hrs",
+      span: "tall",
+      cover: {
+        bg: "linear-gradient(180deg,#2b3340 0%,#232b34 40%,#14171c 100%)",
+        glow: "radial-gradient(120% 80% at 50% 116%, rgba(217,119,6,.6) 0%, rgba(180,83,9,.18) 24%, transparent 48%)",
+        ink: "#fde9c8",
+        motif: "ridge",
+      },
+    },
+    {
+      id: "forza",
+      title: "Forza Horizon 5",
+      type: "GAME",
+      status: "PLAYING",
+      year: 2025,
+      meta: "Mexico · 42 hrs",
+      span: "short",
+      cover: {
+        bg: "linear-gradient(150deg,#7c2d12 0%,#b45309 44%,#f59e0b 100%)",
+        glow: "radial-gradient(80% 70% at 78% 16%, rgba(255,255,255,.42) 0%, transparent 46%)",
+        ink: "#fff7ed",
+        motif: "sun",
+      },
+    },
+    {
+      id: "evangelion",
+      title: "Neon Genesis Evangelion",
+      type: "ANIME",
+      status: "COMPLETED",
+      year: 2023,
+      meta: "26 eps · rewatch",
+      span: "tall",
+      cover: {
+        bg: "linear-gradient(165deg,#3b0764 0%,#581c87 38%,#6d28d9 72%,#9333ea 100%)",
+        glow: "radial-gradient(70% 60% at 50% 44%, rgba(244,114,182,.5) 0%, transparent 55%)",
+        ink: "#fbe8ff",
+        motif: "eva",
+      },
+    },
+    {
+      id: "re",
+      title: "Resident Evil",
+      type: "GAME",
+      status: "COMPLETED",
+      year: 2024,
+      meta: "Remake · platinum",
+      span: "short",
+      cover: {
+        bg: "linear-gradient(180deg,#1c1917 0%,#292524 52%,#3f1d1d 100%)",
+        glow: "radial-gradient(90% 70% at 50% 108%, rgba(190,18,60,.55) 0%, transparent 52%)",
+        ink: "#fbdada",
+        motif: "biohazard",
+      },
+    },
+    {
+      id: "vimjs",
+      title: "Vim as a JavaScript IDE",
+      type: "TECH_LOG",
+      status: "COMPLETED",
+      year: 2025,
+      meta: "digested · 6 sources",
+      span: "short",
+      cover: {
+        bg: "linear-gradient(160deg,#064e3b 0%,#065f46 50%,#0f766e 100%)",
+        glow: "radial-gradient(70% 60% at 22% 18%, rgba(110,231,183,.4) 0%, transparent 50%)",
+        ink: "#d7f5e9",
+        motif: "code",
+      },
+    },
+    {
+      id: "karamazov",
+      title: "The Brothers Karamazov",
+      type: "BOOK",
+      status: "READING",
+      year: 2024,
+      meta: "Book VI of XII",
+      span: "tall",
+      cover: {
+        bg: "linear-gradient(175deg,#1c1917 0%,#44403c 60%,#57534e 100%)",
+        glow: "radial-gradient(80% 60% at 50% 14%, rgba(251,191,36,.32) 0%, transparent 52%)",
+        ink: "#f5e9d0",
+        motif: "verse",
+      },
+    },
+    {
+      id: "elden",
+      title: "Elden Ring",
+      type: "GAME",
+      status: "PAUSED",
+      year: 2024,
+      meta: "Caelid · 61 hrs",
+      span: "short",
+      cover: {
+        bg: "linear-gradient(165deg,#422006 0%,#713f12 48%,#a16207 100%)",
+        glow: "radial-gradient(60% 60% at 50% 40%, rgba(253,224,71,.55) 0%, transparent 52%)",
+        ink: "#fff3d6",
+        motif: "ring",
+      },
+    },
+    {
+      id: "frieren",
+      title: "Frieren: Beyond Journey's End",
+      type: "ANIME",
+      status: "PLAYING",
+      year: 2025,
+      meta: "ep 18 · airing",
+      span: "short",
+      cover: {
+        bg: "linear-gradient(165deg,#0c4a6e 0%,#0369a1 46%,#38bdf8 100%)",
+        glow: "radial-gradient(70% 60% at 70% 22%, rgba(224,242,254,.5) 0%, transparent 52%)",
+        ink: "#eaf6ff",
+        motif: "snow",
+      },
+    },
+    {
+      id: "primeagen",
+      title: "Tmux & Session Muscle Memory",
+      type: "TECH_LOG",
+      status: "READING",
+      year: 2026,
+      meta: "digesting · 3 sources",
+      span: "short",
+      cover: {
+        bg: "linear-gradient(160deg,#0f172a 0%,#1e293b 55%,#334155 100%)",
+        glow: "radial-gradient(60% 60% at 24% 80%, rgba(56,189,248,.34) 0%, transparent 52%)",
+        ink: "#dbeafe",
+        motif: "terminal",
+      },
+    },
+  ];
+
+  window.EPILOGUE_LIBRARY = { LIBRARY };
+})();
