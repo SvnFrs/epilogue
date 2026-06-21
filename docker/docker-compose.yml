@@ -9,6 +9,11 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-epilogue}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-epilogue}
       POSTGRES_DB: ${POSTGRES_DB:-epilogue}
+    # Publish to localhost only — lets host tools (bun run db:migrate, psql, host-run
+    # vitest) reach the DB. The api still connects over the Docker network (postgres:5432)
+    # regardless of this mapping.
+    ports:
+      - '127.0.0.1:5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:

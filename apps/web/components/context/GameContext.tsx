@@ -7,20 +7,33 @@
  * save-state surfaced in the sticky left column.
  */
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import type { GamePayload } from '@epilogue/contracts';
 import { Compass, Pencil, List, Keyboard, Check } from '../icons';
 import { SectionLabel } from './SectionLabel';
 import { usePutContext, useToggleThread } from '@/lib/api/hooks';
 
 export function GameContext({ entryId, payload }: { entryId: string; payload: GamePayload }) {
+  const router = useRouter();
   const [editing, setEditing] = useState(false);
   const [draft, setDraft] = useState(payload.checkpoint);
+  // Local display state for immediate feedback — the payload prop comes from the RSC and
+  // can't be updated by a client mutation, so mirror it locally and reconcile the server
+  // render with router.refresh().
+  const [checkpoint, setCheckpoint] = useState(payload.checkpoint);
   const putContext = usePutContext(entryId);
   const toggleThread = useToggleThread(entryId);
 
-  function saveCheckpoint() {
-    putContext.mutate({ ...payload, checkpoint: draft });
+  async function saveCheckpoint() {
+    await putContext.mutateAsync({ ...payload, checkpoint: draft });
+    setCheckpoint(draft);
     setEditing(false);
+    router.refresh();
+  }
+
+  async function onToggleThread(threadId: string, done: boolean) {
+    await toggleThread.mutateAsync({ threadId, done });
+    router.refresh();
   }
 
   return (
@@ -58,9 +71,9 @@ export function GameContext({ entryId, payload }: { entryId: string; payload: Ga
               {putContext.isPending ? 'Saving…' : 'Save state'}
             </button>
           </>
-        ) : payload.checkpoint ? (
+        ) : checkpoint ? (
           <p className="font-serif text-[14.5px] italic leading-relaxed text-stone-700">
-            {payload.checkpoint}
+            {checkpoint}
           </p>
         ) : (
           <p className="text-[13.5px] text-stone-500">
@@ -79,7 +92,7 @@ export function GameContext({ entryId, payload }: { entryId: string; payload: Ga
             {payload.threads.map((t) => (
               <li key={t.id} className="flex items-start gap-2.5 text-[13.5px]">
                 <button
-                  onClick={() => toggleThread.mutate({ threadId: t.id, done: !t.done })}
+                  onClick={() => onToggleThread(t.id, !t.done)}
                   aria-pressed={t.done}
                   aria-label={`Mark "${t.text}" ${t.done ? 'not done' : 'done'}`}
                   className={`mt-[3px] flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-[5px] border ${

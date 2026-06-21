@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   // The api type is consumed from a workspace TS package via Eden.
   transpilePackages: ['@epilogue/contracts', '@epilogue/api'],
+  // We run ESLint via the workspace flat config (bun run lint), not Next's built-in pass.
+  eslint: { ignoreDuringBuilds: true },
   experimental: {
     // server actions stay OFF by design (security decision; plan.md).
   },

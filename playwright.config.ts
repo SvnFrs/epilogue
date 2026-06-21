@@ -5,8 +5,17 @@ import { defineConfig, devices } from '@playwright/test';
  * webServer starts the FULL BUILT stack (Elysia api on Bun + the Next production build),
  * never `next dev`. Requires Postgres reachable via DATABASE_URL and the migrate one-shot
  * to have run (seeded owner). See tests/e2e/README.md.
+ *
+ * Arch Linux: Playwright's bundled browser wants Ubuntu libs (libflite1, …) that don't
+ * exist here. Instead we drive the SYSTEM Chromium (pacman-managed deps) and skip the
+ * Ubuntu-oriented host-requirement validation. Override the path with PLAYWRIGHT_CHROMIUM_PATH.
  */
 const OWNER_SECRET = process.env.OWNER_SECRET ?? 'dev-owner-secret-change-me';
+const SYSTEM_CHROMIUM =
+  process.env.PLAYWRIGHT_CHROMIUM_PATH ?? process.env.GSTACK_CHROMIUM_PATH ?? '/usr/bin/chromium';
+
+// Skip the apt-based host validation (no apt on Arch); system Chromium has its own deps.
+process.env.PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS ||= '1';
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -18,7 +27,15 @@ export default defineConfig({
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    {
+      name: 'chromium',
+      use: {
+        ...devices['Desktop Chrome'],
+        launchOptions: { executablePath: SYSTEM_CHROMIUM },
+      },
+    },
+  ],
   webServer: [
     {
       command: 'bun run --cwd apps/api start',

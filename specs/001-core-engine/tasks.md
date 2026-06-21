@@ -49,7 +49,7 @@ Bun + Elysia + Eden + Drizzle-on-Bun combo BEFORE building wide.
 - [x] T022 [US1] GAME context block (checkpoint, open threads + done toggle, keymap) — port `src/sidebar.jsx` → `apps/web/components/context/GameContext.tsx`
 - [x] T023 [US1] "Previously On" recall: context column surfaces checkpoint/threads/keymap without scroll; Resume cue on the card (no global button)
 - [x] T024 [US1] Create/edit GAME entry + capture/update context via TanStack Query `useMutation` → Eden
-- [~] T024e [P] [US1] e2e (Playwright, full built stack): open paused game → see save-state → edit → reload (skeleton acceptance) — **written, not yet executed** (needs `next build` + a Chromium install; see tests/e2e/README.md)
+- [x] T024e [P] [US1] e2e (Playwright, full built stack): open paused game → see save-state → edit → reload (skeleton acceptance) — **PASSING** vs the built stack + system Chromium (Arch: drives /usr/bin/chromium)
 - [x] T025 [US1] `last_opened_at` "N days ago" display on detail + card
 
 **Checkpoint:** US1 works standalone → this is the deployable walking skeleton.

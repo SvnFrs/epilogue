@@ -161,7 +161,7 @@ Skeleton is **sequential** (one vertical slice, shared modules). After it merges
 ### Implementation Tasks
 Synthesized from findings; checkbox as you ship. P1 blocks the skeleton/ship.
 
-- [~] **T1 (P1)** — walking skeleton: GAME + US1 end-to-end (Next RSC → Eden → Elysia → Drizzle → Postgres). **Built + locally validated** (59 tests green: unit/integration/http/component; api boots; Eden type-resolves). **Pending:** `next build` + deploy via compose + the e2e run on the tailnet (T024e / T045). *Surfaced by: Step 0.*
+- [~] **T1 (P1)** — walking skeleton: GAME + US1 end-to-end (Next RSC → Eden → Elysia → Drizzle → Postgres). **Built + fully validated locally**: 59 vitest (unit/integration/http/component) + the Playwright e2e PASS vs the built stack against real Postgres (compose). Web builds under Bun; system Chromium on Arch. **Pending only:** deploy to the tailnet (T045). *Surfaced by: Step 0.*
 - [x] **T2 (P1)** — owner-scope middleware: `X-Epilogue-Owner` + secret; reject without; `/share`+`/ingest` separate auth. *Issue 1 / OV#1,#2.*
 - [x] **T3 (P1, critical)** — migrate as a one-shot service that exits 0 before api/web; seed the single owner in it. *OV#6,#9.*
 - [x] **T4 (P1)** — Zod schemas in `packages/contracts` as single source (routes validate via the schemas + resolver + tests). Eden infers from handler return types (no codegen); explicit Zod `.parse()` in handlers keeps it version-robust. *Issue 3 / OV#4.*

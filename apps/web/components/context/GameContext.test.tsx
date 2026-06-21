@@ -3,12 +3,15 @@
  * keymap and opens the editor. A fresh QueryClient per test (retry off); the MSW-backed
  * mutation/cache assertions live with the US2 component suite (T029t).
  */
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import type { GamePayload } from '@epilogue/contracts';
 import { GameContext } from './GameContext';
+
+// GameContext calls useRouter(); stub it (no app-router context under jsdom).
+vi.mock('next/navigation', () => ({ useRouter: () => ({ refresh: () => {} }) }));
 
 const payload: GamePayload = {
   checkpoint: 'Saved at the cabin in the snow',

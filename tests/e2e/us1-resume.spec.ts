@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 test('resume a paused game from a cold save-state', async ({ page }) => {
   // create a paused GAME
   await page.goto('/entry/new');
-  await page.getByLabel('Title').fill('Red Dead Redemption II');
+  await page.getByLabel('Title', { exact: true }).fill('Red Dead Redemption II');
   await page.getByLabel('Type').selectOption('GAME');
   await page.getByLabel('Status').selectOption('PAUSED');
   await page.getByRole('button', { name: 'Create entry' }).click();
