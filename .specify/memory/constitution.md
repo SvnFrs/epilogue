@@ -1,17 +1,18 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: 1.0.0 → 1.1.0
-Bump rationale: MINOR. Adds Principle VI (Evergreen over Ephemeral), names the
-community "evergreen knowledge layer" purpose in the preamble, and pulls the
-shareable read-only sub-space (Phase 2b) into Principle IV as a near-term
-deliverable. No principle removed or redefined incompatibly. Reflects the
-"hybrid wedge" decision in docs/ceo-review-2026-06-20.md and docs/roadmap.md.
+Version change: 1.1.0 → 1.2.0
+Bump rationale: MINOR. Amends Principle III ("Digital Paper") — inverts the ground from
+warm-near-white to **reading-room dark** (the cream canvas was the 2026 AI tell); soul
+(serif/amber/save-state/covers/split-view) unchanged. Authoritative tokens move to DESIGN.md;
+src/ stays the visual-vocabulary reference. Reflects specs/001-core-engine/responsive-aesthetics.md
+§4.0 and the impeccable design pass. No principle removed.
+(Prior 1.0.0 → 1.1.0: added Principle VI Evergreen over Ephemeral + Phase-2b sub-space into IV.)
 
 Principles:
   I.   Cognitive Save-State First (unchanged)
   II.  Active Attention Only (unchanged)
-  III. The "Digital Paper" Aesthetic (unchanged)
+  III. The "Digital Paper" Aesthetic (AMENDED → reading-room dark; tokens in DESIGN.md)
   IV.  Local-First, Single-Player — Multi-Tenant by Schema (amended: Phase 2b
        shareable read-only sub-space pulled near-term)
   V.   Structured Digestion over Hoarding (unchanged)
@@ -81,13 +82,20 @@ consumption (background music, idle scrolling) is out of scope, permanently.
 - Rationale: scope discipline is what keeps the museum a museum. The opinionated "no"
   is a feature.
 
-### III. The "Digital Paper" Aesthetic (Non-Negotiable Design Language)
+### III. The "Digital Paper" Aesthetic — Reading-Room Dark (Non-Negotiable Design Language)
 
-The look and feel is a product requirement, not decoration. The approved design in
-`src/` is the source of truth. All UI MUST conform to these concrete, testable rules:
+The look and feel is a product requirement, not decoration. **Authoritative tokens live in
+`DESIGN.md`** (reading-room dark); `src/` remains the source for the visual *vocabulary*
+(components, motifs, the split-view), but its light ground is superseded. Amended 2026-06-21
+after the warm-near-white "Digital Paper" ground was found to be the 2026 AI tell (a flat cream
+canvas reads as generic + dead on large screens). The *soul* is unchanged — serif/Playfair,
+amber, the save-state, generative covers, the split-view; the *ground* inverts to dark, lit by
+its content. All UI MUST conform to these concrete, testable rules:
 
-- **Surface**: warm oatmeal/stone backgrounds (`stone-50` base, `stone-200`
-  hairline borders). **No pure black (`#000`) or pure white (`#fff`).**
+- **Surface**: a warm-dark ground that the content lights — espresso `--ground` (≈`#1a1613`) <
+  `--surface` < `--card` < `--card-2`, warm `--line` hairlines (DESIGN.md ramp). Warmth comes from
+  the amber accent, Playfair, and the covers — **never from a cream/beige background**. **No pure
+  black (`#000`) or pure white (`#fff`); no warm-near-white body bg.**
 - **Typography — strict triple-font system**:
   - Serif (Playfair Display / Georgia fallback) for headlines, entry titles,
     standfirsts, and reading prose.
@@ -103,8 +111,9 @@ The look and feel is a product requirement, not decoration. The approved design 
   left context column + scrollable right "Ledger"), the **"Bible-verse" blockquote**
   (amber left border, right-aligned italic mono reference), and **generative cover
   art** keyed to media type.
-- Rationale: the vibe — "reading an archival ledger by a warm lamp" — is the
-  emotional payload. AI-generic styling ("AI slop") is a defect, not a near-miss.
+- Rationale: the vibe — "a private reading room at night; an archival ledger under a warm desk
+  lamp" — is the emotional payload, and the page is lit by its content. AI-generic styling ("AI
+  slop") — the cream-near-white canvas chief among them — is a defect, not a near-miss.
 
 ### IV. Local-First, Single-Player — Multi-Tenant by Schema
 
@@ -218,4 +227,4 @@ documented in `docs/lessons-learned.md`. The flow:
   any deviation MUST be justified in the plan's Complexity Tracking and approved by the
   project owner.
 
-**Version**: 1.1.0 | **Ratified**: 2026-06-20 | **Last Amended**: 2026-06-20
+**Version**: 1.2.0 | **Ratified**: 2026-06-20 | **Last Amended**: 2026-06-21

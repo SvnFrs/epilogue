@@ -83,3 +83,43 @@ These two weren't built to interoperate:
 **Net:** keep the Spec Kit muscle memory entirely; gstack's real value here is
 steps **6–7** (review/security/QA) — which Spec Kit doesn't cover at all — plus the
 design-review dimension on the plan.
+
+## 2026-06-21 — Design-language workflow (impeccable → gstack ship pipeline)
+
+Added after the creator rejected the light warm-cream UI ("blank A4, too much blank
+space, not alive"). Root cause: the **warm-cream body bg is the 2026 AI default** (per
+the `impeccable` skill's own rules) — warmth must come from accent + type + imagery,
+never the body bg. Decision + research: `specs/001-core-engine/responsive-aesthetics.md`.
+Direction chosen: **reading-room dark** (deep warm-dark ground, covers + amber as the
+light source). Constitution III to be amended to match.
+
+**The design engine is `impeccable`** (installed, `npx impeccable`). It is NOT one-shot;
+it's a sub-command pipeline that self-verifies with browser screenshots:
+- `impeccable init` — one-time: writes `PRODUCT.md` (+ `DESIGN.md`). Feed it the
+  responsive-aesthetics plan + the reading-room decision so output is on-brand.
+- `impeccable audit` — diagnose the current UI against its rulebook.
+- `impeccable layout` / `craft` / `colorize` — P0 (dark token ramp, OKLCH) + P1
+  (3-zone ultrawide detail). The structural fix.
+- `impeccable bolder` / `polish` / `animate` — P3 art direction + motion (reduced-motion safe).
+- `impeccable live` — live in-browser iteration on a single element when needed.
+
+**After the design language lands, hand off to gstack in this order** (the "what next"):
+
+1. **`/design-review`** — designer's-eye QA on the *live* result; residual slop, spacing,
+   hierarchy, AI-tells. Point it at the constitution + responsive-aesthetics.md as
+   acceptance criteria. Loop anything beyond a trivial CSS tweak back into `impeccable
+   polish`/`bolder` (impeccable owns aesthetics; design-review owns the audit).
+2. **`/qa`** (or `/qa-only`) — functional QA through the real flows (catalog → rail filter
+   → detail → save-state edit → ledger), fixes bugs. The dark re-theme touches every
+   component, so re-run the journeys.
+3. **`/cso`** — security pass: owner-isolation can't leak (highest-risk; re-confirm after
+   broad refactors). Pair with the tenant-isolation integration tests.
+4. **`/review`** — pre-landing review of the whole diff (correctness + cleanup).
+5. **`/ship`** → **`/land-and-deploy`** (+ **`/canary`** post-deploy) — deploy to the Arch
+   laptop over Tailscale (Core Engine T045).
+6. **`/document-release`** + **`/learn`** + **`/retro`** — sync docs to what shipped,
+   capture learnings, retrospective.
+
+**Rule of thumb:** impeccable = *make it beautiful* (owns the design language + fixes);
+gstack design-review/qa/cso/review = *prove it's right* (audit, behavior, security, diff).
+Don't ask design-review to redesign; don't ask impeccable to security-audit.
