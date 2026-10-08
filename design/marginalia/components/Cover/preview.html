@@ -1,0 +1,52 @@
+<!-- @dsCard height=288 -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Marginalia</title>
+<style>
+  html, body { margin: 0; height: 100%; }
+  body { background: var(--paper); color: var(--ink); font-family: var(--font-ui); overflow: hidden; }
+  .cover { position: relative; height: 288px; overflow: hidden; }
+  .art { position: absolute; top: 0; left: 480px; width: 480px; height: 288px; overflow: hidden; }
+  .art svg { display: block; width: 480px; height: 288px; }
+  .lamp { fill: var(--lamp); }
+  .moss { fill: var(--moss); }
+  .quill { fill: var(--quill); }
+  .muted { fill: var(--rule-control); }
+  .deep { fill: var(--ink); }
+  .cut { fill: var(--paper); }
+  .spine { rx: var(--radius-cover); }
+  .plank { stroke: var(--rule); stroke-width: 1; fill: none; }
+  .words { position: absolute; left: var(--space-10); bottom: var(--space-10); max-width: 440px; }
+  .name { margin: 0; font-family: var(--font-display); font-size: 72px; line-height: .95; font-weight: 650; letter-spacing: -.02em; color: var(--ink); }
+  .tag { margin: var(--space-3) 0 0 3px; font-size: 14px; line-height: 20px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div class="cover">
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 480 288" width="480" height="288">
+<!--
+  blocks      five spines standing on one plank, bottoms at y 248: lamp 72×216 (the lit thing, tallest of the free-standing), moss 40×168, quill 64×192, rule-control 48×136, ink 200×232 bleeding off the right edge (the shelf runs on) ≈ 31% of 960×288
+  arrangement a strip of unequal bands on one baseline — the Shelf component, with gaps of space-3
+  pattern     "Every state of an entry is a physical object": two silk-ribbon bookmarks cut out of the lamp and ink spines in the ground colour, notched at the tail; plus the plank as one hairline in rule
+  scales      widths in space-2 multiples (40–72), gaps space-3, ribbon width 14 = rounded 9.5% of a cover, corners radius-cover
+-->
+<line class="plank" x1="0" y1="248.5" x2="480" y2="248.5"/>
+<rect class="lamp spine" x="24" y="32" width="72" height="216" rx="3"/>
+<rect class="moss spine" x="108" y="80" width="40" height="168" rx="3"/>
+<rect class="quill spine" x="160" y="56" width="64" height="192" rx="3"/>
+<rect class="muted spine" x="236" y="112" width="48" height="136" rx="3"/>
+<rect class="deep spine" x="296" y="16" width="200" height="232" rx="3"/>
+<path class="cut" d="M68 32h14v64l-7-6-7 6z"/>
+<path class="cut" d="M332 16h14v80l-7-6-7 6z"/>
+</svg>
+</div>
+<div class="words">
+<h1 class="name">Marginalia</h1>
+<p class="tag">A private commonplace book for everything played, read, watched and heard.</p>
+</div>
+</div>
+</body>
+</html>

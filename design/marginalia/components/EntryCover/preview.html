@@ -1,0 +1,124 @@
+<!-- @dsCard group="Objects" height=440 subtitle="Every kind, every state, art or plate" -->
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>EntryCover</title>
+<style>
+  body { padding: 28px 28px 36px; }
+  .demo-row { display: flex; gap: 28px; align-items: flex-end; flex-wrap: wrap; }
+  .demo-col { display: grid; gap: 12px; justify-items: start; }
+  .demo-cap { color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+
+var M = window.Marginalia, h = React.createElement;
+var S = {
+  re4:     { title: 'Resident Evil 4', by: 'Capcom · 2023', kind: 'game', status: 'open', ink: '#8a2c22', progress: { value: 9, total: 16, unit: 'chapter' },
+             leftOff: { where: 'Chapter 9', short: 'Ch. 9 · past the lake, before the gate', note: 'Past the lake, before the castle gate. Saved at the typewriter, slot 3.', when: 'Tue, 22:40', facts: [['Save', 'Slot 3'], ['Difficulty', 'Standard']] } },
+  grimm:   { title: 'Grimms’ Fairy Tales', by: 'Jacob & Wilhelm Grimm · tr. Margaret Hunt', kind: 'story', status: 'open', ink: '#3d6b45', progress: { value: 24, total: 210, unit: 'tale' },
+             leftOff: { where: 'Tale 24 · Mother Holle', short: 'Tale 24 · stopped at the well', note: 'Stopped at the well, page 112.', when: 'Last night' } },
+  thunder: { title: 'War Thunder', by: 'Gaijin · ground, realistic', kind: 'game', status: 'open', ink: '#6b6a3a', progress: { sessions: 12, hours: 41, caption: '41 h this month', note: '12 sittings · no end' },
+             leftOff: { where: 'Ground RB · Germany, rank IV', short: 'Ground RB · Germany, rank IV' } },
+  wood:    { title: 'Norwegian Wood', by: 'Haruki Murakami · tr. Jay Rubin', kind: 'book', status: 'open', ink: '#2f5a3a', progress: { value: 7, total: 11, unit: 'chapter' },
+             leftOff: { where: 'Chapter 7', short: 'Ch. 7 · Naoko’s letter', when: '15 Sep' } },
+  ddlc:    { title: 'Doki Doki Literature Club!', by: 'Team Salvato · 2017', kind: 'game', status: 'finished', ink: '#e86aa8', date: '2 Aug' },
+  blitz:   { title: 'World of Tanks Blitz', by: 'Wargaming', kind: 'game', status: 'again', ink: '#c48a2a' },
+  death:   { title: 'Symbolic', by: 'Death · 1995', kind: 'music', status: 'again', ink: '#1b1b1b' },
+  qilixiang: { title: '七里香', by: '周杰倫 · 2004', kind: 'music', status: 'finished', ink: '#7d9b62', date: '21 Sep' },
+  phonk:   { title: 'Murder In My Mind', by: 'Kordhell · 2022', kind: 'music', status: 'again', ink: '#b0124a' },
+  bolero:  { title: 'Bolero, 2 giờ sáng', by: 'playlist · 48 bài', kind: 'music', status: 'open', ink: '#9b5a7a', leftOff: { where: 'Track 18 of 48', short: 'Track 18 of 48', when: 'Sat, 02:10' } },
+  raven:   { title: 'The Raven', by: 'Edgar Allan Poe · 1845', kind: 'poem', status: 'finished', ink: '#24324f', date: '30 Sep' },
+  vagabond:{ title: 'Vagabond', by: 'Takehiko Inoue', kind: 'manga', status: 'aside', ink: '#8c6b4a', date: '12 Sep' },
+  spirited:{ title: 'Spirited Away', by: 'Hayao Miyazaki · 2001', kind: 'film', status: 'shelved', ink: '#c8553d' },
+  arcane:  { title: 'Arcane', by: 'Fortiche · 2021', kind: 'series', status: 'paused', ink: '#2f7d8c', leftOff: { where: 'S2 · E5', short: 'S2 · E5 at 23:14', note: 'Right after the fight in the lab.', when: '24 Sep' } },
+  frieren: { title: 'Frieren', by: 'Madhouse · 2023', kind: 'anime', status: 'shelved', ink: '#7aa6c2' },
+  prince:  { title: 'The Little Prince', by: 'Antoine de Saint-Exupéry', kind: 'book', status: 'shelved', ink: '#d9a441' },
+  dark:    { title: 'Dark', by: 'Baran bo Odar · 2017', kind: 'series', status: 'shelved', ink: '#412959' },
+  mirror:  { title: 'Mirror’s Edge', by: 'DICE · 2008', kind: 'game', status: 'shelved', ink: '#b33a2e' },
+  rdr2:    { title: 'Red Dead Redemption 2', by: 'Rockstar Games · 2018', kind: 'game', status: 'again', date: 'since 2 Oct', ink: '#c7742e', cover: '/_blob/11b29c3504606d6456d9375c65a633b4',
+             leftOff: { where: 'Chapter 2 · Horseshoe Overlook', short: 'Ch. 2 · at the Horseshoe Overlook campfire', note: 'Pondering at the campfire before riding into Valentine. Manual save 4.', when: 'Sun, 23:55', facts: [['Save', 'Manual 4'], ['Honor', 'High'], ['Playing on', 'PC']] },
+             keymap: [
+               { action: 'Dead Eye', keys: 'Caps', pinned: true, group: 'Combat' }, { action: 'Tag targets in Dead Eye', keys: 'Q', group: 'Combat' },
+               { action: 'Weapon wheel', keys: 'Tab', group: 'Combat' },
+               { action: 'Interact · mount', keys: 'E', pinned: true, group: 'World' }, { action: 'Take · carry', keys: 'R', group: 'World' },
+               { action: 'Whistle for horse', keys: 'H', pinned: true, group: 'World' },
+               { action: 'Log · player menu', keys: 'L', pinned: true, group: 'Menus' }, { action: 'Journal', keys: 'J', group: 'Menus' },
+               { action: 'Satchel', keys: 'B', group: 'Menus' }, { action: 'Map', keys: 'M', group: 'Menus' }] }
+};
+// Prologue: tasks and dreams. A task may point at an entry for reference; it never stands in for one.
+var I = {
+  re4:      { text: 'Finish Resident Evil 4 before the weekend', state: 'open', due: 'Sun', entry: { title: 'Resident Evil 4', kind: 'game' } },
+  domain:   { text: 'Renew the domain', state: 'open', due: 'Fri' },
+  photos:   { text: 'Back up the phone photos to the server', state: 'open' },
+  homelab:  { text: 'Tidy the homelab DNS records', state: 'open', idle: 22 },
+  ve:       { text: 'Đặt vé xe về quê', state: 'waiting', horizon: 'soon', due: 'this week' },
+  bike:     { text: 'Get the bike’s chain looked at', state: 'waiting', horizon: 'soon' },
+  chord:    { text: 'Learn the F chord cleanly', state: 'paused', horizon: 'soon', stateDate: 'since 6 Oct', steps: { done: 2, total: 4 } },
+  song:     { text: 'the song from the café last night, find its name', state: 'waiting', horizon: 'unsorted' },
+  pen:      { text: 'Gift idea: a fountain pen', state: 'waiting', horizon: 'unsorted' },
+  oklch:    { text: 'Read about OKLCH properly', state: 'waiting', horizon: 'unsorted' },
+  grimm:    { text: 'Write up tale 24 in the margin', state: 'done', due: 'Today', entry: { title: 'Grimms’ Fairy Tales', kind: 'story' } },
+  picks:    { text: 'Order new guitar picks', state: 'done', due: '3 Oct' },
+  tripod:   { text: 'Return the borrowed tripod', state: 'done', due: '1 Oct' },
+  rust:     { text: 'Learn Rust properly this month', state: 'aside', stateDate: '20 Sep' },
+  chinese:  { kind: 'dream', text: 'Read a novel in Chinese', why: 'Start with one I already love in translation.', state: 'open', steps: { done: 2, total: 8 }, ink: '#9b3b2a' },
+  mygame:   { kind: 'dream', text: 'Make a small game and finish it', why: 'Small, finished, mine.', state: 'open', steps: { done: 1, total: 5 }, ink: '#7a5a9b' },
+  aurora:   { kind: 'dream', text: 'See the northern lights', why: 'Somewhere cold and quiet, phone in the pocket.', state: 'waiting', horizon: 'someday', ink: '#2f7d6a' },
+  album:    { kind: 'dream', text: 'Hear a whole album live, front row', why: 'Any genre. Loud.', state: 'waiting', horizon: 'someday', ink: '#3a4f7a' },
+  vungtau:  { kind: 'dream', text: 'Ride to Vũng Tàu at dawn', why: 'Leave at four, breakfast by the sea.', state: 'done', doneDate: '2 Aug', ink: '#c48a2a' }
+};
+// every sample ink snaps to its nearest bookcloth, as the app does with sampled covers
+Object.keys(S).forEach(function (k) { if (S[k].ink) S[k].ink = M.nearestCloth(S[k].ink).hex; });
+Object.keys(I).forEach(function (k) { if (I[k].ink) I[k].ink = M.nearestCloth(I[k].ink).hex; });
+// the two journals
+var JM = [
+  { label: 'October 2026', days: [
+    { day: '8', weekday: 'Thu', items: [
+      { type: 'note', title: S.rdr2.title, kind: 'game', ink: S.rdr2.ink, cover: S.rdr2.cover, where: 'Ch. 2', time: '23:55', text: 'Pondering at the campfire before riding into Valentine.' },
+      { type: 'paused', title: S.arcane.title, kind: 'series', ink: S.arcane.ink, where: 'place kept at S2 · E5' }] },
+    { day: '4', weekday: 'Sun', items: [{ type: 'started', title: S.wood.title, kind: 'book', ink: S.wood.ink }] },
+    { day: '2', weekday: 'Fri', items: [{ type: 'again', title: S.rdr2.title, kind: 'game', ink: S.rdr2.ink, cover: S.rdr2.cover }] }] },
+  { label: 'September 2026', days: [
+    { day: '30', weekday: 'Wed', items: [{ type: 'finished', title: S.raven.title, kind: 'poem', ink: S.raven.ink }] },
+    { day: '14', weekday: 'Mon', items: [{ type: 'finished', title: S.rdr2.title, kind: 'game', ink: S.rdr2.ink, cover: S.rdr2.cover, where: '71 h' }] },
+    { day: '12', weekday: 'Sat', items: [{ type: 'aside', title: S.vagabond.title, kind: 'manga', ink: S.vagabond.ink, where: 'vol. 12' }] }] }
+];
+var JP = [
+  { label: 'October 2026', days: [
+    { day: '8', weekday: 'Thu', items: [
+      { type: 'captured', title: I.song.text, where: 'Unsorted' },
+      { type: 'done', title: I.grimm.text }] },
+    { day: '6', weekday: 'Tue', items: [
+      { type: 'started', title: I.mygame.text, dream: true, ink: I.mygame.ink },
+      { type: 'paused', title: I.chord.text, where: 'step 2 of 4 kept' }] },
+    { day: '3', weekday: 'Sat', items: [{ type: 'done', title: I.picks.text }] }] },
+  { label: 'August 2026', days: [
+    { day: '2', weekday: 'Sun', items: [{ type: 'cametrue', title: I.vungtau.text, dream: true, ink: I.vungtau.ink, where: 'Leave at four, breakfast by the sea.' }] }] }
+];
+function mount(el) { ReactDOM.createRoot(document.getElementById('root')).render(el); }
+
+
+function Col(e, label) {
+  return h('div', { className: 'demo-col' },
+    h(M.EntryCover, { title: e.title, by: e.by, kind: e.kind, status: e.status, ink: e.ink, src: e.cover, size: 'sm' }),
+    h('span', { className: 'demo-cap ui-sm' }, label));
+}
+mount(h('div', { className: 'demo-row' },
+  Col(Object.assign({}, S.rdr2, { status: 'finished' }), 'Art · finished'),
+  Col(S.grimm, 'Plate · open'),
+  Col(S.raven, 'Plate · poem'),
+  Col(S.vagabond, 'Set aside'),
+  Col(S.phonk, 'Music · again'),
+  Col(S.prince, 'Up next'),
+  Col(S.arcane, 'Paused · ribbon tucked in'),
+  h('div', { className: 'demo-col' }, h(M.EntryCover, { title: S.death.title, by: S.death.by, kind: 'music', ink: S.death.ink, size: 'md' }), h('span', { className: 'demo-cap ui-sm' }, 'Music, entry page'))
+));
+
+</script>
+</body>
+</html>

@@ -1,0 +1,487 @@
+{
+  "v": 3,
+  "assetGroups": {
+    "Icons": {
+      "files": {
+        "kind-anime.svg": {
+          "name": "kind-anime.svg",
+          "blob": "787b0fbaeeb8c2ae60ed52e3d6f793ce",
+          "size": 866,
+          "type": "image/svg+xml"
+        },
+        "kind-book.svg": {
+          "name": "kind-book.svg",
+          "blob": "44da1e3961642f8d653275064b30e7db",
+          "size": 734,
+          "type": "image/svg+xml"
+        },
+        "kind-film.svg": {
+          "name": "kind-film.svg",
+          "blob": "a8c486ac769e307a58c41c61149fb389",
+          "size": 774,
+          "type": "image/svg+xml"
+        },
+        "kind-game.svg": {
+          "name": "kind-game.svg",
+          "blob": "475356e2d8f68e63c5051c992f652c20",
+          "size": 1041,
+          "type": "image/svg+xml"
+        },
+        "kind-manga.svg": {
+          "name": "kind-manga.svg",
+          "blob": "36e51af82477c2b1709665a3267a7483",
+          "size": 860,
+          "type": "image/svg+xml"
+        },
+        "kind-music.svg": {
+          "name": "kind-music.svg",
+          "blob": "7581a52c6ee2d9a0332b8422e558c4be",
+          "size": 752,
+          "type": "image/svg+xml"
+        },
+        "kind-poem.svg": {
+          "name": "kind-poem.svg",
+          "blob": "31f3b5d749d9609ada33e9d3495c9a6c",
+          "size": 426,
+          "type": "image/svg+xml"
+        },
+        "kind-series.svg": {
+          "name": "kind-series.svg",
+          "blob": "43bf3910abc9e9837306defa57dfa59c",
+          "size": 632,
+          "type": "image/svg+xml"
+        },
+        "kind-story.svg": {
+          "name": "kind-story.svg",
+          "blob": "5b61a04a8c0199b6c9761bc0308d5f45",
+          "size": 1179,
+          "type": "image/svg+xml"
+        },
+        "prologue-dream.svg": {
+          "name": "prologue-dream.svg",
+          "blob": "b4d928d886a3298e5208b4b2123b2904",
+          "size": 364,
+          "type": "image/svg+xml"
+        },
+        "prologue-grip.svg": {
+          "name": "prologue-grip.svg",
+          "blob": "7b01e896130f8dfe025146e561904b7e",
+          "size": 415,
+          "type": "image/svg+xml"
+        },
+        "prologue-link.svg": {
+          "name": "prologue-link.svg",
+          "blob": "227194112b793dc0f78cbc066723081e",
+          "size": 341,
+          "type": "image/svg+xml"
+        },
+        "prologue-someday.svg": {
+          "name": "prologue-someday.svg",
+          "blob": "7066a976dd81fac433c9e6f40f131a55",
+          "size": 644,
+          "type": "image/svg+xml"
+        },
+        "prologue-soon.svg": {
+          "name": "prologue-soon.svg",
+          "blob": "980c1492d665be69923d036a7ff9917b",
+          "size": 414,
+          "type": "image/svg+xml"
+        },
+        "prologue-unsorted.svg": {
+          "name": "prologue-unsorted.svg",
+          "blob": "8c53d81133a2486dca4f6c5165ad9549",
+          "size": 374,
+          "type": "image/svg+xml"
+        },
+        "state-again.svg": {
+          "name": "state-again.svg",
+          "blob": "46ad9875f4e3aaaefcf1c39315ea4f40",
+          "size": 333,
+          "type": "image/svg+xml"
+        },
+        "state-aside.svg": {
+          "name": "state-aside.svg",
+          "blob": "8437ff4a1051719e6fd3a7286a70773d",
+          "size": 358,
+          "type": "image/svg+xml"
+        },
+        "state-finished.svg": {
+          "name": "state-finished.svg",
+          "blob": "c18188881400ff3eb0dde7d92b1c8b93",
+          "size": 394,
+          "type": "image/svg+xml"
+        },
+        "state-open.svg": {
+          "name": "state-open.svg",
+          "blob": "b94835e399dca3cfb44f3938d874a409",
+          "size": 322,
+          "type": "image/svg+xml"
+        },
+        "state-shelved.svg": {
+          "name": "state-shelved.svg",
+          "blob": "f8417b4f11d5341ba1e26fece3a42523",
+          "size": 393,
+          "type": "image/svg+xml"
+        },
+        "ui-back.svg": {
+          "name": "ui-back.svg",
+          "blob": "8f1ebc4dbdc6e87ccb05073a84bb63cb",
+          "size": 218,
+          "type": "image/svg+xml"
+        },
+        "ui-check.svg": {
+          "name": "ui-check.svg",
+          "blob": "12e71350c63c30ca08292000db27825d",
+          "size": 219,
+          "type": "image/svg+xml"
+        },
+        "ui-close.svg": {
+          "name": "ui-close.svg",
+          "blob": "fec46eb3a33eec0a077d5172e8a4a419",
+          "size": 242,
+          "type": "image/svg+xml"
+        },
+        "ui-find.svg": {
+          "name": "ui-find.svg",
+          "blob": "37f3ab23c705996e60d8f0f9d049f949",
+          "size": 259,
+          "type": "image/svg+xml"
+        },
+        "ui-journal.svg": {
+          "name": "ui-journal.svg",
+          "blob": "6ec88a9d80562a695d14699e1c64c144",
+          "size": 509,
+          "type": "image/svg+xml"
+        },
+        "ui-minus.svg": {
+          "name": "ui-minus.svg",
+          "blob": "52f22395816e115757f32a522107f308",
+          "size": 212,
+          "type": "image/svg+xml"
+        },
+        "ui-more.svg": {
+          "name": "ui-more.svg",
+          "blob": "ba6325318fc5004faeb5701b1b4bd484",
+          "size": 302,
+          "type": "image/svg+xml"
+        },
+        "ui-note.svg": {
+          "name": "ui-note.svg",
+          "blob": "96d932578ed73af466091b281ac4415a",
+          "size": 359,
+          "type": "image/svg+xml"
+        },
+        "ui-now.svg": {
+          "name": "ui-now.svg",
+          "blob": "40c2a66e54e9738180a1ee683b44e049",
+          "size": 535,
+          "type": "image/svg+xml"
+        },
+        "ui-plus.svg": {
+          "name": "ui-plus.svg",
+          "blob": "f5a8466bab270bb7bc0bf65e83a03154",
+          "size": 238,
+          "type": "image/svg+xml"
+        },
+        "ui-quote.svg": {
+          "name": "ui-quote.svg",
+          "blob": "c8ddebbf8c3b55828df03bf8a920a274",
+          "size": 473,
+          "type": "image/svg+xml"
+        },
+        "ui-undo.svg": {
+          "name": "ui-undo.svg",
+          "blob": "e3f2684e2ba0010fac11649aa18a0b97",
+          "size": 291,
+          "type": "image/svg+xml"
+        },
+        "state-paused.svg": {
+          "name": "state-paused.svg",
+          "blob": "17122e2bd9805f90fe33456844cbb878",
+          "size": 392,
+          "type": "image/svg+xml"
+        },
+        "part-media.svg": {
+          "name": "part-media.svg",
+          "blob": "509826bb23bb5451d3f11195f6d68de5",
+          "size": 290,
+          "type": "image/svg+xml"
+        },
+        "part-prologue.svg": {
+          "name": "part-prologue.svg",
+          "blob": "0a1c73111306bfe8d25257da13cbe715",
+          "size": 435,
+          "type": "image/svg+xml"
+        },
+        "ui-next.svg": {
+          "name": "ui-next.svg",
+          "blob": "6d2af681974d3ead8fd72ada234288bd",
+          "size": 217,
+          "type": "image/svg+xml"
+        },
+        "ui-retry.svg": {
+          "name": "ui-retry.svg",
+          "blob": "9721717fd09ea958eda7a15590e70056",
+          "size": 281,
+          "type": "image/svg+xml"
+        },
+        "ui-alert.svg": {
+          "name": "ui-alert.svg",
+          "blob": "92b0b82a45c401e77e46db2502fc4d5a",
+          "size": 318,
+          "type": "image/svg+xml"
+        },
+        "ui-idle.svg": {
+          "name": "ui-idle.svg",
+          "blob": "dcd440ef2bd74695d6436fc2c4c74409",
+          "size": 418,
+          "type": "image/svg+xml"
+        }
+      },
+      "name": "Icons",
+      "order": [
+        "kind-game.svg",
+        "kind-book.svg",
+        "kind-manga.svg",
+        "kind-anime.svg",
+        "kind-film.svg",
+        "kind-series.svg",
+        "kind-music.svg",
+        "kind-poem.svg",
+        "kind-story.svg",
+        "state-shelved.svg",
+        "state-paused.svg",
+        "state-open.svg",
+        "state-again.svg",
+        "state-finished.svg",
+        "state-aside.svg",
+        "part-media.svg",
+        "part-prologue.svg",
+        "prologue-dream.svg",
+        "prologue-unsorted.svg",
+        "prologue-soon.svg",
+        "prologue-someday.svg",
+        "prologue-link.svg",
+        "prologue-grip.svg",
+        "ui-now.svg",
+        "ui-journal.svg",
+        "ui-find.svg",
+        "ui-plus.svg",
+        "ui-minus.svg",
+        "ui-back.svg",
+        "ui-next.svg",
+        "ui-more.svg",
+        "ui-note.svg",
+        "ui-quote.svg",
+        "ui-close.svg",
+        "ui-check.svg",
+        "ui-undo.svg",
+        "ui-retry.svg",
+        "ui-alert.svg",
+        "ui-idle.svg"
+      ],
+      "tile": "xs"
+    },
+    "Samples": {
+      "files": {
+        "campfire.jpg": {
+          "blob": "11b29c3504606d6456d9375c65a633b4",
+          "name": "campfire.jpg",
+          "size": 25438,
+          "type": "image/jpeg"
+        }
+      },
+      "name": "Samples",
+      "order": [
+        "campfire.jpg"
+      ],
+      "tile": "m"
+    },
+    "Screens": {
+      "files": {
+        "phone-xs-media-paper.jpg": {
+          "name": "phone-xs-media-paper.jpg",
+          "blob": "b3a963c6c89a193f697985dc6c25f39f",
+          "size": 1064445,
+          "type": "image/jpeg"
+        },
+        "phone-xs-media-lamplight.jpg": {
+          "name": "phone-xs-media-lamplight.jpg",
+          "blob": "192629fb4542d998b662d9ff0cb03aa8",
+          "size": 1173875,
+          "type": "image/jpeg"
+        },
+        "phone-xs-paper.jpg": {
+          "name": "phone-xs-paper.jpg",
+          "blob": "befa98ee8ee3c937844e17999092f5fa",
+          "size": 687725,
+          "type": "image/jpeg"
+        },
+        "phone-xs-lamplight.jpg": {
+          "name": "phone-xs-lamplight.jpg",
+          "blob": "1deb693b6e37bc5567d7ea7e78428f77",
+          "size": 722378,
+          "type": "image/jpeg"
+        },
+        "phone-xs-add-paper.jpg": {
+          "name": "phone-xs-add-paper.jpg",
+          "blob": "58b05c92fc88b4320ca0260c4ec450c8",
+          "size": 438894,
+          "type": "image/jpeg"
+        },
+        "phone-xs-add-lamplight.jpg": {
+          "name": "phone-xs-add-lamplight.jpg",
+          "blob": "3fff184b491cf59a803014af1d99a7fc",
+          "size": 450728,
+          "type": "image/jpeg"
+        },
+        "phone-xs-find-paper.jpg": {
+          "name": "phone-xs-find-paper.jpg",
+          "blob": "480e38d1704363014d27e0a9fe30dbdc",
+          "size": 1092777,
+          "type": "image/jpeg"
+        },
+        "phone-xs-find-lamplight.jpg": {
+          "name": "phone-xs-find-lamplight.jpg",
+          "blob": "e768d9686bd1c7e57b585d2979cdeb1c",
+          "size": 1221751,
+          "type": "image/jpeg"
+        },
+        "phone-xs-prologue-paper.jpg": {
+          "name": "phone-xs-prologue-paper.jpg",
+          "blob": "6ccc92d58a0fa198b070080b5f209d65",
+          "size": 1117858,
+          "type": "image/jpeg"
+        },
+        "phone-xs-prologue-lamplight.jpg": {
+          "name": "phone-xs-prologue-lamplight.jpg",
+          "blob": "c414a8da06bc88b86a4cdc8cb7d159c5",
+          "size": 1202586,
+          "type": "image/jpeg"
+        },
+        "empty-states-paper.jpg": {
+          "name": "empty-states-paper.jpg",
+          "blob": "d2d72633ca8458d66ed8a10846f0936f",
+          "size": 1744242,
+          "type": "image/jpeg"
+        },
+        "empty-states-lamplight.jpg": {
+          "name": "empty-states-lamplight.jpg",
+          "blob": "5a4d2995c4ce36dd0047ed9dd72c59a6",
+          "size": 2002510,
+          "type": "image/jpeg"
+        },
+        "spread-g5-paper.jpg": {
+          "name": "spread-g5-paper.jpg",
+          "blob": "e6d82b3326808dc889c4817f10dfe3f1",
+          "size": 1061395,
+          "type": "image/jpeg"
+        },
+        "spread-g5-lamplight.jpg": {
+          "name": "spread-g5-lamplight.jpg",
+          "blob": "b82aa092e7e032e1ebf7c179fbd60326",
+          "size": 1220817,
+          "type": "image/jpeg"
+        },
+        "spread-g5-prologue-paper.jpg": {
+          "name": "spread-g5-prologue-paper.jpg",
+          "blob": "1b5bbd07599721d263915a5b73e3a866",
+          "size": 1108652,
+          "type": "image/jpeg"
+        },
+        "spread-g5-prologue-lamplight.jpg": {
+          "name": "spread-g5-prologue-lamplight.jpg",
+          "blob": "7739c942069aafe0ab7df44db7781862",
+          "size": 1321850,
+          "type": "image/jpeg"
+        },
+        "bookcloth-paper.jpg": {
+          "name": "bookcloth-paper.jpg",
+          "blob": "ce0edc2ddd7365f7d7c7b463d2497c1d",
+          "size": 1692682,
+          "type": "image/jpeg"
+        },
+        "bookcloth-lamplight.jpg": {
+          "name": "bookcloth-lamplight.jpg",
+          "blob": "815dd470e940d717f9f74d317db70c61",
+          "size": 1749243,
+          "type": "image/jpeg"
+        },
+        "covers-paper.jpg": {
+          "name": "covers-paper.jpg",
+          "blob": "5cde4d3d42ab778919202c48c3a93a9c",
+          "size": 2710450,
+          "type": "image/jpeg"
+        },
+        "covers-lamplight.jpg": {
+          "name": "covers-lamplight.jpg",
+          "blob": "69ed6e1d7c4c921c82b041a7f3413bce",
+          "size": 2833701,
+          "type": "image/jpeg"
+        }
+      },
+      "name": "Screens",
+      "order": [
+        "phone-xs-media-paper.jpg",
+        "phone-xs-media-lamplight.jpg",
+        "phone-xs-paper.jpg",
+        "phone-xs-lamplight.jpg",
+        "phone-xs-add-paper.jpg",
+        "phone-xs-add-lamplight.jpg",
+        "phone-xs-find-paper.jpg",
+        "phone-xs-find-lamplight.jpg",
+        "phone-xs-prologue-paper.jpg",
+        "phone-xs-prologue-lamplight.jpg",
+        "empty-states-paper.jpg",
+        "empty-states-lamplight.jpg",
+        "spread-g5-paper.jpg",
+        "spread-g5-lamplight.jpg",
+        "spread-g5-prologue-paper.jpg",
+        "spread-g5-prologue-lamplight.jpg",
+        "bookcloth-paper.jpg",
+        "bookcloth-lamplight.jpg",
+        "covers-paper.jpg",
+        "covers-lamplight.jpg"
+      ],
+      "tile": "l"
+    }
+  },
+  "blobs": {},
+  "createdOnFiles": {
+    "at": "2026-10-08T13:22:50Z",
+    "v": 1
+  },
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
+  "groups": [
+    "Icons",
+    "Screens",
+    "Samples"
+  ],
+  "lastChange": {
+    "by": "Tyler",
+    "at": "2026-10-08T16:31:34Z",
+    "via": "Claude",
+    "note": "Two parts (Media, Prologue), three shelves each; Media · + · Prologue nav; Add entry, Find, Journals, empty states; always online; audit fixes; fonts shipped"
+  },
+  "layout": "files",
+  "libraries": [
+    {
+      "file": "components/lib/react.production.min.js",
+      "global": "React",
+      "name": "react",
+      "version": "18.3.1"
+    },
+    {
+      "file": "components/lib/react-dom.production.min.js",
+      "global": "ReactDOM",
+      "name": "react-dom",
+      "version": "18.3.1"
+    }
+  ],
+  "namespace": "Marginalia",
+  "sections": {},
+  "title": "Marginalia"
+}
