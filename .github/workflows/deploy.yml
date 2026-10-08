@@ -6,8 +6,12 @@
 #   DEPLOY_SSH_KEY                        — private key authorized on the laptop's deploy user
 #   DEPLOY_HOST                           — laptop's tailnet name/IP (e.g. epilogue-laptop)
 #   DEPLOY_USER                           — ssh user on the laptop (e.g. epilogue)
-# The deploy job is skipped automatically if the Tailscale secrets are absent, so the
-# build+push pipeline is useful on its own (pull + ./deploy.sh by hand on the laptop).
+# The deploy job runs only when the repository VARIABLE (not secret) DEPLOY_ENABLED is
+# 'true' (Settings → Secrets and variables → Actions → Variables). It does not check the
+# secrets above, so provision them before enabling it. Until then build+push is useful
+# on its own: pull + ./docker/deploy.sh by hand on the laptop.
+# Third-party actions are pinned to commit SHAs (tag in the trailing comment); bump both
+# together.
 name: deploy
 
 on:
@@ -29,9 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         with:
-          bun-version: latest
+          bun-version: 1.4.0 # the version that wrote bun.lock (--frozen-lockfile)
       - uses: actions/setup-node@v4 # vitest runner; Testcontainers uses the runner's Docker
         with:
           node-version: 20
@@ -51,8 +55,8 @@ jobs:
       tag: ${{ steps.meta.outputs.tag }}
     steps:
       - uses: actions/checkout@v4
-      - uses: docker/setup-buildx-action@v3
-      - uses: docker/login-action@v3
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3.12.0
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
@@ -60,7 +64,7 @@ jobs:
       - id: meta
         run: echo "tag=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
       - name: Build + push API
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
         with:
           context: .
           file: docker/Dockerfile.api
@@ -69,7 +73,7 @@ jobs:
           cache-from: type=gha,scope=api
           cache-to: type=gha,scope=api,mode=max
       - name: Build + push Web
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6.19.2
         with:
           context: .
           file: docker/Dockerfile.web
@@ -81,16 +85,19 @@ jobs:
   deploy:
     needs: build-and-push
     runs-on: ubuntu-latest
-    # only attempt the over-the-tailnet deploy when the tailnet secret is configured
+    # opt-in via the repo variable DEPLOY_ENABLED (see header); the secrets aren't checked
     if: ${{ vars.DEPLOY_ENABLED == 'true' }}
     steps:
       - name: Join the tailnet
-        uses: tailscale/github-action@v3
+        uses: tailscale/github-action@6cae46e2d796f265265cfcf628b72a32b4d7cade # v3.3.0
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
           tags: tag:ci
-      - name: Deploy on the laptop over Tailscale SSH
+      # plain OpenSSH across the tailnet (not Tailscale SSH). The key is pinned in the
+      # laptop's authorized_keys to the docker/deploy-ssh.sh forced command, which takes
+      # only the image tag — so the tag is the entire remote command.
+      - name: Deploy on the laptop over SSH (tailnet)
         env:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
@@ -99,5 +106,4 @@ jobs:
         run: |
           install -m 600 /dev/stdin "$HOME/deploy_key" <<< "$DEPLOY_SSH_KEY"
           ssh -i "$HOME/deploy_key" -o StrictHostKeyChecking=accept-new \
-            "${DEPLOY_USER}@${DEPLOY_HOST}" \
-            "cd ~/epilogue && IMAGE_TAG=${IMAGE_TAG} ./docker/deploy.sh"
+            "${DEPLOY_USER}@${DEPLOY_HOST}" "${IMAGE_TAG}"

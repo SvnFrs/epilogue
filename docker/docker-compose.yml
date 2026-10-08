@@ -1,6 +1,7 @@
 # Self-hosted stack on the Arch laptop (deployment.md). caddy ⇄ web ⇄ api ⇄ postgres,
-# plus a migrate one-shot (eng-review T3) and a pg_dump backup sidecar. Reached over
-# Tailscale; Caddy terminates TLS. Not exposed publicly.
+# plus a migrate one-shot (eng-review T3) and a pg_dump backup sidecar. Only caddy
+# publishes ports (80/443 on EPILOGUE_BIND_IP, default 127.0.0.1); postgres is bound to
+# 127.0.0.1. See deployment.md "Known gaps" for what is not wired yet (limits, secrets).
 services:
   postgres:
     image: postgres:17-alpine
@@ -74,30 +75,47 @@ services:
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
+    environment:
+      # the Caddyfile's site address; a *.ts.net name gets its cert from tailscaled
+      EPILOGUE_HOST: ${EPILOGUE_HOST:-localhost}
+    # One address, not all interfaces. On the server set EPILOGUE_BIND_IP to its tailnet
+    # IPv4 (`tailscale ip -4`) so only the tailnet reaches Caddy, never the LAN.
     ports:
-      - '80:80'
-      - '443:443'
+      - '${EPILOGUE_BIND_IP:-127.0.0.1}:80:80'
+      - '${EPILOGUE_BIND_IP:-127.0.0.1}:443:443'
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # tailscaled's socket dir, for *.ts.net certs. The directory rather than the socket
+      # file, so a tailscaled restart (new socket) doesn't leave a stale mount.
+      - /var/run/tailscale:/var/run/tailscale:ro
       - caddydata:/data
       - caddyconfig:/config
     depends_on:
       - web
 
-  # nightly pg_dump to a mounted volume (deployment.md backup)
+  # daily pg_dump -Fc into docker/backups/, 7 daily + 4 weekly kept (docker/backup.sh).
+  # A failed dump exits non-zero → Docker restarts it; the healthcheck goes unhealthy
+  # if no daily dump has landed in ~26h.
   backup:
     image: postgres:17-alpine
     restart: unless-stopped
-    entrypoint: ['/bin/sh', '-c']
-    command:
-      - |
-        while true; do
-          PGPASSWORD=${POSTGRES_PASSWORD:-epilogue} pg_dump -h postgres -U ${POSTGRES_USER:-epilogue} ${POSTGRES_DB:-epilogue} \
-            > /backups/epilogue-$$(date +%Y%m%d-%H%M%S).sql 2>/dev/null || echo "backup failed";
-          sleep 86400;
-        done
+    entrypoint: ['/bin/sh', '/backup.sh']
+    environment:
+      PGHOST: postgres
+      PGUSER: ${POSTGRES_USER:-epilogue}
+      PGPASSWORD: ${POSTGRES_PASSWORD:-epilogue}
+      PGDATABASE: ${POSTGRES_DB:-epilogue}
+      BACKUP_KEEP_DAILY: 7
+      BACKUP_KEEP_WEEKLY: 4
     volumes:
+      - ./backup.sh:/backup.sh:ro
       - ./backups:/backups
+    healthcheck:
+      test: ['CMD-SHELL', 'find /backups -name "epilogue-daily-*.dump" -mmin -1560 | grep -q .']
+      interval: 5m
+      timeout: 10s
+      retries: 3
+      start_period: 2m
     depends_on:
       postgres:
         condition: service_healthy

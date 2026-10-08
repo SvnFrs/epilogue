@@ -75,20 +75,29 @@ Run the whole pyramid via the `/test-pyramid` skill.
 
 ## Deploy (self-host)
 
-Built in CI, pulled by the host — see `.github/workflows/deploy.yml` and `docker/deploy.sh`.
+Built in CI, pulled by the host. Full detail, one-time host setup, and known gaps:
+`specs/001-core-engine/deployment.md`.
 
-1. GitHub Actions runs the test pyramid, then builds + pushes `ghcr.io/<owner>/epilogue-api`
-   and `…-web` (tagged with the commit sha + `latest`).
-2. The host pulls and rolls forward: `IMAGE_TAG=<sha> ./docker/deploy.sh` (pull → migrate
-   one-shot → `up -d` → prune). The CI `deploy` job runs this over Tailscale SSH when
-   `DEPLOY_ENABLED=true` and the tailnet/SSH secrets are set.
-3. Caddy fronts the stack with automatic TLS over Tailscale; nothing is exposed publicly.
-4. A backup sidecar runs nightly `pg_dump -Fc`. **Verify restores** with
-   `./docker/restore-test.sh` (dumps the live DB, restores into a throwaway, checks row
-   counts) — a backup you've never restored isn't a backup.
+1. On push to `main`, GitHub Actions runs typecheck + unit/component/integration tests, then
+   builds + pushes `ghcr.io/<owner>/epilogue-api` and `…-web` (tagged with the 12-char commit
+   sha + `latest`).
+2. The host rolls forward with `IMAGE_TAG=<sha> ./docker/deploy.sh` (pull → migrate one-shot →
+   `up -d` → prune). The CI `deploy` job does this over plain SSH across the tailnet, only when
+   the repo **variable** `DEPLOY_ENABLED` is `true`; its key is pinned to the
+   `docker/deploy-ssh.sh` forced command, which accepts nothing but an image tag. Images come
+   from CI; compose/Caddyfile/scripts come from the host's checkout (`git pull` when they change).
+3. Only Caddy publishes ports — 80/443 on `EPILOGUE_BIND_IP` (the server's tailnet IPv4;
+   default `127.0.0.1`) — and proxies everything to `web`; `api` is internal and Postgres is
+   bound to `127.0.0.1`. With `EPILOGUE_HOST` set to the server's `*.ts.net` name, Caddy gets
+   its TLS cert from tailscaled (tailnet HTTPS certificates must be enabled).
+4. The `backup` sidecar (`docker/backup.sh`) writes a `pg_dump -Fc` on start and daily to
+   `docker/backups/`, keeping 7 daily + 4 weekly; a failed dump exits non-zero (Docker restarts
+   it) and the healthcheck goes unhealthy if no dump lands in 26h. **Verify restores** with
+   `./docker/restore-test.sh`: restores the newest sidecar dump into a throwaway DB and checks
+   every live table is present — a backup you've never restored isn't a backup.
 
 Run the full stack locally with `docker compose -f docker/docker-compose.yml up -d --build`
-(needs `.env`).
+(needs `.env` and the `docker/.env → ../.env` symlink).
 
 ## Local host notes (this Arch laptop)
 

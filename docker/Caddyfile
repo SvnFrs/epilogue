@@ -1,4 +1,7 @@
-# Caddy auto-TLS reverse proxy (deployment.md). Set EPILOGUE_HOST to your tailnet name.
+# Caddy reverse proxy (deployment.md). Compose passes EPILOGUE_HOST in; unset → localhost
+# (Caddy's internal CA). Set it to the server's full MagicDNS name
+# (<machine>.<tailnet>.ts.net) and Caddy fetches the cert from tailscaled over the mounted
+# /var/run/tailscale socket — needs HTTPS certificates enabled for the tailnet.
 # Browser → web; /api is handled inside Next (the BFF proxy), so only the web tier is exposed.
 {$EPILOGUE_HOST:localhost} {
 	encode gzip
