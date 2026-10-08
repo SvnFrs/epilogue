@@ -131,7 +131,7 @@ ran in SCOPE EXPANSION mode and pushed Epilogue toward a community product: an "
 knowledge layer" against Discord and Telegram, a hybrid wedge (single-player engine → a
 shareable read-only sub-space → full community), and constitution rules to match (Principle
 VI, the Phase 2b share link, `user_id` as a social-future hedge). The 001 Core Engine was then
-specced, built, re-themed twice and deployed around that framing. None of it was what the one
+specced, built, re-themed and readied for deployment around that framing. None of it was what the one
 actual user needed day to day: picking a game, book or series back up after weeks away, on a
 phone, and keeping the next things to do somewhere that isn't a chat-to-self.
 
