@@ -5,6 +5,9 @@ description: Run or scaffold the Epilogue testing pyramid for the Next.js (web, 
 
 # Testing Pyramid (Epilogue stack)
 
+> Tests the **001 Core Engine** code (superseded UI and domain model: spaces, the Ledger,
+> TECH_LOG). Revisit once spec 002's plan chooses the rebuild's stack.
+
 The canonical pyramid for this repo. The plan of record is
 `specs/001-core-engine/testing.md`; this skill operationalizes it. Stack: Next.js (App Router) +
 Drizzle + PostgreSQL, Vitest + Testing Library + MSW + @testcontainers/postgresql + Playwright + k6.

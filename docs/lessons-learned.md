@@ -2,6 +2,9 @@
 
 A running log of workflow and process insights for the Epilogue project.
 
+Entries are dated and kept as written. Entries before 2026-10-09 describe decisions since
+superseded by the Marginalia pivot (constitution v2.0.0); see the 2026-10-09 entry.
+
 ---
 
 ## 2026-06-20 — Combining Spec Kit + gstack

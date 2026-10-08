@@ -1,3 +1,5 @@
+> **Historical — part of the superseded 001 Core Engine spec** (superseded by spec 002, [`specs/002-marginalia-rebuild/spec.md`](../002-marginalia-rebuild/spec.md), and constitution v2.0.0, 2026-10-09). It still describes the test pyramid of the 001 code. Kept as a record; not a source.
+
 # Testing Plan: the pyramid for Epilogue
 
 Stack: Next.js (web, Node) + Elysia (api, Bun) + Drizzle + Postgres, solo dev. Tests split by tier

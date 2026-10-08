@@ -1,3 +1,5 @@
+> **Historical — part of the superseded 001 Core Engine spec** (superseded by spec 002, [`specs/002-marginalia-rebuild/spec.md`](../002-marginalia-rebuild/spec.md), and constitution v2.0.0, 2026-10-09). Kept as a record; not a source.
+
 # Plan: Responsive + Aesthetic Optimization (all screens, ultrawide-first)
 
 **Date**: 2026-06-21 · **Trigger**: creator rejection — "even I don't want to enter the

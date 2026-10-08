@@ -1,3 +1,5 @@
+> **Historical — part of the superseded 001 Core Engine spec** (superseded by spec 002, [`specs/002-marginalia-rebuild/spec.md`](../002-marginalia-rebuild/spec.md), and constitution v2.0.0, 2026-10-09). Its deploy instructions still describe how the 001 code runs. Kept as a record; not a source.
+
 # Deployment: self-host on the Arch laptop
 
 Target: Arch Linux headless laptop (Intel i3-11th, 24GB RAM), Docker installed, solo dev, behind

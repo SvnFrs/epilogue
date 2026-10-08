@@ -1,3 +1,5 @@
+> **Historical — part of the superseded 001 Core Engine spec** (superseded by spec 002, [`specs/002-marginalia-rebuild/spec.md`](../002-marginalia-rebuild/spec.md), and constitution v2.0.0, 2026-10-09). Kept as a record; not a source.
+
 # Research: Core Engine (Phase 2a)
 
 Consolidated technology decisions. Format: Decision / Rationale / Alternatives. Sources are 2026
