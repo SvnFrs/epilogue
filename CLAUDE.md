@@ -1,9 +1,11 @@
 <!-- SPECKIT START -->
-Active plan: `specs/001-core-engine/plan.md` (Core Engine, Phase 2a). For the tech
-stack, project structure, and constraints, read that plan and its companions:
-`research.md`, `data-model.md`, `contracts/api.md`, `deployment.md`, `testing.md`,
-`ux-ui.md`. Governance: `.specify/memory/constitution.md` (v1.1.0). Run the testing
-pyramid via the `/test-pyramid` skill.
+Rules: `.specify/memory/constitution.md` (v2.0.0). Interface: `design/marginalia/`
+(read its `README.md` first; `tokens.json`, `components/index.d.ts` and
+`components/*/README.md` are authoritative, and win over any other doc). Active spec:
+`specs/002-marginalia-rebuild/spec.md` (no plan yet; the stack is chosen in its plan).
+Why and what: `docs/vision.md`, `PRODUCT.md`; what's next: `docs/roadmap.md`, `TODOS.md`.
+Historical, not sources: `specs/001-core-engine/` (the superseded Core Engine; its code
+still runs, and `/test-pyramid` tests it), `src/`, `docs/ceo-review-2026-06-20.md`.
 <!-- SPECKIT END -->
 
 ## gstack

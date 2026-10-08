@@ -1,8 +1,9 @@
 # Product
 
-> Derived (impeccable `init`) from `docs/vision.md`, `.specify/memory/constitution.md`,
-> and `specs/001-core-engine/responsive-aesthetics.md` — the strategic answers were already
-> settled there, so this captures rather than re-interviews. 2026-06-21.
+> Epilogue after the Marginalia pivot (2026-10-09). Sources: `design/marginalia/README.md`
+> (authoritative for the interface), `.specify/memory/constitution.md` v2.0.0 (product rules),
+> `docs/vision.md` (the why). Where this file disagrees with `design/marginalia/`, the design
+> system wins.
 
 ## Register
 
@@ -10,52 +11,75 @@ product
 
 ## Users
 
-One primary user (the owner) curating a private, self-hosted archive of everything they've
-*actively* lived through — games, books/manga, films/series/anime, and tech logs. Context: at a
-desk, often on a large/ultrawide monitor, returning after days or weeks away. The job: **resume
-cold.** Reopen a paused thing and instantly recall "where was I, what was I doing, why did it
-matter" — without digging through Discord/Telegram scrollback. Phase 2b adds small invited
-read-only groups; the engine is single-player first.
+One reader, Tyler, and nobody else: no accounts, no guests, no audience. Three screens: an
+iPhone XS and a Mi 10S in the hand, and a 34″ ultrawide (3440 × 1440) at the desk.
+
+- **On the phone**, mid-life: log a chapter after a sitting, leave a line about where it stopped,
+  check where a paused game was left and which keys matter, capture a task or a dream in one line.
+- **At the desk**: read back notes and reviews, sort Prologue's Unsorted inbox into Soon and
+  Someday, browse the shelves and the journals.
+- The job: **come back** to anything after days or weeks and start in seconds.
 
 ## Product Purpose
 
-Epilogue is a **cognitive save-state** — a "Previously On" for your own life. It exists because
-the things that shaped you decay in chat logs and memory. Success = a returning user recovers full
-context in seconds (the polymorphic save-state per media family) and writes lasting, structured
-reflection (the Ledger). It is an evergreen knowledge layer, the opposite of the ephemeral feed.
+A private commonplace book for everything played, read, watched and heard, and for what is meant
+to happen next. Two parts that never mix: **Media** (game, book, manga, anime, film, series,
+music, poem, story) and **Prologue** (tasks and dreams). Each has three shelves, Waiting · Open ·
+Closed, derived from state.
+
+Success looks like:
+
+- Reopening a paused entry shows where it was left, in the reader's words, without scrolling.
+- Logging a sitting is one tap, plus one line if there is something to say.
+- Capturing a task never asks a question; sorting happens later, at the desk.
+- Nothing typed is ever lost to a failed save.
 
 ## Brand Personality
 
-Three words: **curated, literary, lived-in.** Voice is a quiet archivist/librarian — warm but
-precise, never chirpy SaaS. It should feel like a private reading room at night: personal, calm,
-cinematic, a little nostalgic. Emotional goal: the reverent hush of opening a well-kept journal,
-not the dopamine of a feed.
+**Private, literate, quiet.** The app writes like a margin: short, plain, warm, never cheerful
+*at* you. Sentence case, no exclamation marks, no emoji, no "Great job". Confirmations name what
+happened and offer Undo ("Noted · chapter 10"). Dropping something is *Set aside*. Interface
+copy is English; content is in whatever language it was lived in (Vietnamese, Chinese and
+Japanese titles are ordinary titles). The emotional target is a well-kept notebook in good
+light, by day or at night.
 
 ## Anti-references
 
-- **Generic SaaS / AI-slop:** cream/parchment near-white backgrounds (the 2026 AI tell), 3-column
-  icon-in-circle feature grids, centered-everything, uniform bubbly cards, tiny tracked eyebrows on
-  every section, purple gradients. Epilogue is the opposite of a startup landing page.
-- **The feed:** infinite scroll, engagement bait, notification noise, recency-as-hierarchy.
-- **Flat dead canvas:** a narrow column floating in empty paper (the failure we're fixing). Negative
-  space must be *composed*, never *leftover*.
+- **Social trackers**: public profiles, star ratings, averages, follower counts, share sheets,
+  "year in review" brags.
+- **Habit and productivity apps**: streaks, goals, badges, reminders, priority flags, red due
+  dates, colour-coded lists.
+- **Generic SaaS and AI-slop**: icon-in-circle feature grids, gradient heroes, glass everywhere,
+  uniform bubbly cards, uppercase on everything.
+- **Genre theming**: kinds of media colour-coded, or a game screen that looks like a game UI. The
+  page stays the same; only the entry's ink changes.
+- **A stretched phone**: a wide screen that is just a phone column floating in space.
 
 ## Design Principles
 
-1. **Cognitive save-state first.** Every screen serves cold recall; the "Previously On" save-state
-   is the headline, not a footnote.
-2. **Lit by its content.** The page draws light from the work itself — generative covers + amber
-   are the light source on a dark ground. Warmth never comes from a beige background.
-3. **Composed, not centered.** Use the whole canvas with intent (multi-zone composition, cinematic
-   art, ambient atmosphere); cap the *reading measure*, fill the *canvas*.
-4. **Evergreen over ephemeral.** Structured digestion (the Ledger) and durable taxonomy over feeds
-   and recency.
-5. **Local-first, owner-owned.** Single-player, self-hosted, every row owner-scoped; the design can
-   be intimate and personal because it isn't a public product.
+From `design/marginalia/README.md`, "Five rules":
+
+1. **One reader, coming back.** Nothing performs for an audience. Logging beats displaying; one
+   tap logs progress, and stopping always leaves a bookmark.
+2. **The page stays; the ink changes.** The frame never changes genre. Each entry brings one
+   colour, its ink, bound to what the page can carry. Kinds get a glyph and a cover shape, never
+   a colour.
+3. **Clay, then glass.** Anything you touch is solid, matte clay. Glass is only for chrome that
+   floats over moving content (the dock, a scrolled top bar, the toast), and text on it is `ink`.
+4. **Objects are crisp, furniture is soft.** Covers, ribbons and seals keep crisp corners and
+   fixed colours in both themes; rows, sheets and buttons are soft clay.
+5. **Thumb first, spread last.** Design at 375pt, one-handed. A wider screen earns more columns
+   and finally an open book, never a stretched phone.
 
 ## Accessibility & Inclusion
 
-WCAG AA: body text ≥ 4.5:1, large/UI ≥ 3:1 (verified against the dark ground — warm-cream ink on
-espresso, not muted-gray). `prefers-reduced-motion` honored for every animation. 44px touch
-targets. Hand-built widgets carry full ARIA + keyboard/focus (no component-lib safety net). No
-color-only encoding (status carries label + dot).
+- Text tokens (`ink`, `ink-soft`, `ink-faint`) hold 4.5:1 on every ground in both themes; text on
+  glass is `ink` only; entry ink is never text on a wash; meaningful boundaries hold 3:1.
+- Every hit area is at least 44px; text inputs are 17px so iOS never zooms.
+- State is never colour-only: every state carries a glyph and a word. Finished (quill) and
+  destructive (scorch) sit on the blue–red axis, never relying on red–green.
+- No italics: quiet text is quieter in colour.
+- `prefers-reduced-motion` resolves every motion instantly.
+- Literata and Lexend cover every Vietnamese letter and tone mark; CJK falls back to the system
+  face with no special-casing.
+- Keyboard: focus ring (2px page, then 2px quill), "/" opens Find, `N` focuses capture at the desk.
