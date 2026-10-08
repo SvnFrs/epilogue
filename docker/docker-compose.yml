@@ -24,6 +24,7 @@ services:
 
   # one-shot: apply migrations + seed the single owner, then exit 0 (eng-review T3)
   migrate:
+    image: ghcr.io/svnfrs/epilogue-api:${IMAGE_TAG:-local}
     build:
       context: ..
       dockerfile: docker/Dockerfile.api
@@ -37,6 +38,7 @@ services:
     restart: 'no'
 
   api:
+    image: ghcr.io/svnfrs/epilogue-api:${IMAGE_TAG:-local}
     build:
       context: ..
       dockerfile: docker/Dockerfile.api
@@ -54,6 +56,7 @@ services:
       - '4000'
 
   web:
+    image: ghcr.io/svnfrs/epilogue-web:${IMAGE_TAG:-local}
     build:
       context: ..
       dockerfile: docker/Dockerfile.web

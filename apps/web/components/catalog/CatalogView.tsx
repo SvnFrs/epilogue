@@ -51,7 +51,7 @@ export function CatalogView({
         </div>
         <Link
           href="/entry/new"
-          className="flex items-center gap-2 rounded-full bg-stone-800 px-4 py-2.5 text-sm font-medium text-stone-50 transition hover:bg-stone-900"
+          className="flex min-h-[44px] items-center gap-2 rounded-full bg-stone-800 px-4 py-2.5 text-sm font-medium text-stone-50 transition hover:bg-stone-900"
         >
           + Add entry
         </Link>

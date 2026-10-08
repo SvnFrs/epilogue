@@ -88,13 +88,13 @@ Bun + Elysia + Eden + Drizzle-on-Bun combo BEFORE building wide.
 ## Phase 7: Polish & Cross-Cutting
 
 - [x] T039 [P] Body-size + JSONB length caps on `PUT` ledger/context (`maxBodySize` + Zod length) (eng T5)
-- [ ] T040 [P] media_type-change: warn + preserve to `archived_context` (eng T7)
-- [ ] T041 [P] Hand-built a11y widgets to WAI-ARIA + keyboard/focus tests, full pass (eng T11)
-- [ ] T042 [P] `prefers-reduced-motion`, AA contrast, 44px targets audit
+- [x] T040 [P] media_type-change: warn + preserve to `archived_context` (eng T7) — archive-on-family-change in `entries.update` + 2 integration tests (archive + same-family no-op); the editor "warn" surfaces with a future edit-media-type UI (not in 2a)
+- [x] T041 [P] Hand-built a11y widgets to WAI-ARIA + keyboard/focus tests, full pass (eng T11) — rail drawer → `role=dialog`/`aria-modal`/Escape/focus + `aria-expanded` trigger; `LibraryRail.test.tsx` (roving tabindex, landmark, aria-current, checkboxes, Escape)
+- [x] T042 [P] `prefers-reduced-motion`, AA contrast, 44px targets audit — verified reduced-motion gate; computed contrast (bumped `faint`/`stone-400` #8c8170→#a09684 for AA placeholders); 44px CTA; documented in ux-ui.md
 - [x] T043 [P] k6 load scripts (read-heavy + write-spike) + thresholds (testing.md tier 4)
-- [ ] T044 [P] Drizzle lockfile pin + Kysely exit note in research.md (eng T10)
-- [ ] T045 Deploy to the Arch laptop: compose over Tailscale, pg_dump backup + one restore test, CI (Actions → GHCR → `deploy.sh`)
-- [ ] T046 [P] `/document-release`: update docs to match what shipped
+- [x] T044 [P] Drizzle lockfile pin + Kysely exit note in research.md (eng T10) — `drizzle-orm@0.38.4`/`drizzle-kit@0.30.6` pinned exact (root + api), Kysely exit-hatch note added to research.md D2
+- [x] T045 Deploy to the Arch laptop: compose over Tailscale, pg_dump backup + one restore test, CI (Actions → GHCR → `deploy.sh`) — compose GHCR image tags, `.github/workflows/deploy.yml`, `docker/deploy.sh`, `docker/restore-test.sh` (drill PASSED, counts match), `.dockerignore`. **Host-op remainder**: `tailscale up`, GH secrets (`TS_OAUTH_*`/`DEPLOY_*`/`DEPLOY_ENABLED`), first live tailnet `up -d` — see deployment.md
+- [x] T046 [P] `/document-release`: update docs to match what shipped — created root `README.md`; refreshed deployment.md bring-up (✅/host-op) to match shipped artifacts
 
 ## Dependencies & Execution Order
 

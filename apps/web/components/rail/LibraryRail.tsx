@@ -9,7 +9,7 @@
  */
 import Link from 'next/link';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { STATUSES, type Status } from '@epilogue/contracts';
 import { Gamepad, Book, Film, Code, Grid } from '../icons';
 import { useRailStore } from '@/stores/rail';
@@ -132,6 +132,21 @@ function RailContent() {
 
 export function LibraryRail() {
   const { open, setOpen } = useRailStore();
+  const drawerRef = useRef<HTMLDivElement | null>(null);
+
+  // A11y (T041): the hand-built drawer behaves like a real dialog — Escape closes it,
+  // and focus moves into the panel on open (so keyboard + SR users aren't stranded
+  // behind the backdrop). Reflected on the trigger via aria-expanded/aria-controls.
+  useEffect(() => {
+    if (!open) return;
+    drawerRef.current?.focus();
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'Escape') setOpen(false);
+    }
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open, setOpen]);
+
   return (
     <>
       {/* mobile top bar */}
@@ -139,6 +154,8 @@ export function LibraryRail() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open library menu"
+          aria-expanded={open}
+          aria-controls="library-drawer"
           className="flex h-11 w-11 items-center justify-center rounded-lg hover:bg-stone-100"
         >
           <span className="space-y-1.5">
@@ -160,7 +177,15 @@ export function LibraryRail() {
       {open && (
         <div className="fixed inset-0 z-50 md:hidden">
           <div className="absolute inset-0 bg-black/60" onClick={() => setOpen(false)} />
-          <div className="absolute left-0 top-0 h-full w-[280px] bg-paper shadow-xl">
+          <div
+            ref={drawerRef}
+            id="library-drawer"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Library menu"
+            tabIndex={-1}
+            className="absolute left-0 top-0 h-full w-[280px] bg-paper shadow-xl outline-none"
+          >
             <RailContent />
           </div>
         </div>

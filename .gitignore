@@ -23,6 +23,10 @@ next-env.d.ts
 *.secret
 secrets/
 
+# deploy: pg_dump output from the backup sidecar / restore drill (deployment.md)
+backups/
+docker/backups/
+
 # test artifacts
 coverage/
 playwright-report/

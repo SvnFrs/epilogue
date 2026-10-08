@@ -54,6 +54,23 @@ awkward row-level tenancy); Kysely (great types but hand-rolled migrations + mor
 pin versions and watch governance. Use `drizzle-kit generate` + `migrate` (committed SQL), not
 `push`, for production.
 
+**Lockfile pin (T044, eng T10)**: `drizzle-orm` and `drizzle-kit` are pinned to **exact** versions
+in `package.json` (`drizzle-orm@0.38.4`, `drizzle-kit@0.30.6` — no `^`), matched to `bun.lock`, so a
+stray `bun install` can't silently bump the ORM under us given the governance risk above. Bump
+deliberately: edit the exact version, run `bun install`, re-run the integration tier.
+
+**Exit hatch — Kysely**: if Drizzle's governance turns hostile (license change, abandoned OSS, a
+breaking re-architecture), the migration target is **Kysely**, chosen because the blast radius is
+small and bounded: (1) the schema lives in one file (`apps/api/src/db/schema.ts`) and all data
+access is funnelled through the repositories in `apps/api/src/db/repositories/` — nothing outside
+that layer imports `drizzle-orm`, so the query rewrite is contained; (2) the committed SQL
+migrations under the repo-root `drizzle/` dir are plain `.sql` and carry over **unchanged** (Kysely
+runs them as-is — no regeneration); (3) both are SQL-first query builders over the same
+`postgres.js` driver, so the
+mental model and the row-level-tenancy `where owner_id = …` pattern transfer directly. The cost is
+hand-writing Kysely's typed schema interface + porting ~one file of query builders; the data, the
+migrations, and the API surface are untouched.
+
 ## D3. Frontend state layering — RSC / TanStack Query / Zustand
 
 **Decision**: Three non-overlapping owners. **RSC** owns server-rendered reads — Server Components

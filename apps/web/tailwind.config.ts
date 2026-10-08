@@ -29,7 +29,7 @@ const config: Config = {
         line: '#3d362d',
         ink: '#efe7d8',
         muted: '#b6ab97',
-        faint: '#8c8170',
+        faint: '#a09684', // T042: ≥4.5:1 on every surface incl. card2 placeholders (was #8c8170 = 3.6)
         paper: {
           DEFAULT: '#221d18', // rail / panels (surface)
           card: '#2a2420', // entry cards / blocks
@@ -55,7 +55,7 @@ const config: Config = {
           100: '#2a2420', // subtle dark hover bg
           200: '#3d362d', // hairline borders
           300: '#4a4238', // stronger borders / dim
-          400: '#8c8170', // faint labels
+          400: '#a09684', // faint labels (T042: AA ≥4.5:1 on dark surfaces)
           500: '#9c917e', // muted
           600: '#b6ab97', // secondary text
           700: '#d2c7b2', // near-primary text

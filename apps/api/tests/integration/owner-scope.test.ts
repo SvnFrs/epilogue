@@ -4,9 +4,11 @@
  * the US1 cold read, against REAL Postgres (Testcontainers).
  */
 import { describe, it, expect, beforeEach, afterAll } from 'vitest';
+import { eq } from 'drizzle-orm';
 import type { Ledger } from '@epilogue/contracts';
 import { createTestDb, seedUser } from '../setup/db';
 import { makeRepos } from '../../src/db/repositories';
+import { entries } from '../../src/db/schema';
 
 const { db, client } = createTestDb();
 const repos = makeRepos(db);
@@ -117,6 +119,62 @@ describe('volatile context — polymorphic persistence + US1 cold read', () => {
       payload: { checkpoint: 'pwned', threads: [], keymap: [] },
     });
     expect(res).toBeUndefined();
+  });
+});
+
+describe('media_type change — archive, never silently drop (T040 / eng T7)', () => {
+  it('a family change archives the old context and resets to the new family', async () => {
+    const e = await repos.entries.create(alice, { title: 'RDR2', mediaType: 'GAME', status: 'PAUSED' });
+    await repos.context.put(alice, e.id, {
+      family: 'game',
+      payload: {
+        checkpoint: 'Chapter 6 — the cabin in the snow',
+        threads: [{ id: 't1', text: 'pay the debt', done: false }],
+        keymap: [],
+      },
+    });
+
+    // re-classify GAME (game) → BOOK (reading): a different family
+    const updated = await repos.entries.update(alice, e.id, { mediaType: 'BOOK' });
+    expect(updated?.mediaType).toBe('BOOK');
+    expect(updated?.space).toBe('reading');
+
+    // live context is now an empty context of the NEW family — not the stale game one
+    const live = await repos.context.get(alice, e.id);
+    expect(live?.family).toBe('reading');
+    expect((live?.payload as { position?: string }).position ?? '').toBe('');
+
+    // the old game save-state is preserved in archived_context — nothing silently lost
+    const [row] = await db
+      .select({ archived: entries.archivedContext })
+      .from(entries)
+      .where(eq(entries.id, e.id));
+    const archived = (row?.archived ?? []) as Array<{ family: string; payload: { checkpoint: string } }>;
+    expect(archived).toHaveLength(1);
+    expect(archived[0]?.family).toBe('game');
+    expect(archived[0]?.payload.checkpoint).toContain('Chapter 6');
+  });
+
+  it('a same-family re-classify preserves the live context and archives nothing', async () => {
+    const e = await repos.entries.create(alice, { title: 'Berserk', mediaType: 'BOOK', status: 'READING' });
+    await repos.context.put(alice, e.id, {
+      family: 'reading',
+      payload: { position: 'Vol. 14', quotes: [] },
+    });
+
+    // BOOK (reading) → MANGA (reading): same family, no archive
+    const updated = await repos.entries.update(alice, e.id, { mediaType: 'MANGA' });
+    expect(updated?.mediaType).toBe('MANGA');
+
+    const live = await repos.context.get(alice, e.id);
+    expect(live?.family).toBe('reading');
+    expect((live?.payload as { position: string }).position).toBe('Vol. 14');
+
+    const [row] = await db
+      .select({ archived: entries.archivedContext })
+      .from(entries)
+      .where(eq(entries.id, e.id));
+    expect(row?.archived ?? []).toHaveLength(0);
   });
 });
 

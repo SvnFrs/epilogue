@@ -1,0 +1,44 @@
+# Docker build context (root) — the Dockerfiles build with `context: ..`. Keep the
+# context small and never ship secrets or host build output into image layers (T045).
+node_modules/
+**/node_modules/
+.next/
+**/.next/
+dist/
+build/
+out/
+**/dist/
+
+# env / secrets — must never enter an image layer
+.env
+.env.*
+!.env.example
+*.secret
+secrets/
+
+# vcs + ci + tooling
+.git/
+.github/
+.gstack/
+.claude/
+.specify/
+
+# tests / local artifacts
+coverage/
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+backups/
+docker/backups/
+
+# docs / specs — not needed at build time
+specs/
+docs/
+*.md
+
+# os noise
+.DS_Store
+Thumbs.db
+*.log
+*.tmp

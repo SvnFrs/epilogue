@@ -47,17 +47,22 @@ Drizzle migrations run as a one-shot `api` deploy step, not in the request path.
 - Logging: `json-file` driver, `max-size=10m`, `max-file=3` per service (~30MB/service cap).
 
 ## Bring-up sequence
-1. Add multi-stage `Dockerfile` (`output:"standalone"`) + `.dockerignore`.
-2. `tailscale up --ssh` on laptop + dev machine; confirm reachability by tailnet name.
-3. Create `.env` from example; DB password → `secrets/postgres_password`; verify `.gitignore`.
-4. Write `docker-compose.yml` (caddy, web, api, postgres, backup) + Caddyfile + `Dockerfile.web` + `Dockerfile.api`.
-5. `docker compose up -d postgres`; wait healthy; run Drizzle migrations via a one-shot `api` task.
-6. `docker compose up -d`; hit the site over the tailnet; confirm Caddy TLS and that `web` reaches `api`.
-7. Wire CI (Actions → GHCR → Tailscale SSH `deploy.sh`).
-8. Enable backup sidecar; run one dump; restore-test before trusting it.
+1. ✅ Multi-stage Dockerfiles (`Dockerfile.web` Node standalone gated by `NEXT_STANDALONE=1`,
+   `Dockerfile.api` Bun) + root `.dockerignore`.
+2. `tailscale up --ssh` on laptop + dev machine; confirm reachability by tailnet name. *(host op)*
+3. ✅ `.env` from `.env.example` (`OWNER_SECRET` via `openssl rand -hex 32`); `.gitignore` covers
+   `.env` / `secrets/` / `backups/`. *(set the real secret on the host)*
+4. ✅ `docker/docker-compose.yml` (caddy, web, api, postgres, migrate one-shot, backup) + Caddyfile.
+5. ✅ `docker compose up -d --wait postgres`; migrations run via the `migrate` one-shot.
+6. `docker compose up -d`; hit the site over the tailnet; confirm Caddy TLS and `web`→`api`. *(host op)*
+7. ✅ CI wired: `.github/workflows/deploy.yml` (Actions → test → GHCR → Tailscale SSH
+   `docker/deploy.sh`). Needs host secrets: `TS_OAUTH_CLIENT_ID/SECRET`, `DEPLOY_SSH_KEY`,
+   `DEPLOY_HOST`, `DEPLOY_USER`, and repo var `DEPLOY_ENABLED=true`.
+8. ✅ Backup sidecar runs nightly `pg_dump -Fc`; `docker/restore-test.sh` proves a dump restores
+   cleanly (row counts match) — verified locally 2026-06-21.
 9. (Phase 2b) Cloudflare Tunnel → public read-only route only.
 
-> Prereq not yet in the repo: there is no `package.json` / `Dockerfile` / compose file today —
-> `src/` is the static POC. Scaffolding the Bun-workspace monorepo (`apps/web` Next.js on Node +
-> `apps/api` Elysia on Bun + `packages/contracts`) and the two Dockerfiles (`Dockerfile.web` Node,
-> `Dockerfile.api` Bun) precedes all of the above.
+> Status (T045): images, compose with GHCR tags, `deploy.sh`, `restore-test.sh`, CI workflow, and
+> the ignore files all exist and the backup→restore drill passes. The remaining steps are host
+> operations that can't run from CI: `tailscale up` on the laptop, provisioning the GitHub secrets
+> above, and the first live `up -d` over the tailnet.

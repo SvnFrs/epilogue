@@ -101,3 +101,10 @@ to WAI-ARIA with no Radix safety net, so each gets dedicated keyboard/focus test
 - Touch: 44px min targets (rail rows, pills, card tap area, checkpoint edit).
 - Motion: gate `epiFade`/`epiPop` + hover lifts on `prefers-reduced-motion`.
 - Images: generative covers `aria-hidden`; card link's accessible name = the entry title.
+
+### Accessibility audit — reading-room dark (T042, verified 2026-06-21)
+Audited against WCAG 2.1 AA on the shipped dark theme; results + the one fix:
+- **Reduced motion**: `globals.css` `@media (prefers-reduced-motion: reduce)` zeroes `epiFade`/shimmer/transition durations + iteration counts — verified gating the `.epi-rise` stagger and card hover-lift.
+- **Contrast (computed ratios, foreground × dark surfaces)**: `ink #efe7d8` 11.2–14.6 (AAA); `muted #b6ab97` 6.1–7.9 (AA/AAA); `amber-lit #f59e0b` 6.4–8.4 (AA/AAA); `stone-500` 4.4–5.8 (AA on its real surfaces). **Fix**: `faint`/`stone-400` was `#8c8170` (3.6:1 on `card2` placeholders, 4.0 on `card` — sub-AA for small text/placeholders) → bumped to **`#a09684`** (≥4.7:1 on every surface, still below `muted` so the hierarchy holds). All body/label/placeholder text now ≥4.5:1; large text ≥3:1.
+- **Touch targets**: primary controls ≥44px — rail space rows + status labels (`min-h-[44px]`), mobile hamburger (`h-11 w-11`), create-entry submit (`py-3`), and the catalog "+ Add entry" CTA (bumped to `min-h-[44px]`); entry cards are full-card tap areas. Secondary inline micro-buttons (ledger thread toggles, context edit/save) are deliberately small — WCAG 2.5.8 (AA) exempts inline controls (24px floor); 44px (2.5.5) is AAA.
+- **Hand-built widgets**: rail drawer is now a real `role="dialog" aria-modal` with Escape-to-close + focus-on-open and an `aria-expanded` trigger (T041); roving tabindex + `aria-current` + native checkboxes covered by `LibraryRail.test.tsx`.

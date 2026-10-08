@@ -1,0 +1,103 @@
+# T045 — CI/CD: GitHub Actions builds + pushes images to GHCR, the Arch laptop pulls
+# and runs deploy.sh over Tailscale (deployment.md "build in Actions, laptop pulls").
+#
+# Required repo secrets for the deploy job (build+push needs none beyond GITHUB_TOKEN):
+#   TS_OAUTH_CLIENT_ID / TS_OAUTH_SECRET  — Tailscale OAuth client (tag:ci) to join the tailnet
+#   DEPLOY_SSH_KEY                        — private key authorized on the laptop's deploy user
+#   DEPLOY_HOST                           — laptop's tailnet name/IP (e.g. epilogue-laptop)
+#   DEPLOY_USER                           — ssh user on the laptop (e.g. epilogue)
+# The deploy job is skipped automatically if the Tailscale secrets are absent, so the
+# build+push pipeline is useful on its own (pull + ./deploy.sh by hand on the laptop).
+name: deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_API: ghcr.io/${{ github.repository_owner }}/epilogue-api
+  IMAGE_WEB: ghcr.io/${{ github.repository_owner }}/epilogue-web
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - uses: actions/setup-node@v4 # vitest runner; Testcontainers uses the runner's Docker
+        with:
+          node-version: 20
+      - run: bun install --frozen-lockfile
+      - run: bun run typecheck
+      - run: bun run test:unit
+      - run: bun run test:component
+      - run: bun run test:integration # real Postgres via Testcontainers (Docker on the runner)
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      tag: ${{ steps.meta.outputs.tag }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - id: meta
+        run: echo "tag=${GITHUB_SHA::12}" >> "$GITHUB_OUTPUT"
+      - name: Build + push API
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile.api
+          push: true
+          tags: ${{ env.IMAGE_API }}:${{ steps.meta.outputs.tag }},${{ env.IMAGE_API }}:latest
+          cache-from: type=gha,scope=api
+          cache-to: type=gha,scope=api,mode=max
+      - name: Build + push Web
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile.web
+          push: true
+          tags: ${{ env.IMAGE_WEB }}:${{ steps.meta.outputs.tag }},${{ env.IMAGE_WEB }}:latest
+          cache-from: type=gha,scope=web
+          cache-to: type=gha,scope=web,mode=max
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    # only attempt the over-the-tailnet deploy when the tailnet secret is configured
+    if: ${{ vars.DEPLOY_ENABLED == 'true' }}
+    steps:
+      - name: Join the tailnet
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+      - name: Deploy on the laptop over Tailscale SSH
+        env:
+          DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          IMAGE_TAG: ${{ needs.build-and-push.outputs.tag }}
+        run: |
+          install -m 600 /dev/stdin "$HOME/deploy_key" <<< "$DEPLOY_SSH_KEY"
+          ssh -i "$HOME/deploy_key" -o StrictHostKeyChecking=accept-new \
+            "${DEPLOY_USER}@${DEPLOY_HOST}" \
+            "cd ~/epilogue && IMAGE_TAG=${IMAGE_TAG} ./docker/deploy.sh"
