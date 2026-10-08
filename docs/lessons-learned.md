@@ -123,3 +123,33 @@ it's a sub-command pipeline that self-verifies with browser screenshots:
 **Rule of thumb:** impeccable = *make it beautiful* (owns the design language + fixes);
 gstack design-review/qa/cso/review = *prove it's right* (audit, behavior, security, diff).
 Don't ask design-review to redesign; don't ask impeccable to security-audit.
+
+## 2026-10-09 — Scope drift, and rebuilding design-first
+
+**What happened.** The June CEO review (`/plan-ceo-review`, `docs/ceo-review-2026-06-20.md`)
+ran in SCOPE EXPANSION mode and pushed Epilogue toward a community product: an "evergreen
+knowledge layer" against Discord and Telegram, a hybrid wedge (single-player engine → a
+shareable read-only sub-space → full community), and constitution rules to match (Principle
+VI, the Phase 2b share link, `user_id` as a social-future hedge). The 001 Core Engine was then
+specced, built, re-themed twice and deployed around that framing. None of it was what the one
+actual user needed day to day: picking a game, book or series back up after weeks away, on a
+phone, and keeping the next things to do somewhere that isn't a chat-to-self.
+
+**What changed.** The rebuild started from a design system made for exactly one user,
+Marginalia (`design/marginalia/`): three real screens (iPhone XS, Mi 10S, a 34″ ultrawide),
+real entries (RDR2's campfire, a Vietnamese playlist at 2 a.m., War Thunder with no end), and
+every state, empty screen and failure drawn before any rule was written. The decisions (two
+parts that never mix, three derived shelves, LeftOff first, the idle prompt asked once, no
+accounts or scores) were settled in that design, then written into constitution v2.0.0 and
+spec 002. Documents came second and code comes third.
+
+**Lessons.**
+- A review mode that expands scope will find a bigger product; that is its job. Before
+  accepting the expansion, check it against the person who will actually use the thing.
+  "Who opens this tomorrow, and why?" would have stopped the wedge.
+- Designing the screens for the real user first surfaced the real decisions (what comes first
+  on an open entry, what a shelf is, what happens after three quiet weeks). Writing the spec
+  first had produced a domain model (spaces, TECH_LOG, the Ledger) that the screens later
+  contradicted.
+- Keep superseded work as history, clearly marked, rather than deleting it: the 001 code, its
+  spec and the June review still explain how the project got here.
