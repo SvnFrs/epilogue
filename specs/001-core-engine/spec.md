@@ -1,3 +1,5 @@
+> **Historical — superseded by spec 002** ([`specs/002-marginalia-rebuild/spec.md`](../002-marginalia-rebuild/spec.md)) and constitution v2.0.0, 2026-10-09. Kept as a record; not a source.
+
 # Feature Specification: Core Engine (Phase 2a)
 
 **Feature Branch**: `001-core-engine`
